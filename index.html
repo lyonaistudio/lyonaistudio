@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Lyon AI Studio — L'intelligence artificielle au service de votre entreprise</title>
+<meta name="description" content="Nous créons des automatisations sur-mesure pour faire gagner du temps à votre entreprise. Audit gratuit, sans engagement.">
+<meta name="theme-color" content="#020108">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* DEEP COSMOS — easy on the eyes */
+    --bg: #020108;             /* near pure black with hint of blue */
+    --bg-2: #06051A;
+    --bg-card: rgba(15, 12, 35, 0.85);
+    --bg-card-solid: #0B0A1F;
+    --border: rgba(139, 122, 200, 0.14);
+    --border-strong: rgba(139, 122, 200, 0.28);
+
+    /* TEXT — soft warm grays, never pure white (which hurts on dark) */
+    --text: #DCDBE6;           /* main: soft warm gray, comfortable */
+    --text-soft: #B5B3C4;      /* secondary: still very readable */
+    --text-mute: #8B8A9E;      /* tertiary: AA on dark */
+
+    /* ACCENTS — much more muted than before */
+    --violet: #9C88E8;
+    --violet-soft: #B4A5EE;
+    --cyan: #7BD3E0;           /* softer cyan, less neon */
+    --pink: #C99BD0;
+    --glow-violet: rgba(156, 136, 232, 0.25);
+    --glow-cyan: rgba(123, 211, 224, 0.22);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+  }
+
+  /* ============ COSMIC BACKGROUND (very subtle) ============ */
+  .cosmos {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* Nebulas — much more subtle */
+  .nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    animation: float 25s ease-in-out infinite;
+  }
+  .nebula-1 {
+    top: -15%; left: -10%;
+    width: 55vw; height: 55vw;
+    background: radial-gradient(circle, rgba(123, 100, 200, 0.18), transparent 60%);
+  }
+  .nebula-2 {
+    top: 40%; right: -20%;
+    width: 50vw; height: 50vw;
+    background: radial-gradient(circle, rgba(80, 140, 180, 0.14), transparent 60%);
+    animation-delay: -10s;
+  }
+  .nebula-3 {
+    bottom: -25%; left: 25%;
+    width: 65vw; height: 65vw;
+    background: radial-gradient(circle, rgba(180, 110, 180, 0.10), transparent 60%);
+    animation-delay: -16s;
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -25px) scale(1.04); }
+  }
+
+  /* Starfield — subtle */
+  .stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(220,219,230,0.7), transparent),
+      radial-gradient(1px 1px at 30% 70%, rgba(220,219,230,0.6), transparent),
+      radial-gradient(1.5px 1.5px at 50% 30%, rgba(220,219,230,0.8), transparent),
+      radial-gradient(1px 1px at 70% 80%, rgba(220,219,230,0.6), transparent),
+      radial-gradient(1px 1px at 85% 15%, rgba(220,219,230,0.7), transparent),
+      radial-gradient(1.5px 1.5px at 15% 60%, rgba(156,136,232,0.5), transparent),
+      radial-gradient(1px 1px at 60% 45%, rgba(123,211,224,0.5), transparent),
+      radial-gradient(1px 1px at 90% 65%, rgba(220,219,230,0.6), transparent),
+      radial-gradient(1px 1px at 25% 90%, rgba(220,219,230,0.7), transparent),
+      radial-gradient(1.5px 1.5px at 75% 25%, rgba(220,219,230,0.7), transparent),
+      radial-gradient(1px 1px at 45% 85%, rgba(220,219,230,0.5), transparent),
+      radial-gradient(1px 1px at 5% 50%, rgba(220,219,230,0.6), transparent),
+      radial-gradient(1.5px 1.5px at 80% 50%, rgba(201,155,208,0.4), transparent),
+      radial-gradient(1px 1px at 35% 10%, rgba(220,219,230,0.6), transparent),
+      radial-gradient(1px 1px at 95% 40%, rgba(220,219,230,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 20% 35%, rgba(220,219,230,0.7), transparent),
+      radial-gradient(1px 1px at 55% 65%, rgba(220,219,230,0.5), transparent),
+      radial-gradient(1px 1px at 65% 95%, rgba(220,219,230,0.6), transparent),
+      radial-gradient(1px 1px at 40% 50%, rgba(123,211,224,0.4), transparent);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    animation: twinkle 8s ease-in-out infinite alternate;
+    opacity: 0.55;
+  }
+  @keyframes twinkle {
+    0% { opacity: 0.4; }
+    100% { opacity: 0.7; }
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 56px);
+    position: relative;
+    z-index: 1;
+  }
+
+  ::selection { background: var(--violet); color: var(--bg); }
+
+  /* ============ HEADER ============ */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    backdrop-filter: saturate(1.4) blur(24px);
+    -webkit-backdrop-filter: saturate(1.4) blur(24px);
+    background: rgba(2, 1, 8, 0.85);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px clamp(20px, 5vw, 56px);
+    max-width: 1240px;
+    margin: 0 auto;
+    gap: 16px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text);
+    min-height: 44px;
+  }
+  .logo-mark { width: 34px; height: 34px; flex-shrink: 0; }
+  .logo-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--text);
+  }
+  .logo-text small {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    display: block;
+    color: var(--violet);
+    margin-top: 5px;
+  }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    color: var(--text-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+    padding: 10px 0;
+  }
+  .nav-links a:hover { color: var(--violet-soft); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--violet), var(--cyan)) !important;
+    color: #0A0820 !important;
+    padding: 12px 20px !important;
+    border-radius: 999px;
+    font-weight: 700 !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 4px 24px var(--glow-violet);
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--glow-violet); color: #0A0820 !important; }
+  @media (max-width: 760px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+    .nav-cta { padding: 11px 16px !important; font-size: 13px; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: clamp(140px, 20vw, 200px) 0 clamp(80px, 12vw, 130px);
+    position: relative;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    margin-bottom: 44px;
+    font-weight: 500;
+    padding: 9px 18px 9px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: rgba(15, 12, 35, 0.6);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    animation: rise 0.8s 0.1s ease-out forwards;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--cyan);
+    animation: pulse-dot 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  .hero h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(44px, 8.5vw, 112px);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    margin-bottom: 36px;
+    color: var(--text);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--violet-soft) 0%, var(--cyan) 70%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .hero h1 span.line { display: block; opacity: 0; animation: rise 1s ease-out forwards; }
+  .hero h1 span.line:nth-child(1) { animation-delay: 0.2s; }
+  .hero h1 span.line:nth-child(2) { animation-delay: 0.4s; }
+  .hero h1 span.line:nth-child(3) { animation-delay: 0.6s; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-lede {
+    font-size: clamp(17px, 1.4vw, 20px);
+    color: var(--text-soft);
+    max-width: 680px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+    font-weight: 400;
+    opacity: 0;
+    animation: rise 1s 0.8s ease-out forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: rise 1s 1s ease-out forwards;
+  }
+  .btn-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15.5px;
+    transition: all 0.3s;
+    min-height: 56px;
+  }
+  .btn-hero-primary {
+    background: linear-gradient(135deg, var(--violet), var(--cyan));
+    color: #0A0820;
+    box-shadow: 0 4px 30px var(--glow-violet);
+  }
+  .btn-hero-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 40px var(--glow-violet);
+  }
+  .btn-hero-secondary {
+    background: rgba(15, 12, 35, 0.5);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    backdrop-filter: blur(10px);
+  }
+  .btn-hero-secondary:hover {
+    background: rgba(15, 12, 35, 0.8);
+    border-color: var(--violet);
+  }
+
+  /* ============ SECTIONS ============ */
+  section { padding: clamp(80px, 12vw, 120px) 0; position: relative; }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    color: var(--violet-soft);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: rgba(15, 12, 35, 0.5);
+  }
+  .section-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(32px, 5.2vw, 60px);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    margin-bottom: 28px;
+    color: var(--text);
+    max-width: 900px;
+  }
+  .section-title .gradient {
+    background: linear-gradient(135deg, var(--violet-soft), var(--cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .section-intro {
+    font-size: clamp(16px, 1.3vw, 18px);
+    color: var(--text-soft);
+    max-width: 680px;
+    line-height: 1.65;
+    margin-bottom: clamp(48px, 7vw, 64px);
+  }
+
+  /* ============ WHY US ============ */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+  @media (max-width: 920px) { .why-grid { grid-template-columns: 1fr; gap: 18px; } }
+  .why-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(28px, 4vw, 40px);
+    backdrop-filter: blur(20px);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .why-card:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+  .why-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--violet), var(--cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 24px var(--glow-violet);
+  }
+  .why-icon svg { width: 28px; height: 28px; stroke: #0A0820; stroke-width: 2.2; fill: none; }
+  .why-card h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(21px, 2.3vw, 25px);
+    line-height: 1.25;
+    margin-bottom: 14px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .why-card p { color: var(--text-soft); font-size: 16px; line-height: 1.65; }
+
+  /* ============ SERVICES ============ */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 760px) { .services-grid { grid-template-columns: 1fr; } }
+
+  .service-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(30px, 4vw, 40px);
+    backdrop-filter: blur(20px);
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .service-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--violet-soft);
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .service-card h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(22px, 2.6vw, 28px);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -0.022em;
+    color: var(--text);
+  }
+  .service-card p {
+    color: var(--text-soft);
+    font-size: 15.5px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .service-benefit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: var(--cyan);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .service-benefit::before {
+    content: '→';
+    font-weight: 600;
+  }
+
+  /* ============ PROCESS ============ */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(20px, 2.5vw, 28px);
+    margin-top: 28px;
+  }
+  @media (max-width: 920px) { .process-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .process-grid { grid-template-columns: 1fr; gap: 20px; } }
+
+  .process-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 26px;
+    backdrop-filter: blur(20px);
+    transition: border-color 0.3s, transform 0.3s;
+    text-align: center;
+  }
+  .process-step:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+  .step-num {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--violet), var(--cyan));
+    color: #0A0820;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px var(--glow-violet);
+  }
+  .process-step h4 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 12px;
+    letter-spacing: -0.015em;
+    color: var(--text);
+  }
+  .process-step p { color: var(--text-soft); font-size: 15px; line-height: 1.6; }
+
+  /* ============ CASES ============ */
+  .case-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .case-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 1.4fr 60px;
+    align-items: center;
+    gap: 28px;
+    padding: clamp(24px, 3vw, 32px);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .case-item:hover {
+    border-color: var(--border-strong);
+    transform: translateX(6px);
+  }
+  .case-item:hover .case-arrow { color: var(--cyan); transform: translateX(6px); }
+  @media (max-width: 760px) {
+    .case-item { grid-template-columns: 1fr; gap: 10px; padding: 24px 22px; }
+    .case-arrow { display: none; }
+  }
+  .case-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--violet-soft);
+    letter-spacing: 0.2em;
+    font-weight: 600;
+  }
+  .case-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(17px, 2vw, 21px);
+    letter-spacing: -0.02em;
+    color: var(--text);
+    line-height: 1.3;
+    transition: color 0.3s;
+  }
+  .case-desc { color: var(--text-soft); font-size: 14.5px; line-height: 1.6; }
+  .case-arrow {
+    text-align: right;
+    color: var(--text-mute);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    transition: color 0.3s, transform 0.3s;
+  }
+
+  /* ============ CONTACT ============ */
+  .contact { padding-top: clamp(100px, 14vw, 140px); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(40px, 6vw, 72px);
+    align-items: start;
+  }
+  @media (max-width: 920px) { .contact-grid { grid-template-columns: 1fr; gap: 44px; } }
+
+  .contact h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(34px, 5.5vw, 60px);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+  .contact h2 .gradient {
+    background: linear-gradient(135deg, var(--violet-soft), var(--cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .contact-lede {
+    color: var(--text-soft);
+    font-size: 17px;
+    line-height: 1.65;
+    max-width: 480px;
+    margin-bottom: 36px;
+  }
+
+  .contact-meta {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(20px);
+  }
+  .contact-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-meta-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .contact-meta-row:first-child { padding-top: 0; }
+  .contact-meta-row .k {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-mute);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .contact-meta-row .v { color: var(--text); font-size: 14.5px; font-weight: 500; }
+  .contact-meta-row .v a { color: var(--cyan); text-decoration: none; }
+  .contact-meta-row .v a:hover { text-decoration: underline; }
+
+  /* FORM */
+  .form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: 24px;
+    padding: clamp(28px, 4vw, 40px);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent);
+  }
+  .form-head {
+    margin-bottom: 30px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .form-head .ttl {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .form-head .sub {
+    color: var(--text-soft);
+    font-size: 14.5px;
+  }
+
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-size: 13.5px;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .field label .req { color: var(--cyan); }
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    background: rgba(2, 1, 8, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15.5px;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    min-height: 50px;
+  }
+  .field select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%239C88E8' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    padding-right: 44px;
+    cursor: pointer;
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--violet);
+    box-shadow: 0 0 0 4px rgba(156, 136, 232, 0.15);
+    background: rgba(2, 1, 8, 0.8);
+  }
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--text-mute); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--violet), var(--cyan));
+    color: #0A0820;
+    border: none;
+    padding: 17px 24px;
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 56px;
+    margin-top: 12px;
+    box-shadow: 0 8px 30px var(--glow-violet);
+    letter-spacing: -0.01em;
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px var(--glow-violet); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .form-success,
+  .form-error {
+    display: none;
+    padding: 16px 18px;
+    border-radius: 12px;
+    font-size: 14.5px;
+    margin-top: 14px;
+    font-weight: 500;
+  }
+  .form-success.on { display: flex; align-items: center; gap: 10px; background: rgba(123, 211, 224, 0.10); border: 1px solid rgba(123, 211, 224, 0.35); color: var(--cyan); }
+  .form-error.on { display: flex; align-items: center; gap: 10px; background: rgba(248, 113, 113, 0.10); border: 1px solid rgba(248, 113, 113, 0.35); color: #FCA5A5; }
+  .form-note { font-size: 12.5px; color: var(--text-mute); text-align: center; margin-top: 14px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0;
+    color: var(--text-mute);
+    font-size: 13px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .footer-row a { color: var(--text-soft); text-decoration: none; transition: color 0.2s; padding: 8px 0; font-weight: 500; }
+  .footer-row a:hover { color: var(--cyan); }
+  .footer-links { display: flex; gap: 28px; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COSMIC BACKGROUND -->
+<div class="cosmos" aria-hidden="true">
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+  <div class="stars"></div>
+</div>
+
+<header>
+  <div class="nav">
+    <a href="#" class="logo" aria-label="Lyon AI Studio">
+      <svg class="logo-mark" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#9C88E8"/>
+            <stop offset="100%" stop-color="#7BD3E0"/>
+          </linearGradient>
+        </defs>
+        <path d="M 12 12 L 48 12 L 48 48" stroke="url(#lg)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <circle cx="12" cy="12" r="6.5" stroke="#DCDBE6" stroke-width="2" fill="none"/>
+        <circle cx="48" cy="48" r="6.5" fill="url(#lg)"/>
+      </svg>
+      <span class="logo-text">LYON<small>AI&nbsp;&nbsp;STUDIO</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#avantages">Avantages</a>
+      <a href="#services">Services</a>
+      <a href="#process">Étapes</a>
+      <a href="#contact" class="nav-cta">Audit gratuit →</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">L'IA AU SERVICE DE VOTRE ENTREPRISE</div>
+    <h1>
+      <span class="line">L'intelligence</span>
+      <span class="line"><span class="gradient">artificielle</span></span>
+      <span class="line">qui travaille pour vous.</span>
+    </h1>
+    <p class="hero-lede">
+      Nous créons des automatisations sur-mesure pour faire gagner du temps à votre entreprise. Vos équipes se concentrent sur l'essentiel, l'IA s'occupe du reste.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-hero btn-hero-primary">
+        Demander un audit gratuit <span>→</span>
+      </a>
+      <a href="#services" class="btn-hero btn-hero-secondary">
+        Découvrir nos services
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY US ============ -->
+<section id="avantages">
+  <div class="container">
+    <span class="section-label">POURQUOI L'IA ?</span>
+    <h2 class="section-title reveal">Trois bénéfices <span class="gradient">concrets</span> pour votre entreprise.</h2>
+    <p class="section-intro reveal">Pas de magie, pas de jargon. Juste des résultats mesurables qui changent votre quotidien dès la première semaine.</p>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <h3>Vous gagnez du temps</h3>
+        <p>Plusieurs heures économisées chaque semaine sur les tâches répétitives. Vos équipes se libèrent pour ce qui compte vraiment.</p>
+      </div>
+
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        </div>
+        <h3>Vous réduisez les erreurs</h3>
+        <p>Fini les oublis, les fautes de saisie, les relances manquées. L'automatisation exécute vos processus avec une précision constante, 24h/24.</p>
+      </div>
+
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+        </div>
+        <h3>Vous gagnez en croissance</h3>
+        <p>Servez plus de clients sans embaucher. Vos systèmes absorbent la charge de travail et vous accompagnent dans le développement de votre activité.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="container">
+    <span class="section-label">CE QUE NOUS FAISONS</span>
+    <h2 class="section-title reveal">Des solutions <span class="gradient">sur-mesure</span><br>pour votre entreprise.</h2>
+    <p class="section-intro reveal">Chaque projet commence par une question simple : qu'est-ce qui vous fait perdre le plus de temps&nbsp;? À partir de là, on construit la solution qui vous convient.</p>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">SERVICE 01</div>
+        <h3>Automatiser vos tâches répétitives</h3>
+        <p>Toutes les actions que vous répétez chaque jour peuvent se faire toutes seules : saisie de données, envoi d'emails, mise à jour de fichiers, relances clients. Vous décrivez la tâche, on construit le système qui la fait à votre place.</p>
+        <div class="service-benefit">Économisez plusieurs heures par semaine</div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">SERVICE 02</div>
+        <h3>Trier et répondre à vos emails</h3>
+        <p>Vos emails entrants sont classés automatiquement par priorité et par catégorie. L'IA prépare même des brouillons de réponse personnalisés que vous n'avez plus qu'à valider en un clic.</p>
+        <div class="service-benefit">Boîte mail enfin sous contrôle</div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">SERVICE 03</div>
+        <h3>Générer vos documents automatiquement</h3>
+        <p>Devis, factures, contrats, comptes-rendus : créés en quelques secondes à partir d'un simple formulaire ou d'un email. Toujours bien présentés, toujours sans erreur.</p>
+        <div class="service-benefit">Fini la création manuelle interminable</div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">SERVICE 04</div>
+        <h3>Remplir vos Google Sheets automatiquement</h3>
+        <p>Vos données arrivent dans vos tableurs sans copier-coller : nouveaux clients, commandes, contacts, demandes. Tout est centralisé, à jour et triable en temps réel.</p>
+        <div class="service-benefit">Vos tableaux toujours à jour, sans effort</div>
+      </div>
+
+      <div class="service-card reveal" style="grid-column: 1 / -1;">
+        <div class="service-num">SERVICE 05</div>
+        <h3>Audit &amp; conseil personnalisé</h3>
+        <p>30 minutes d'échange gratuit, en visio ou en présentiel, pour identifier ensemble les 2 ou 3 améliorations qui auront le plus d'impact dans votre quotidien. Sans engagement, sans pression. Vous repartez avec un plan d'action clair, même si on ne travaille pas ensemble.</p>
+        <div class="service-benefit">Gratuit, sans engagement, plan d'action concret</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section id="process">
+  <div class="container">
+    <span class="section-label">COMMENT ÇA SE PASSE</span>
+    <h2 class="section-title reveal">Une méthode <span class="gradient">simple</span> en 4 étapes.</h2>
+    <p class="section-intro reveal">Transparente, rapide, sans surprise. À chaque étape, vous savez ce qui se passe et combien ça coûte.</p>
+
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="step-num">1</div>
+        <h4>On échange</h4>
+        <p>30 minutes ensemble pour comprendre votre activité et repérer ce qui vous prend du temps.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">2</div>
+        <h4>On conçoit</h4>
+        <p>Je vous présente la solution, le délai et le budget. Vous validez avant qu'on commence.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">3</div>
+        <h4>On construit</h4>
+        <p>Je développe et teste votre solution. Vous suivez l'avancement et donnez votre avis.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">4</div>
+        <h4>On vous accompagne</h4>
+        <p>Formation, documentation et un mois de support inclus. Le système est à vous, simplement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASES ============ -->
+<section>
+  <div class="container">
+    <span class="section-label">EXEMPLES CONCRETS</span>
+    <h2 class="section-title reveal">Ce que l'IA peut faire <span class="gradient">pour vous.</span></h2>
+    <p class="section-intro reveal">Chaque exemple ci-dessous est une heure que vous ne passerez plus jamais sur ces tâches.</p>
+
+    <div class="case-list">
+      <div class="case-item reveal">
+        <div class="case-num">CAS 01</div>
+        <div class="case-title">Relances automatiques des factures impayées</div>
+        <div class="case-desc">Le système détecte les retards et envoie des relances personnalisées jusqu'au paiement.</div>
+        <div class="case-arrow">→</div>
+      </div>
+      <div class="case-item reveal">
+        <div class="case-num">CAS 02</div>
+        <div class="case-title">Réponse automatique aux demandes entrantes</div>
+        <div class="case-desc">Chaque mail ou formulaire reçoit un accusé personnalisé en quelques secondes.</div>
+        <div class="case-arrow">→</div>
+      </div>
+      <div class="case-item reveal">
+        <div class="case-num">CAS 03</div>
+        <div class="case-title">Génération automatique de devis personnalisés</div>
+        <div class="case-desc">Le client remplit un formulaire, le devis est créé et envoyé automatiquement.</div>
+        <div class="case-arrow">→</div>
+      </div>
+      <div class="case-item reveal">
+        <div class="case-num">CAS 04</div>
+        <div class="case-title">Rapports hebdomadaires envoyés automatiquement</div>
+        <div class="case-desc">Chaque semaine, un résumé clair de vos résultats arrive directement dans votre boîte mail.</div>
+        <div class="case-arrow">→</div>
+      </div>
+      <div class="case-item reveal">
+        <div class="case-num">CAS 05</div>
+        <div class="case-title">Synchronisation entre vos outils</div>
+        <div class="case-desc">Vos contacts, clients et commandes se mettent à jour partout en même temps, sans intervention.</div>
+        <div class="case-arrow">→</div>
+      </div>
+      <div class="case-item reveal">
+        <div class="case-num">CAS 06</div>
+        <div class="case-title">Centralisation automatique dans Google Sheets</div>
+        <div class="case-desc">Vos nouveaux clients, commandes et demandes sont enregistrés en temps réel dans vos tableurs.</div>
+        <div class="case-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <span class="section-label">DEMANDER UN AUDIT</span>
+    <div class="contact-grid">
+      <div>
+        <h2 class="reveal">Parlons de <span class="gradient">votre projet.</span></h2>
+        <p class="contact-lede reveal">Décrivez ce qui vous prend du temps chaque semaine. Vous recevez sous 24h une première analyse, gratuite et sans engagement.</p>
+
+        <div class="contact-meta reveal">
+          <div class="contact-meta-row">
+            <span class="k">EMAIL</span>
+            <span class="v"><a href="mailto:lyonaistudio@gmail.com">lyonaistudio@gmail.com</a></span>
+          </div>
+          <div class="contact-meta-row">
+            <span class="k">INSTAGRAM</span>
+            <span class="v"><a href="https://www.instagram.com/lyonaistudio" target="_blank" rel="noopener">@lyonaistudio</a></span>
+          </div>
+          <div class="contact-meta-row">
+            <span class="k">LIEU</span>
+            <span class="v">Craponne, Lyon Ouest</span>
+          </div>
+          <div class="contact-meta-row">
+            <span class="k">RÉPONSE</span>
+            <span class="v">Sous 24 heures</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card reveal">
+        <div class="form-head">
+          <div class="ttl">Audit gratuit</div>
+          <div class="sub">Remplissez ce formulaire, je vous réponds personnellement.</div>
+        </div>
+
+        <form id="contactForm" action="https://formspree.io/f/mjgzeldk" method="POST">
+          <div class="form-row">
+            <div class="field">
+              <label for="prenom">Prénom <span class="req">*</span></label>
+              <input id="prenom" name="prenom" type="text" required placeholder="Jean" autocomplete="given-name">
+            </div>
+            <div class="field">
+              <label for="nom">Nom <span class="req">*</span></label>
+              <input id="nom" name="nom" type="text" required placeholder="Dupont" autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Adresse email <span class="req">*</span></label>
+            <input id="email" name="email" type="email" required placeholder="jean.dupont@entreprise.com" autocomplete="email">
+          </div>
+
+          <div class="field">
+            <label for="type">Type d'entreprise <span class="req">*</span></label>
+            <select id="type" name="type_entreprise" required>
+              <option value="" disabled selected>Sélectionnez une option</option>
+              <option value="Indépendant / Freelance">Indépendant / Freelance</option>
+              <option value="TPE (1-9 salariés)">TPE (1-9 salariés)</option>
+              <option value="PME (10-249 salariés)">PME (10-249 salariés)</option>
+              <option value="Grande entreprise (250+)">Grande entreprise (250+)</option>
+              <option value="Agence">Agence</option>
+              <option value="Commerce / Artisan">Commerce / Artisan</option>
+              <option value="Association">Association</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="demande">Votre demande <span class="req">*</span></label>
+            <textarea id="demande" name="demande" required placeholder="Ex : je passe trop de temps à relancer mes clients pour les factures impayées..."></textarea>
+          </div>
+
+          <input type="hidden" name="_subject" value="Nouvelle demande d'audit — Lyon AI Studio">
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span id="btnText">Envoyer ma demande</span>
+            <span>→</span>
+          </button>
+
+          <div class="form-success" id="formSuccess">✓ Demande reçue. Je vous réponds sous 24 heures sur votre adresse email.</div>
+          <div class="form-error" id="formError">⚠ Une erreur est survenue. Réessayez ou écrivez-moi directement à lyonaistudio@gmail.com</div>
+
+          <p class="form-note">Réponse personnelle sous 24h • Sans engagement • Audit gratuit</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <div>© 2026 LYON AI STUDIO · Craponne&nbsp;(69)</div>
+      <div class="footer-links">
+        <a href="mailto:lyonaistudio@gmail.com">Email</a>
+        <a href="https://www.instagram.com/lyonaistudio" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const form = document.getElementById('contactForm');
+  const btn = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btnText');
+  const success = document.getElementById('formSuccess');
+  const error = document.getElementById('formError');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    success.classList.remove('on');
+    error.classList.remove('on');
+    btn.disabled = true;
+    btnText.textContent = 'Envoi en cours...';
+
+    try {
+      const data = new FormData(form);
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        success.classList.add('on');
+        form.reset();
+        btnText.textContent = 'Demande envoyée ✓';
+        setTimeout(() => { btnText.textContent = 'Envoyer ma demande'; btn.disabled = false; }, 4000);
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (err) {
+      error.classList.add('on');
+      btn.disabled = false;
+      btnText.textContent = 'Envoyer ma demande';
+    }
+  });
+</script>
+
+</body>
+</html>
