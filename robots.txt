@@ -1,1 +1,0 @@
-# Lyon AI Studio — robots.txt # Permettre à tous les moteurs de recherche d'indexer le site User-agent: * Allow: / Disallow: /merci.html # Sitemap Sitemap: https://lyonaistudio.github.io/lyonaistudio/sitemap.xml
