@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import CTASection from "../../components/CTASection.astro";
+---
+
+<BaseLayout
+  title="Création de site internet à Lyon — Lyon AI Studio"
+  description="Création de site internet sur-mesure à Lyon pour artisans, commerces et professions libérales : design soigné, référencement local, impeccable sur mobile."
+  path="/services/creation-site-internet/"
+>
+  <Breadcrumb
+    items={[
+      { name: "Services", url: "/services/" },
+      { name: "Création de site internet", url: "/services/creation-site-internet/" },
+    ]}
+  />
+  <PageHero
+    eyebrow="SERVICE — SITE INTERNET"
+    title="Création de site internet à Lyon"
+    description="Un site qui donne une image sérieuse de votre activité et qui transforme un visiteur en demande de contact."
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <Eyebrow label="POUR QUI" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Artisans, commerces et professions libérales
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Ce service s'adresse aux petites structures lyonnaises qui n'ont pas encore de site internet, ou
+      dont le site actuel ne représente plus correctement leur activité : artisans du bâtiment,
+      commerces de proximité, professions libérales, prestataires de services. Pas besoin d'avoir des
+      connaissances techniques — l'objectif est de vous livrer un outil que vous pouvez utiliser
+      immédiatement, sans avoir à comprendre ce qu'il y a derrière.
+    </p>
+
+    <Eyebrow label="CE QUE ÇA INCLUT" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Un site complet, pas une simple vitrine
+    </h2>
+    <ul class="mt-6 space-y-4">
+      {[
+        ["Design sur-mesure", "Une identité visuelle pensée pour votre activité, pas un template générique réutilisé partout."],
+        ["Structure claire", "Des pages organisées autour de ce que cherche réellement votre client : vos services, votre façon de travailler, comment vous contacter."],
+        ["Référencement local", "Un site construit techniquement pour être compris par Google et apparaître dans les recherches locales dès la mise en ligne."],
+        ["Mobile en priorité", "La majorité de vos visiteurs consultera le site depuis un téléphone — c'est testé et pensé en conséquence, pas en option."],
+        ["Formulaire de contact", "Un moyen simple et direct de vous transmettre une demande, sans complexité inutile."],
+      ].map(([title, text]) => (
+        <li class="border-l-2 border-accent pl-4">
+          <p class="font-display font-semibold text-paper">{title}</p>
+          <p class="mt-1 text-sm leading-relaxed text-paper-dim">{text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <Eyebrow label="POURQUOI ÇA CHANGE LES CHOSES" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Pour une petite structure, l'impact est direct
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Sans site, vous dépendez entièrement du bouche-à-oreille ou des plateformes tierces sur lesquelles
+      vous n'avez aucun contrôle. Un site vous appartient : vous décidez de ce qu'il montre, vous
+      captez les demandes directement, et vous construisez une présence qui reste, indépendamment des
+      algorithmes des réseaux sociaux. C'est un investissement qui continue de vous apporter des
+      demandes longtemps après sa mise en ligne, contrairement à une campagne publicitaire ponctuelle.
+    </p>
+  </section>
+
+  <CTASection
+    title="Prêt à discuter de votre projet de site ?"
+    description="Décrivez votre activité, je vous propose une approche adaptée — sans jargon ni prix imposé avant d'avoir échangé."
+  />
+</BaseLayout>

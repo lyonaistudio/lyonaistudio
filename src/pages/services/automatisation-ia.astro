@@ -1,0 +1,111 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import CTASection from "../../components/CTASection.astro";
+import WorkflowDiagram from "../../components/WorkflowDiagram.astro";
+
+const examples = [
+  {
+    metier: "Commerce de proximité",
+    cases: [
+      "Répondre automatiquement aux questions de disponibilité et d'horaires en dehors des heures d'ouverture",
+      "Relancer un client qui a demandé un renseignement sans donner suite",
+      "Envoyer un message de remerciement et une demande d'avis après un achat",
+    ],
+  },
+  {
+    metier: "Artisan / bâtiment",
+    cases: [
+      "Trier les demandes de devis entrantes par urgence et par type de chantier",
+      "Envoyer un rappel automatique de rendez-vous la veille d'une intervention",
+      "Relancer un devis envoyé sans réponse après quelques jours",
+    ],
+  },
+  {
+    metier: "Profession libérale / cabinet",
+    cases: [
+      "Prendre un rendez-vous directement depuis un message, sans échange manuel",
+      "Répondre aux questions fréquentes (tarifs, documents à apporter, accès) automatiquement",
+      "Classer les emails entrants par priorité et préparer une ébauche de réponse",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Automatisation & agent IA pour entreprises à Lyon — Lyon AI Studio"
+  description="Mise en place d'agents IA et de workflows d'automatisation (Make.com) pour les PME et commerces de Lyon : réponses automatiques, prise de rendez-vous, relances."
+  path="/services/automatisation-ia/"
+>
+  <Breadcrumb
+    items={[
+      { name: "Services", url: "/services/" },
+      { name: "Automatisation IA", url: "/services/automatisation-ia/" },
+    ]}
+  />
+  <PageHero
+    eyebrow="SERVICE — AGENT IA"
+    title="Automatisation & agent IA"
+    description="Des outils qui prennent en charge les tâches répétitives de votre quotidien professionnel, pour vous laisser du temps sur ce qui compte vraiment."
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <Eyebrow label="CE QUE ÇA VEUT DIRE" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Un agent IA, concrètement
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Un agent IA est un programme capable de lire un message ou une demande, de comprendre ce qui est
+      attendu, et d'agir en conséquence — répondre, transmettre l'information, déclencher une action —
+      sans que vous ayez à intervenir à chaque fois. Combiné à des workflows d'automatisation
+      (via des outils comme Make.com), il peut connecter votre messagerie, votre agenda et vos outils
+      existants pour faire circuler l'information automatiquement.
+    </p>
+  </section>
+
+  <section class="grid-motif border-y border-ink-line">
+    <div class="mx-auto max-w-5xl px-6 py-14">
+      <WorkflowDiagram />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <Eyebrow label="EXEMPLES CONCRETS" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Ce que ça peut faire, selon votre métier
+    </h2>
+    <div class="mt-8 space-y-8">
+      {examples.map((group) => (
+        <div class="border border-ink-line bg-ink-soft p-6">
+          <p class="font-display font-semibold text-paper">{group.metier}</p>
+          <ul class="mt-4 space-y-3">
+            {group.cases.map((item) => (
+              <li class="flex gap-3 text-sm leading-relaxed text-paper-dim">
+                <span class="mt-1.5 h-1 w-1 shrink-0 bg-accent" aria-hidden="true"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <Eyebrow label="CE QUE ÇA CHANGE" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Du temps récupéré, pas une usine à gaz
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      L'objectif n'est pas de tout automatiser d'un coup, mais d'identifier les deux ou trois tâches
+      qui vous prennent le plus de temps au quotidien et de les prendre en charge en priorité. Chaque
+      mise en place est adaptée à vos outils existants et à votre façon de travailler — vous gardez la
+      main sur ce qui compte, l'automatisation s'occupe du reste.
+    </p>
+  </section>
+
+  <CTASection
+    title="Une tâche qui vous prend trop de temps ?"
+    description="Décrivez-la moi, on regarde ensemble si elle peut être automatisée et comment."
+  />
+</BaseLayout>

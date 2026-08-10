@@ -1,0 +1,177 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
+---
+
+<BaseLayout
+  title="Contact — Lyon AI Studio"
+  description="Contactez Lyon AI Studio pour un projet de site internet ou d'automatisation IA. Réponse personnelle sous quelques jours."
+  path="/contact/"
+>
+  <Breadcrumb items={[{ name: "Contact", url: "/contact/" }]} />
+  <PageHero
+    eyebrow="CONTACT"
+    title="Parlons de votre projet"
+    description="Décrivez votre besoin, je vous réponds personnellement — sans prix imposé avant d'avoir échangé."
+  />
+
+  <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
+      <div>
+        <div id="success-banner" class="mb-8 hidden border border-accent bg-ink-soft p-6" role="status">
+          <p class="font-display font-semibold text-accent">Message envoyé.</p>
+          <p class="mt-1 text-sm text-paper-dim">Merci, je reviens vers vous rapidement.</p>
+        </div>
+
+        <form
+          id="contact-form"
+          action={FORMSPREE_ENDPOINT}
+          method="POST"
+          class="space-y-6"
+        >
+          <input type="hidden" name="_next" value={`${SITE.url}/contact/?envoye=1`} />
+          <input type="hidden" name="_subject" value="Nouvelle demande — Lyon AI Studio" />
+          <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+
+          <div class="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label for="prenom" class="font-mono text-xs uppercase tracking-wide text-mist">Prénom</label>
+              <input
+                id="prenom"
+                name="Prénom"
+                type="text"
+                required
+                class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="nom" class="font-mono text-xs uppercase tracking-wide text-mist">Nom</label>
+              <input
+                id="nom"
+                name="Nom"
+                type="text"
+                required
+                class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="font-mono text-xs uppercase tracking-wide text-mist">Email</label>
+            <input
+              id="email"
+              name="Email"
+              type="email"
+              required
+              class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+            />
+          </div>
+
+          <div class="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label for="type-entreprise" class="font-mono text-xs uppercase tracking-wide text-mist">
+                Type d'entreprise
+              </label>
+              <select
+                id="type-entreprise"
+                name="Type d'entreprise"
+                required
+                class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper focus:border-accent focus:outline-none"
+              >
+                <option value="">Sélectionner…</option>
+                <option value="Artisan">Artisan</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Profession libérale">Profession libérale</option>
+                <option value="PME">PME</option>
+                <option value="Autre">Autre</option>
+              </select>
+            </div>
+            <div>
+              <label for="secteur" class="font-mono text-xs uppercase tracking-wide text-mist">
+                Secteur d'activité
+              </label>
+              <input
+                id="secteur"
+                name="Secteur d'activité"
+                type="text"
+                placeholder="Ex. plomberie, coiffure, conseil…"
+                class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="message" class="font-mono text-xs uppercase tracking-wide text-mist">
+              Décrivez ce que vous recherchez
+            </label>
+            <textarea
+              id="message"
+              name="Message"
+              rows="6"
+              required
+              class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft"
+          >
+            Envoyer la demande
+          </button>
+        </form>
+      </div>
+
+      <aside class="space-y-8">
+        <div class="border border-ink-line bg-ink-soft p-6">
+          <Eyebrow label="COORDONNÉES" />
+          <ul class="mt-4 space-y-3 text-sm text-paper-dim">
+            <li>
+              <a href={`mailto:${SITE.email}`} class="transition-colors hover:text-accent">{SITE.email}</a>
+            </li>
+            <li>
+              <a href={`tel:${SITE.phoneHref}`} class="transition-colors hover:text-accent">{SITE.phone}</a>
+            </li>
+            <li>{SITE.city}, France — intervention à distance</li>
+            <li>{SITE.hours}</li>
+          </ul>
+        </div>
+
+        <div class="border border-ink-line bg-ink-soft p-6">
+          <Eyebrow label="ZONE D'INTERVENTION" />
+          <div class="mt-4 aspect-video w-full overflow-hidden border border-ink-line grayscale">
+            <iframe
+              title="Carte — Lyon, France"
+              src="https://www.google.com/maps?q=Lyon,France&output=embed"
+              class="h-full w-full"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <p class="mt-2 text-xs text-mist">
+            Activité basée à Lyon, sans accueil physique — carte à titre indicatif.
+          </p>
+        </div>
+
+        <div class="border border-dashed border-ink-line p-6">
+          <Eyebrow label="AVIS GOOGLE" />
+          <p class="mt-4 text-sm text-paper-dim">
+            Emplacement réservé pour le widget d'avis Google, à connecter une fois la fiche Google
+            Business Profile créée.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("envoye") === "1") {
+    document.getElementById("success-banner")?.classList.remove("hidden");
+    document.getElementById("contact-form")?.classList.add("hidden");
+  }
+</script>

@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import CTASection from "../../components/CTASection.astro";
+import { getCollection, render } from "astro:content";
+import { articleSchema } from "../../lib/schema";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const schema = articleSchema({
+  title: post.data.title,
+  description: post.data.description,
+  slug: post.id,
+  publishDate: post.data.publishDate,
+  image: post.data.image,
+});
+---
+
+<BaseLayout
+  title={`${post.data.title} — Lyon AI Studio`}
+  description={post.data.description}
+  path={`/blog/${post.id}/`}
+  jsonLd={[schema]}
+>
+  <Breadcrumb items={[{ name: "Actualités", url: "/blog/" }, { name: post.data.title, url: `/blog/${post.id}/` }]} />
+
+  <article class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <span class="font-mono text-xs uppercase tracking-wide text-mist">
+      {post.data.publishDate.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+    </span>
+    <h1 class="mt-3 font-display text-3xl font-semibold text-paper sm:text-4xl">{post.data.title}</h1>
+    <img
+      src={post.data.image}
+      alt={post.data.imageAlt}
+      loading="lazy"
+      decoding="async"
+      width="1200"
+      height="675"
+      class="mt-8 aspect-video w-full border border-ink-line object-cover"
+    />
+    <div class="prose-article prose prose-invert mt-10 max-w-none">
+      <Content />
+    </div>
+  </article>
+
+  <CTASection
+    title="Envie d'appliquer ça à votre activité ?"
+    description="Chaque situation est différente. Discutons de ce qui aurait vraiment un impact pour vous."
+  />
+</BaseLayout>

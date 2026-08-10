@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import StepCard from "../components/StepCard.astro";
+import CTASection from "../components/CTASection.astro";
+---
+
+<BaseLayout
+  title="Comment ça se passe — Lyon AI Studio"
+  description="Le déroulement d'un projet avec Lyon AI Studio, étape par étape : prise de contact, échange, proposition, réalisation."
+  path="/comment-ca-se-passe/"
+>
+  <Breadcrumb items={[{ name: "Comment ça se passe", url: "/comment-ca-se-passe/" }]} />
+  <PageHero
+    eyebrow="DÉROULEMENT"
+    title="Comment se passe un projet"
+    description="Pas de jargon, pas de surprise. Voici concrètement les étapes, du premier message à la livraison."
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <StepCard
+      number="01"
+      title="Prise de contact"
+      description="Vous décrivez votre besoin via le formulaire de contact, par email ou par téléphone. Quelques lignes suffisent pour démarrer — pas besoin d'un cahier des charges détaillé."
+    />
+    <StepCard
+      number="02"
+      title="Échange sur le besoin"
+      description="On discute de votre activité, de ce qui vous prend du temps ou de ce qui manque aujourd'hui. C'est cette étape qui permet de proposer quelque chose d'adapté plutôt qu'une solution générique."
+    />
+    <StepCard
+      number="03"
+      title="Proposition adaptée"
+      description="Vous recevez une proposition claire : ce qui sera fait, comment, et dans quel délai. Aucun engagement n'est pris avant que tout soit clair de votre côté."
+    />
+    <StepCard
+      number="04"
+      title="Réalisation"
+      description="Le site ou l'automatisation est mis en place et testé. Une fois livré, vous êtes accompagné pour prendre en main l'outil — vous n'êtes jamais laissé seul avec quelque chose que vous ne savez pas utiliser."
+      isLast
+    />
+  </section>
+
+  <CTASection
+    title="Prêt à démarrer la première étape ?"
+    description="Un message suffit pour lancer la discussion."
+  />
+</BaseLayout>

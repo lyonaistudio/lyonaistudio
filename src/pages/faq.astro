@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import CTASection from "../components/CTASection.astro";
+import { faqSchema } from "../lib/schema";
+
+const faqItems = [
+  {
+    question: "Combien coûte un site internet ou une automatisation ?",
+    answer:
+      "Chaque projet est différent, donc chaque prix l'est aussi. Plutôt que d'afficher un tarif générique qui ne correspondrait à rien de concret, je préfère d'abord comprendre votre besoin avant de vous proposer un montant clair et sans surprise.",
+  },
+  {
+    question: "Combien de temps faut-il pour créer un site internet ?",
+    answer:
+      "Ça dépend de l'ampleur du projet, mais la plupart des sites pour une petite structure sont livrés en quelques semaines une fois le besoin bien défini. Le délai exact vous est communiqué dans la proposition, avant tout engagement.",
+  },
+  {
+    question: "Je n'ai aucune connaissance technique, est-ce un problème ?",
+    answer:
+      "Non, c'est même la majorité des situations que je rencontre. Mon rôle est de traduire votre besoin en solution technique, pas l'inverse. Vous n'avez pas besoin de comprendre le développement web ou l'IA pour qu'on travaille ensemble.",
+  },
+  {
+    question: "Qu'est-ce qu'un agent IA, concrètement ?",
+    answer:
+      "C'est un programme capable de lire une demande (un message, un email) et d'agir en conséquence — répondre, transmettre une information, déclencher une action — sans que vous ayez à intervenir à chaque fois. Il est configuré spécifiquement pour votre activité, pas générique.",
+  },
+  {
+    question: "Est-ce que je pourrai modifier mon site moi-même après la livraison ?",
+    answer:
+      "Oui. Le site est livré avec une structure pensée pour que vous puissiez ajouter du contenu simplement, notamment les articles du blog. Un temps d'explication est prévu à la livraison pour que vous soyez autonome sur ce qui vous concerne.",
+  },
+  {
+    question: "Intervenez-vous uniquement à Lyon ?",
+    answer:
+      "L'activité est basée à Lyon et principalement tournée vers les entreprises locales, mais l'ensemble du travail se fait à distance : cela n'empêche pas de travailler avec des structures situées ailleurs.",
+  },
+  {
+    question: "Mes données sont-elles en sécurité avec un agent IA ?",
+    answer:
+      "Les automatisations mises en place s'appuient sur des outils reconnus (comme Make.com) et sont configurées pour n'accéder qu'aux informations strictement nécessaires à la tâche demandée. Le fonctionnement exact vous est expliqué avant la mise en place, sans zone d'ombre.",
+  },
+];
+
+const schema = faqSchema(faqItems);
+---
+
+<BaseLayout
+  title="FAQ — Questions fréquentes — Lyon AI Studio"
+  description="Réponses aux questions les plus fréquentes sur la création de site internet et l'automatisation IA avec Lyon AI Studio."
+  path="/faq/"
+  jsonLd={[schema]}
+>
+  <Breadcrumb items={[{ name: "FAQ", url: "/faq/" }]} />
+  <PageHero eyebrow="FAQ" title="Questions fréquentes" />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <FAQAccordion items={faqItems} />
+  </section>
+
+  <CTASection
+    title="Vous ne trouvez pas de réponse à votre question ?"
+    description="Contactez-moi directement, je réponds personnellement à chaque message."
+  />
+</BaseLayout>

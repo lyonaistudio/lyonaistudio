@@ -1,0 +1,111 @@
+---
+---
+
+<div id="cursor-dot" class="cursor-dot" aria-hidden="true" transition:persist></div>
+<div id="cursor-ring" class="cursor-ring" aria-hidden="true" transition:persist></div>
+
+<script>
+  declare global {
+    interface Window {
+      __cursorInit?: boolean;
+    }
+  }
+
+  // The dot/ring persist across view-transitions and the browser only ever
+  // evaluates this module once, but the guard is cheap extra safety.
+  if (!window.__cursorInit) {
+    window.__cursorInit = true;
+
+    const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (isFinePointer && !reduceMotion) {
+      const dot = document.getElementById("cursor-dot")!;
+      const ring = document.getElementById("cursor-ring")!;
+      document.documentElement.classList.add("has-custom-cursor");
+
+      let mouseX = -100;
+      let mouseY = -100;
+      let ringX = -100;
+      let ringY = -100;
+      let started = false;
+
+      window.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        if (!started) {
+          started = true;
+          ringX = mouseX;
+          ringY = mouseY;
+          dot.style.opacity = "1";
+          ring.style.opacity = "1";
+        }
+      });
+
+      window.addEventListener("mousedown", () => ring.classList.add("is-active"));
+      window.addEventListener("mouseup", () => ring.classList.remove("is-active"));
+
+      document.addEventListener("mouseover", (e) => {
+        const target = (e.target as Element)?.closest?.("a, button, .magnetic, [role='button']");
+        ring.classList.toggle("is-hover", Boolean(target));
+      });
+
+      function tick() {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+  }
+</script>
+
+<style>
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    border-radius: 50%;
+    transition: opacity 0.2s ease;
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: var(--color-accent);
+  }
+
+  .cursor-ring {
+    width: 32px;
+    height: 32px;
+    margin: -16px 0 0 -16px;
+    border: 1.5px solid var(--color-accent);
+    transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease, margin 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .cursor-ring.is-hover {
+    width: 52px;
+    height: 52px;
+    margin: -26px 0 0 -26px;
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  }
+
+  .cursor-ring.is-active {
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+  }
+
+  :global(html.has-custom-cursor),
+  :global(html.has-custom-cursor *) {
+    cursor: none !important;
+  }
+</style>

@@ -1,0 +1,141 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import RibbonMesh from "../components/RibbonMesh.astro";
+import StatBand from "../components/StatBand.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import StepCard from "../components/StepCard.astro";
+import CTASection from "../components/CTASection.astro";
+import VideoShowcase from "../components/VideoShowcase.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title="Lyon AI Studio — Sites internet et automatisation IA à Lyon"
+  description="Création de sites internet et mise en place d'agents IA pour automatiser les tâches répétitives des artisans, commerces et PME de la région lyonnaise."
+  path="/"
+>
+  <section class="relative overflow-hidden border-b border-ink-line">
+    <div class="absolute inset-0">
+      <RibbonMesh />
+    </div>
+    <div class="hero-scrim pointer-events-none absolute inset-0"></div>
+
+    <div class="relative mx-auto max-w-6xl px-6 py-24 sm:py-32">
+      <div class="reveal max-w-2xl">
+        <Eyebrow label="LYON — SITES WEB & AUTOMATISATION IA" />
+        <h1 class="mt-4 font-display text-4xl font-semibold leading-tight text-paper sm:text-5xl lg:text-6xl">
+          Un site qui vous représente. Des outils qui travaillent à votre place.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-paper-dim">
+          Création de sites internet et automatisation par IA pour les artisans, commerces et PME de la
+          région lyonnaise. Moins de temps sur l'administratif, plus de temps sur votre métier.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a
+            href="/contact/"
+            class="magnetic rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft"
+          >
+            Demander un échange
+          </a>
+          <a
+            href="/services/"
+            class="magnetic rounded-sm border border-ink-line px-6 py-3 font-mono text-sm font-medium text-paper transition-colors hover:border-accent hover:text-accent"
+          >
+            Voir les services
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StatBand />
+
+  <section class="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+    <Eyebrow label="CE QU'ON FAIT" />
+    <h2 class="mt-4 max-w-2xl font-display text-3xl font-semibold text-paper sm:text-4xl">
+      Deux services, un seul objectif : vous faire gagner du temps.
+    </h2>
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      <ServiceCard
+        index="01"
+        title="Création de site internet"
+        description="Un site rapide, clair et pensé pour convertir un visiteur en demande de contact — pas un gadget qui prend la poussière."
+        points={[
+          "Design sur-mesure, pas de template générique",
+          "Optimisé pour le référencement local dès le départ",
+          "Impeccable sur mobile",
+        ]}
+        href="/services/creation-site-internet/"
+      />
+      <ServiceCard
+        index="02"
+        title="Automatisation / agent IA"
+        description="Des agents IA et workflows qui prennent en charge les tâches répétitives : réponses, rendez-vous, relances, tri d'emails."
+        points={[
+          "Mis en place avec Make.com et des agents IA sur-mesure",
+          "Adapté à votre métier, pas une solution générique",
+          "Vous gardez la main, l'IA fait le travail de fond",
+        ]}
+        href="/services/automatisation-ia/"
+      />
+    </div>
+  </section>
+
+  <section class="border-y border-ink-line bg-ink-soft">
+    <div class="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <Eyebrow label="DÉROULEMENT" />
+      <h2 class="mt-4 max-w-2xl font-display text-3xl font-semibold text-paper sm:text-4xl">
+        Un accompagnement humain, sans jargon.
+      </h2>
+      <div class="mt-12 max-w-2xl">
+        <StepCard number="01" title="Prise de contact" description="Vous décrivez votre besoin via le formulaire, par email ou par téléphone." />
+        <StepCard number="02" title="Échange sur le besoin" description="On discute de votre activité, de vos contraintes, et de ce qui aurait vraiment un impact." />
+        <StepCard number="03" title="Proposition adaptée" description="Vous recevez une proposition claire, sans jargon technique ni engagement caché." />
+        <StepCard number="04" title="Réalisation" description="Le site ou l'automatisation est mis en place, testé, et vous êtes formé pour l'utiliser." isLast />
+      </div>
+      <a
+        href="/comment-ca-se-passe/"
+        class="mt-4 inline-flex items-center gap-2 font-mono text-sm text-accent transition-colors hover:text-accent-soft"
+      >
+        Voir le détail du déroulement <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <VideoShowcase />
+
+  {posts.length > 0 && (
+    <section class="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <Eyebrow label="ACTUALITÉS" />
+      <h2 class="mt-4 max-w-2xl font-display text-3xl font-semibold text-paper sm:text-4xl">
+        Conseils pour les entreprises locales.
+      </h2>
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        {posts.map((post) => (
+          <a
+            href={`/blog/${post.id}/`}
+            class="reveal group flex flex-col border border-ink-line bg-ink-soft p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-[0_24px_48px_-24px_rgba(226,103,44,0.35)]"
+          >
+            <span class="font-mono text-xs uppercase tracking-wide text-mist">
+              {post.data.publishDate.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+            </span>
+            <h3 class="mt-3 font-display text-lg font-semibold text-paper group-hover:text-accent">
+              {post.data.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-paper-dim">{post.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <CTASection
+    title="Une idée à discuter ?"
+    description="Décrivez-moi votre besoin, je vous réponds avec une proposition claire et sans jargon."
+  />
+</BaseLayout>

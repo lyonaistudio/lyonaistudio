@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import { SITE } from "../lib/site";
+---
+
+<BaseLayout
+  title="Mentions légales & confidentialité — Lyon AI Studio"
+  description="Mentions légales et politique de confidentialité de Lyon AI Studio, conformes au RGPD."
+  path="/mentions-legales/"
+>
+  <Breadcrumb items={[{ name: "Mentions légales", url: "/mentions-legales/" }]} />
+  <PageHero eyebrow="LÉGAL" title="Mentions légales & politique de confidentialité" />
+
+  <section class="prose-article prose prose-invert mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <h2>Éditeur du site</h2>
+    <p>
+      Le site {SITE.name} est édité par une entreprise individuelle basée à {SITE.city}, France.
+    </p>
+    <ul>
+      <li>Nom commercial : {SITE.name}</li>
+      <li>SIRET : [SIRET EN ATTENTE]</li>
+      <li>Email : <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+      <li>Téléphone : <a href={`tel:${SITE.phoneHref}`}>{SITE.phone}</a></li>
+      <li>Activité exercée à distance, sans établissement recevant du public.</li>
+    </ul>
+    <p>
+      Directeur de la publication : l'éditeur mentionné ci-dessus.
+    </p>
+
+    <h2>Hébergement</h2>
+    <p>
+      Le site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P Kelly Jr St, San Francisco, CA
+      94107, États-Unis. Le code source du site est déployé automatiquement depuis un dépôt GitHub via
+      GitHub Actions.
+    </p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>
+      L'ensemble des contenus présents sur ce site (textes, structure, identité visuelle) est la
+      propriété de {SITE.name}, sauf mention contraire. Toute reproduction ou représentation, totale ou
+      partielle, sans autorisation préalable, est interdite.
+    </p>
+
+    <h2>Formulaire de contact et traitement des données</h2>
+    <p>
+      Le formulaire de contact de ce site utilise le service tiers Formspree (Formspree, Inc.) pour
+      l'envoi des messages par email. Les données saisies dans le formulaire (nom, prénom, email, type
+      d'entreprise, secteur d'activité, message) sont transmises à Formspree puis à l'adresse email de
+      {SITE.name} dans le seul but de répondre à votre demande.
+    </p>
+    <p>
+      Ces données ne sont ni revendues, ni utilisées à des fins commerciales autres que le traitement de
+      votre demande. Elles sont conservées le temps nécessaire à l'échange, puis supprimées ou
+      archivées de façon raisonnable.
+    </p>
+    <p>
+      Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit
+      d'accès, de rectification, de suppression et d'opposition concernant vos données personnelles.
+      Pour exercer ces droits, contactez-nous à l'adresse <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+    </p>
+
+    <h2>Cookies et services tiers</h2>
+    <p>
+      Ce site n'utilise pas de cookies de suivi publicitaire ni d'outil d'analyse d'audience tiers. La
+      page Contact intègre une carte Google Maps, qui peut déposer des cookies techniques propres à
+      Google lors de son affichage, conformément à la politique de confidentialité de Google.
+    </p>
+
+    <h2>Responsabilité</h2>
+    <p>
+      {SITE.name} s'efforce d'assurer l'exactitude des informations présentes sur ce site, sans pouvoir
+      garantir qu'elles soient exemptes d'erreur ou parfaitement à jour. L'utilisation des informations
+      de ce site se fait sous la responsabilité de l'utilisateur.
+    </p>
+
+    <h2>Droit applicable</h2>
+    <p>
+      Le présent site et les présentes mentions légales sont soumis au droit français. En cas de litige,
+      et à défaut de résolution amiable, les tribunaux français seront seuls compétents.
+    </p>
+
+    <p class="text-sm text-mist">Dernière mise à jour : {new Date().toLocaleDateString("fr-FR", { year: "numeric", month: "long" })}.</p>
+  </section>
+</BaseLayout>

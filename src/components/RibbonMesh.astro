@@ -1,0 +1,17 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<canvas class={`block h-full w-full ${className}`} data-ribbon-mesh aria-hidden="true"></canvas>
+
+<script>
+  import { mountRibbonMesh } from "../scripts/ribbon-mesh";
+
+  document.querySelectorAll<HTMLCanvasElement>("canvas[data-ribbon-mesh]:not([data-ribbon-mounted])").forEach((canvas) => {
+    canvas.dataset.ribbonMounted = "true";
+    mountRibbonMesh(canvas);
+  });
+</script>

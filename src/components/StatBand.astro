@@ -1,0 +1,19 @@
+---
+const stats = [
+  { value: "100%", label: "Sur-mesure — aucun template générique" },
+  { value: "Lyon", label: "Basé et actif dans la région lyonnaise" },
+  { value: "1", label: "Interlocuteur unique, du site à l'automatisation" },
+  { value: "48h", label: "Délai de réponse à chaque demande" },
+];
+---
+
+<div class="stat-band bg-ink-soft">
+  <div class="reveal mx-auto grid max-w-6xl sm:grid-cols-4">
+    {stats.map((stat) => (
+      <div class="stat px-6 py-10 text-center sm:text-left">
+        <p class="font-display text-3xl font-semibold text-accent sm:text-4xl">{stat.value}</p>
+        <p class="mt-2 text-sm leading-snug text-paper-dim">{stat.label}</p>
+      </div>
+    ))}
+  </div>
+</div>

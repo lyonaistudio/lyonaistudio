@@ -1,0 +1,52 @@
+---
+// Diagramme "entrées -> agent IA -> sorties" : rend concret et visuel ce que fait
+// un agent IA, plutôt qu'une simple liste à puces.
+---
+
+<div class="reveal w-full overflow-x-auto">
+  <svg viewBox="0 0 900 420" class="mx-auto h-auto w-full min-w-[640px] max-w-3xl" role="img" aria-labelledby="workflow-title">
+    <title id="workflow-title">Schéma : messages, emails et rendez-vous entrants traités par un agent IA, qui déclenche automatiquement une réponse, une prise de rendez-vous ou une relance.</title>
+
+    <!-- Lignes de flux -->
+    <g stroke="var(--color-accent)" stroke-width="1.5" fill="none" opacity="0.55">
+      <path class="flow-line" d="M170,80 C280,80 300,180 420,200" />
+      <path class="flow-line" d="M170,210 C280,210 300,205 420,210" />
+      <path class="flow-line" d="M170,340 C280,340 300,240 420,220" />
+
+      <path class="flow-line" d="M480,200 C600,180 620,90 730,80" />
+      <path class="flow-line" d="M480,210 C600,210 620,210 730,210" />
+      <path class="flow-line" d="M480,220 C600,240 620,330 730,340" />
+    </g>
+
+    <!-- Entrées -->
+    <g font-family="Inter, sans-serif" font-size="17" fill="var(--color-paper-dim)">
+      <rect x="20" y="55" width="150" height="50" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="95" y="86" text-anchor="middle">Message client</text>
+
+      <rect x="20" y="185" width="150" height="50" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="95" y="216" text-anchor="middle">Email</text>
+
+      <rect x="20" y="315" width="150" height="50" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="95" y="346" text-anchor="middle">Demande de RDV</text>
+    </g>
+
+    <!-- Agent IA -->
+    <g>
+      <circle cx="450" cy="210" r="60" fill="var(--color-ink)" stroke="var(--color-accent)" stroke-width="2" />
+      <text x="450" y="203" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" letter-spacing="1" fill="var(--color-accent)">AGENT</text>
+      <text x="450" y="223" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" letter-spacing="1" fill="var(--color-accent)">IA</text>
+    </g>
+
+    <!-- Sorties -->
+    <g font-family="Inter, sans-serif" font-size="17" fill="var(--color-paper-dim)">
+      <rect x="730" y="55" width="150" height="50" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="805" y="86" text-anchor="middle">Réponse envoyée</text>
+
+      <rect x="730" y="185" width="150" height="50" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="805" y="216" text-anchor="middle">RDV programmé</text>
+
+      <rect x="730" y="315" width="150" height="50" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="805" y="346" text-anchor="middle">Client relancé</text>
+    </g>
+  </svg>
+</div>

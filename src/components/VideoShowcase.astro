@@ -1,0 +1,142 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+---
+
+<section class="grid-motif border-y border-ink-line">
+  <div class="reveal mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 sm:py-24 lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="order-2 lg:order-1">
+      <Eyebrow label="EN VIDÉO" />
+      <h2 class="mt-4 font-display text-3xl font-semibold text-paper sm:text-4xl">
+        35 secondes pour comprendre ce qu'on fait.
+      </h2>
+      <p class="mt-4 max-w-md text-base leading-relaxed text-paper-dim">
+        Un site, un agent IA, et le temps que ça vous fait gagner — en images plutôt qu'en longs
+        discours.
+      </p>
+      <a
+        href="/contact/"
+        class="magnetic mt-8 inline-block rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft"
+      >
+        Demander un échange
+      </a>
+    </div>
+
+    <div class="order-1 flex justify-center lg:order-2">
+      <div class="phone-shell">
+        <div class="phone-notch" aria-hidden="true"></div>
+        <button id="video-play-btn" type="button" class="video-trigger" aria-label="Lire la vidéo de présentation">
+          <img src="/videos/poster.jpg" alt="Aperçu de la vidéo de présentation Lyon AI Studio" loading="lazy" decoding="async" />
+          <span class="play-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none">
+              <path d="M8 5v14l11-7-11-7Z" fill="currentColor" />
+            </svg>
+          </span>
+        </button>
+        <video
+          id="showcase-video"
+          class="hidden"
+          playsinline
+          controls
+          preload="none"
+          poster="/videos/poster.jpg"
+        >
+          <source src="/videos/lyon-ai-studio-presentation.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .phone-shell {
+    position: relative;
+    width: min(280px, 70vw);
+    aspect-ratio: 9 / 16;
+    border-radius: 2.5rem;
+    border: 10px solid var(--color-ink-soft);
+    outline: 2px solid var(--color-ink-line);
+    overflow: hidden;
+    background: var(--color-ink);
+    box-shadow: 0 40px 80px -32px rgba(0, 0, 0, 0.6);
+  }
+
+  .phone-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 42%;
+    height: 22px;
+    background: var(--color-ink-soft);
+    border-radius: 0 0 14px 14px;
+    z-index: 5;
+  }
+
+  .video-trigger {
+    position: absolute;
+    inset: 0;
+    display: block;
+    cursor: pointer;
+    padding: 0;
+    border: 0;
+  }
+
+  .video-trigger img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play-icon svg {
+    color: var(--color-ink);
+  }
+
+  .play-icon::before {
+    content: "";
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    transition: transform 0.2s ease;
+  }
+
+  .video-trigger:hover .play-icon::before {
+    transform: scale(1.08);
+  }
+
+  #showcase-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #showcase-video.hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  function initVideoShowcase() {
+    const btn = document.getElementById("video-play-btn");
+    const video = document.getElementById("showcase-video") as HTMLVideoElement | null;
+    if (!btn || !video || btn.dataset.init) return;
+    btn.dataset.init = "true";
+
+    btn.addEventListener("click", () => {
+      btn.style.display = "none";
+      video.classList.remove("hidden");
+      video.play();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initVideoShowcase);
+</script>

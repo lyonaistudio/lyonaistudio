@@ -1,0 +1,27 @@
+---
+import { breadcrumbSchema } from "../lib/schema";
+
+interface Props {
+  items: { name: string; url: string }[];
+}
+
+const { items } = Astro.props;
+const fullItems = [{ name: "Accueil", url: "/" }, ...items];
+const schema = breadcrumbSchema(fullItems);
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+<nav aria-label="Fil d'Ariane" class="border-b border-ink-line/60 bg-ink">
+  <ol class="mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-6 py-3 font-mono text-xs uppercase tracking-wide text-mist">
+    {fullItems.map((item, index) => (
+      <li class="flex items-center gap-2">
+        {index > 0 && <span aria-hidden="true">/</span>}
+        {index === fullItems.length - 1 ? (
+          <span class="text-accent" aria-current="page">{item.name}</span>
+        ) : (
+          <a href={item.url} class="transition-colors hover:text-paper">{item.name}</a>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

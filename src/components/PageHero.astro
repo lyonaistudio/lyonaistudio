@@ -1,0 +1,19 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+}
+
+const { eyebrow, title, description } = Astro.props;
+---
+
+<section class="grid-motif border-b border-ink-line">
+  <div class="mx-auto max-w-4xl px-6 py-16 sm:py-24">
+    <Eyebrow label={eyebrow} />
+    <h1 class="mt-4 font-display text-4xl font-semibold text-paper sm:text-5xl">{title}</h1>
+    {description && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-paper-dim">{description}</p>}
+  </div>
+</section>

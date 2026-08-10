@@ -1,0 +1,175 @@
+AVANT DE COMMENCER — CLARIFICATIONS OBLIGATOIRES
+Avant d'écrire la moindre ligne de code, analyse l'intégralité de ce 
+brief. Si un point est ambigu, incomplet, ou qu'une information te 
+manque pour livrer un résultat abouti et professionnel du premier 
+coup, ne devine pas et ne commence pas le développement. Liste-moi 
+immédiatement toutes tes questions sous forme de tâches dans ton 
+outil de gestion de tâches (to-do list), une question claire par 
+tâche. Attends mes réponses avant de générer le moindre fichier.
+L'objectif est d'utiliser le minimum de ressources possible : mieux 
+vaut clarifier une fois au départ que reprendre le travail plusieurs 
+fois après coup à cause d'un malentendu. Une fois toutes les 
+clarifications obtenues, construis le site en une seule fois, complet 
+et fonctionnel, sans étapes intermédiaires inutiles.
+
+Crée un site web professionnel pour "Lyon AI Studio", une entreprise 
+basée à Lyon qui propose deux services : la création de sites internet 
+et l'automatisation par IA (agents IA, workflows Make.com) pour les 
+petites entreprises locales.
+
+OBJECTIF DU SITE
+Le site doit servir de vitrine crédible à présenter à des prospects 
+démarchés par email. Il doit immédiatement convaincre que je maîtrise 
+mon sujet (informatique, développement web, IA) et donner envie de 
+faire une demande de renseignements — pas de vendre en ligne, pas 
+d'afficher de prix.
+
+STACK TECHNIQUE ET HÉBERGEMENT
+Le site sera déployé sur GitHub Pages (repo lyonaistudio.github.io, 
+dossier /lyonaistudio/) — un hébergement statique, sans serveur. 
+Utilise la stack la plus poussée et moderne possible tout en restant 
+100% compatible avec ce mode d'hébergement : génère un site statique 
+avec un outil moderne (ex. Astro ou Vite), Tailwind CSS pour le style, 
+des animations et micro-interactions soignées (au scroll, au survol, 
+transitions de page fluides), et mets en place un workflow GitHub 
+Actions qui build et déploie automatiquement sur la branche de 
+publication à chaque modification. Le résultat final doit rester du 
+HTML/CSS/JS statique livré au navigateur, sans backend.
+
+DIRECTION DESIGN — IMPORTANT
+Réinvente entièrement l'identité visuelle actuelle du studio (couleurs, 
+mise en page, ton graphique) — ne reprends rien de l'existant. 
+L'objectif est un rendu visiblement plus professionnel et plus abouti 
+que ce qui existe aujourd'hui. Le site ne doit surtout pas ressembler 
+à un template générique ou à un site "IA générée" reconnaissable au 
+premier coup d'œil (pas de dégradé violet/bleu cliché, pas d'icônes de 
+robot génériques, pas de mise en page en blocs symétriques identiques). 
+Vise un design sobre, technique et haut de gamme :
+- Palette resserrée et professionnelle (2-3 couleurs maximum, tons 
+  sombres ou neutres avec une couleur d'accent forte) — à définir 
+  entièrement par toi, en cohérence avec un positionnement tech/IA 
+  sérieux
+- Typographie soignée avec une vraie hiérarchie (pas juste des tailles 
+  différentes du même poids de police)
+- Espacement généreux, pas de sections surchargées
+- Détails qui donnent une impression de métier technique : éléments 
+  qui évoquent le code, les workflows, les systèmes connectés — sans 
+  tomber dans le cliché "matrix" ou "circuit board"
+- Aucune photo de banque d'images avec des gens en costume qui pointent 
+  un écran
+- Site entièrement responsive, testé et impeccable sur mobile (c'est 
+  probablement le principal terminal de consultation)
+
+STRUCTURE — SITE MULTI-PAGES
+- Accueil : message clair sur les deux services (sites internet + 
+  automatisation IA), bénéfice concret en sous-titre, appel à l'action 
+  vers la page contact
+- Services : deux sous-sections distinctes et lisibles
+  · Création de site internet : pour qui, ce que ça inclut, pourquoi 
+    ça change les choses pour une petite structure
+  · Automatisation / Agent IA : expliquer simplement ce qu'un agent IA 
+    peut faire au quotidien (répondre aux demandes, prendre des 
+    rendez-vous, trier des emails, relancer des clients), avec 2-3 
+    exemples concrets par métier, sans jargon technique
+- À propos : présentation personnelle — informaticien de métier, 
+  développeur web et spécialiste en automatisation/agents IA, avec 
+  l'expérience terrain (technicien informatique en entreprise) comme 
+  preuve de compétence réelle. Ton direct, sans emphase excessive.
+- Comment ça se passe : 3-4 étapes simples (prise de contact → échange 
+  sur le besoin → proposition adaptée → réalisation), pour rassurer 
+  sur un accompagnement humain
+- Actualités / Conseils : une section blog avec un template d'article 
+  réutilisable facilement (titre, image, texte, date, meta tags 
+  propres à chaque article). Crée 2-3 articles de démarrage (400-600 
+  mots chacun) sur des sujets utiles à la cible (ex. "Pourquoi un 
+  artisan a besoin d'un site web en 2026", "Ce qu'un agent IA peut 
+  faire pour un commerce local") — ces articles doivent être faciles 
+  à dupliquer pour que j'en ajoute régulièrement moi-même
+- FAQ : une section de questions fréquentes (5-8 questions) avec 
+  balisage Schema.org FAQPage, pour apparaître en réponse enrichie 
+  dans Google
+- Contact — LE POINT CENTRAL DU SITE
+  Formulaire de demande de renseignements intégré via Formspree, avec 
+  ces champs exacts :
+  · Nom
+  · Prénom
+  · Type d'entreprise (menu déroulant ou champ libre : artisan, 
+    commerce, profession libérale, PME)
+  · Secteur d'activité (champ libre)
+  · Message libre : "Décrivez ce que vous recherchez"
+  Utilise un placeholder clair pour l'endpoint Formspree 
+  (ex. YOUR_FORMSPREE_ID à remplacer) et pour l'adresse email de 
+  destination — je les renseignerai moi-même après création du compte 
+  Formspree. Aucun champ de budget ni de prix affiché nulle part sur 
+  le site. Ajoute aussi sur cette page une carte Google Maps intégrée 
+  (placeholder si l'adresse exacte n'est pas encore définie) et un 
+  emplacement réservé pour un widget d'avis Google (à connecter une 
+  fois la fiche Google Business Profile créée)
+- Mentions légales : prépare une page complète et prête à l'emploi 
+  (mentions légales + politique de confidentialité RGPD adaptée à la 
+  collecte du formulaire de contact), avec un placeholder unique 
+  "[SIRET EN ATTENTE]" à l'endroit du numéro SIRET — tout le reste du 
+  texte légal doit être rédigé et complet, pour qu'il n'y ait plus 
+  qu'à remplir cette seule information plus tard
+
+TON GÉNÉRAL DU CONTENU
+Direct, concret, sans emphase marketing excessive ni promesses 
+exagérées. Écrire comme quelqu'un qui connaît son métier et explique 
+simplement ce qu'il fait, pas comme une startup qui essaie de 
+convaincre à tout prix. Éviter les mots comme "révolutionnaire", 
+"disruptif", "boostez votre business".
+
+SEO — RÉFÉRENCEMENT MAXIMAL (PRIORITÉ ABSOLUE)
+L'objectif est de me positionner parmi les premiers résultats Google 
+sur les recherches locales ("création site internet Lyon", 
+"automatisation IA entreprise Lyon", "agent IA PME Lyon"). Implémente 
+absolument tout ce qui suit, sans exception :
+
+Technique
+- Balises meta title et meta description uniques et optimisées pour 
+  chaque page (y compris chaque article de blog), incluant les 
+  mots-clés cibles et "Lyon"
+- Structure de titres sémantique stricte (un seul H1 par page, 
+  hiérarchie H2/H3 logique)
+- Données structurées Schema.org en JSON-LD sur toutes les pages : 
+  LocalBusiness (nom, adresse, ville, téléphone, horaires, sameAs 
+  vers les réseaux sociaux), FAQPage sur la page FAQ, BreadcrumbList 
+  sur les pages profondes, Article sur chaque page de blog
+- Sitemap.xml généré automatiquement (incluant les articles de blog) 
+  et robots.txt correctement configuré pour autoriser l'indexation 
+  complète
+- Balises Open Graph et Twitter Card sur chaque page, avec image de 
+  partage dédiée
+- URL canonique sur chaque page, attribut lang="fr" sur le HTML
+- Fil d'Ariane (breadcrumb) visible sur les pages profondes (articles, 
+  sous-pages de services)
+- Toutes les images avec attribut alt descriptif incluant les 
+  mots-clés pertinents quand c'est naturel
+- HTML sémantique (header, nav, main, section, footer, article) plutôt 
+  que des div génériques partout
+- Optimisation des performances pour de bons Core Web Vitals : images 
+  compressées et en format moderne (WebP), chargement différé (lazy 
+  loading) des images hors écran, CSS/JS minifiés au build
+- Maillage interne cohérent entre toutes les pages et les articles de 
+  blog (liens contextuels)
+- NAP (Nom, Adresse, Téléphone) identique et cohérent dans le footer 
+  et la page contact — ces informations doivent correspondre 
+  exactement à ce qui sera indiqué sur la fiche Google Business 
+  Profile
+- Contenu textuel riche et naturel sur chaque page (300-400 mots 
+  minimum, jamais du bourrage de mots-clés) pour donner du contexte 
+  réel à Google
+
+Hors code — actions que je ferai moi-même après livraison (mentionne-le 
+en commentaire dans le README du projet pour que je n'oublie aucune 
+étape)
+- Créer et valider la fiche Google Business Profile avec les mêmes 
+  informations NAP que le site
+- Connecter Google Search Console et soumettre le sitemap
+- Collecter des avis clients Google au fil des missions
+- Obtenir des liens externes (annuaires locaux, partenaires, LinkedIn)
+- Publier régulièrement de nouveaux articles dans la section 
+  Actualités en utilisant le template livré
+
+Nom de l'entreprise : Lyon AI Studio
+Basé à : Lyon, France

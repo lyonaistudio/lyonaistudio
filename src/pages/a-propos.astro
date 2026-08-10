@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import CTASection from "../components/CTASection.astro";
+---
+
+<BaseLayout
+  title="À propos — Lyon AI Studio"
+  description="Lyon AI Studio est porté par un informaticien de métier, développeur web et spécialiste en automatisation IA, avec une expérience terrain en entreprise."
+  path="/a-propos/"
+>
+  <Breadcrumb items={[{ name: "À propos", url: "/a-propos/" }]} />
+  <PageHero
+    eyebrow="À PROPOS"
+    title="Un informaticien de métier, pas un intermédiaire"
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <p class="text-lg leading-relaxed text-paper-dim">
+      Je m'appelle <strong class="text-paper">Thomas Batisse</strong>, et je suis à l'origine de Lyon AI
+      Studio. Mon métier, c'est l'informatique — au sens large : développement web et automatisation par
+      IA, mais aussi plusieurs années passées comme technicien informatique en entreprise, à résoudre
+      des problèmes concrets pour des utilisateurs qui n'ont ni le temps ni l'envie de comprendre la
+      technique derrière.
+    </p>
+
+    <Eyebrow label="EXPÉRIENCE TERRAIN" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Ce que le terrain m'a appris
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Travailler comme technicien informatique en entreprise m'a mis face à des problèmes très concrets :
+      des outils mal adaptés, des tâches répétitives qui prennent un temps disproportionné, des
+      systèmes qui ne communiquent pas entre eux. C'est cette expérience qui m'a poussé vers
+      l'automatisation et les agents IA : pas comme une mode technologique, mais comme une réponse
+      directe à des problèmes que j'ai vus de mes propres yeux, dans de vraies structures.
+    </p>
+
+    <Eyebrow label="POURQUOI LYON AI STUDIO" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Une double compétence, un seul interlocuteur
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      La plupart des petites entreprises qui veulent un site internet et de l'automatisation doivent
+      passer par deux prestataires différents, qui ne se parlent pas entre eux. Lyon AI Studio réunit
+      les deux compétences : je construis le site, et je peux ensuite le connecter à des outils
+      d'automatisation qui font gagner du temps au quotidien — sans couture entre les deux, et sans
+      avoir à réexpliquer votre activité à quelqu'un d'autre.
+    </p>
+
+    <Eyebrow label="MA FAÇON DE TRAVAILLER" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Direct, sans survendre
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Je ne propose pas de solution avant d'avoir compris votre activité et ce qui vous ferait
+      réellement gagner du temps. Si une automatisation complexe n'apporte rien de plus qu'une solution
+      simple, je vous le dis. L'objectif est que le résultat soit utile sur la durée, pas qu'il
+      impressionne sur le moment.
+    </p>
+  </section>
+
+  <CTASection
+    title="Une question sur mon approche ?"
+    description="N'hésitez pas à me contacter directement — je réponds personnellement à chaque demande."
+  />
+</BaseLayout>

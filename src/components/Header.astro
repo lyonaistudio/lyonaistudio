@@ -1,0 +1,72 @@
+---
+import { NAV_LINKS } from "../lib/site";
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-ink-line/80 bg-ink/90 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a href="/" class="group flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-paper">
+      <span class="inline-block h-2 w-2 bg-accent transition-transform group-hover:scale-125"></span>
+      Lyon AI Studio
+    </a>
+
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="Navigation principale">
+      {NAV_LINKS.map((link) => {
+        const isActive = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
+        return (
+          <a
+            href={link.href}
+            class={`font-mono text-sm uppercase tracking-wide transition-colors hover:text-accent ${
+              isActive ? "text-accent" : "text-paper-dim"
+            }`}
+            aria-current={isActive ? "page" : undefined}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <a
+      href="/contact/"
+      class="magnetic hidden rounded-sm bg-accent px-4 py-2 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft lg:inline-block"
+    >
+      Nous contacter
+    </a>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="flex flex-col gap-1.5 p-2 lg:hidden"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="h-0.5 w-6 bg-paper"></span>
+      <span class="h-0.5 w-6 bg-paper"></span>
+      <span class="h-0.5 w-6 bg-paper"></span>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    class="hidden flex-col gap-1 border-t border-ink-line px-6 py-4 lg:hidden"
+    aria-label="Navigation mobile"
+  >
+    {NAV_LINKS.map((link) => (
+      <a
+        href={link.href}
+        class="py-3 font-mono text-sm uppercase tracking-wide text-paper-dim transition-colors hover:text-accent"
+      >
+        {link.label}
+      </a>
+    ))}
+    <a
+      href="/contact/"
+      class="mt-2 rounded-sm bg-accent px-4 py-3 text-center font-mono text-sm font-medium text-ink"
+    >
+      Nous contacter
+    </a>
+  </nav>
+</header>

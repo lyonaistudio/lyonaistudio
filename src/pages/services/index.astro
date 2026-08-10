@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import CTASection from "../../components/CTASection.astro";
+---
+
+<BaseLayout
+  title="Services — Création de site internet & automatisation IA à Lyon"
+  description="Deux services complémentaires : création de site internet et automatisation par IA, pensés pour les artisans, commerces et PME de la région lyonnaise."
+  path="/services/"
+>
+  <Breadcrumb items={[{ name: "Services", url: "/services/" }]} />
+  <PageHero
+    eyebrow="SERVICES"
+    title="Deux services, pensés pour les petites structures"
+    description="Un site qui vous représente correctement, et des outils qui prennent en charge ce qui vous fait perdre du temps au quotidien."
+  />
+
+  <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+    <div class="grid gap-6 md:grid-cols-2">
+      <ServiceCard
+        index="01"
+        title="Création de site internet"
+        description="Un site rapide, clair et pensé pour convertir un visiteur en demande de contact — pas un gadget qui prend la poussière."
+        points={[
+          "Design sur-mesure adapté à votre activité",
+          "Optimisé pour le référencement local dès le départ",
+          "Impeccable sur mobile, votre principal terminal de consultation",
+        ]}
+        href="/services/creation-site-internet/"
+      />
+      <ServiceCard
+        index="02"
+        title="Automatisation / agent IA"
+        description="Des agents IA et workflows qui prennent en charge les tâches répétitives : réponses, rendez-vous, relances, tri d'emails."
+        points={[
+          "Mis en place avec Make.com et des agents IA sur-mesure",
+          "Adapté à votre métier, pas une solution générique",
+          "Vous gardez la main, l'IA fait le travail de fond",
+        ]}
+        href="/services/automatisation-ia/"
+      />
+    </div>
+  </section>
+
+  <CTASection
+    title="Vous ne savez pas par où commencer ?"
+    description="Décrivez votre activité et ce qui vous prend le plus de temps — on identifiera ensemble ce qui aurait le plus d'impact."
+  />
+</BaseLayout>
