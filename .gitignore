@@ -22,3 +22,13 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# video tooling: generated frames/previews/renders and downloaded voice models
+scripts/video-vo/frames/
+scripts/video-vo/preview/
+scripts/video-vo/output/
+scripts/video-vo/voices/
+scripts/video-vo/video-silent.mp4
+scripts/video-vo/*.log
+scripts/video-vo/voice/*.wav
+!scripts/video-vo/voice/narration.wav
