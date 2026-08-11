@@ -26,13 +26,20 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
           <p class="mt-1 text-sm text-paper-dim">Merci, je reviens vers vous rapidement.</p>
         </div>
 
+        <div id="error-banner" class="mb-8 hidden border border-ink-line bg-ink-soft p-6" role="alert">
+          <p class="font-display font-semibold text-paper">Envoi impossible pour le moment.</p>
+          <p class="mt-1 text-sm text-paper-dim">
+            Réessayez, ou écrivez-moi directement à
+            <a href={`mailto:${SITE.email}`} class="text-accent transition-colors hover:text-accent-soft">{SITE.email}</a>.
+          </p>
+        </div>
+
         <form
           id="contact-form"
           action={FORMSPREE_ENDPOINT}
           method="POST"
           class="space-y-6"
         >
-          <input type="hidden" name="_next" value={`${SITE.url}/contact/?envoye=1`} />
           <input type="hidden" name="_subject" value="Nouvelle demande — Lyon AI Studio" />
           <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
 
@@ -117,8 +124,9 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
           </div>
 
           <button
+            id="contact-submit"
             type="submit"
-            class="rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft"
+            class="rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-60"
           >
             Envoyer la demande
           </button>
@@ -169,9 +177,6 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
 </BaseLayout>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("envoye") === "1") {
-    document.getElementById("success-banner")?.classList.remove("hidden");
-    document.getElementById("contact-form")?.classList.add("hidden");
-  }
+  import { initContactForm } from "../scripts/contact-form";
+  document.addEventListener("astro:page-load", initContactForm);
 </script>
