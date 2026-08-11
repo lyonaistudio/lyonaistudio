@@ -13,17 +13,23 @@ Site statique Astro + Tailwind CSS pour Lyon AI Studio, prêt à être déployé
 
 ## Déploiement sur GitHub Pages
 
-Le dépôt n'est pas encore poussé sur GitHub — le code a été généré en local uniquement. Étapes pour mettre le site en ligne :
+Le dépôt est poussé sur `https://github.com/lyonaistudio/lyonaistudio` (branche `main`). GitHub Pages
+est configuré en source **GitHub Actions** (le workflow `.github/workflows/deploy.yml` build et déploie
+automatiquement à chaque push sur `main`) avec le domaine personnalisé **`lyonaistudio.fr`** (fichier
+`public/CNAME`).
 
-1. Créer le dépôt GitHub `lyonaistudio.github.io` (dépôt de page utilisateur/organisation).
-2. Ajouter le remote et pousser la branche `main` :
-   ```sh
-   git remote add origin https://github.com/<votre-compte>/lyonaistudio.github.io.git
-   git branch -M main
-   git push -u origin main
-   ```
-3. Dans les paramètres du dépôt GitHub → **Pages**, choisir la source **GitHub Actions** (le workflow `.github/workflows/deploy.yml` build et déploie automatiquement à chaque push sur `main`).
-4. Le site sera disponible à `https://lyonaistudio.github.io`.
+Configuration DNS chez le registrar (une fois) :
+
+| Type | Nom | Valeur |
+| --- | --- | --- |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | lyonaistudio.github.io |
+
+Le certificat HTTPS est généré automatiquement par GitHub une fois le DNS propagé (Let's Encrypt),
+puis l'option "Enforce HTTPS" est activée dans les réglages Pages du dépôt.
 
 ## À compléter avant mise en ligne
 
@@ -34,7 +40,7 @@ Le dépôt n'est pas encore poussé sur GitHub — le code a été généré en 
 ## Checklist SEO — actions hors code, après livraison
 
 - [ ] Créer et valider la fiche **Google Business Profile** avec les mêmes informations NAP (nom, adresse/zone, téléphone) que le site : Lyon AI Studio, Lyon, 07 76 62 42 15.
-- [ ] Connecter **Google Search Console** au domaine et soumettre le sitemap : `https://lyonaistudio.github.io/sitemap-index.xml`.
+- [ ] Connecter **Google Search Console** au domaine et soumettre le sitemap : `https://lyonaistudio.fr/sitemap-index.xml`.
 - [ ] Collecter des **avis clients Google** au fil des missions, puis connecter le widget d'avis sur la page Contact (emplacement déjà réservé).
 - [ ] Obtenir des **liens externes** : annuaires locaux lyonnais, partenaires, profil LinkedIn actif.
 - [ ] Publier régulièrement de nouveaux articles dans **Actualités** (`src/content/blog/`) en dupliquant un fichier `.md` existant comme modèle.

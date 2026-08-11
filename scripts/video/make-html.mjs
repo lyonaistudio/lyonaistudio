@@ -4,7 +4,7 @@ import QRCode from "qrcode";
 const fonts = JSON.parse(readFileSync("fonts-base64.json", "utf8"));
 const shots = JSON.parse(readFileSync("site-images.json", "utf8"));
 
-const qrBuf = await QRCode.toBuffer("https://lyonaistudio.github.io", {
+const qrBuf = await QRCode.toBuffer("https://lyonaistudio.fr", {
   errorCorrectionLevel: "M",
   margin: 0,
   color: { dark: "#121110", light: "#f4f1ea" },
@@ -241,7 +241,7 @@ const html = `<!doctype html>
         <div class="laptop" id="mockup-laptop">
           <div class="laptop-topbar">
             <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-            <span class="url">lyonaistudio.github.io</span>
+            <span class="url">lyonaistudio.fr</span>
           </div>
           <div class="laptop-screen"><img id="shot-desktop" src="data:image/jpeg;base64,${shots.desktop}" /></div>
         </div>
@@ -321,7 +321,7 @@ const html = `<!doctype html>
         <div class="outro-qr">
           <img src="data:image/png;base64,${qrBase64}" />
           <div class="qr-scan" id="qr-scan"></div>
-          <div class="cap">lyonaistudio.github.io</div>
+          <div class="cap">lyonaistudio.fr</div>
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ Tous les fichiers sont en 300 DPI (résolution standard impression professionnel
 ## Contenu
 
 - **Carte de visite** : recto = identité de marque (logo, nom, positionnement) ; verso = coordonnées de contact (Thomas Batisse).
-- **Flyer A5** : recto = accroche + présentation ; verso = détail des deux services, déroulement en 4 étapes, coordonnées et QR code vers le site (`https://lyonaistudio.github.io`).
+- **Flyer A5** : recto = accroche + présentation ; verso = détail des deux services, déroulement en 4 étapes, coordonnées et QR code vers le site (`https://lyonaistudio.fr`).
 
 ## Regénérer ou modifier
 
@@ -53,5 +53,4 @@ Les fichiers sont régénérés dans ce dossier `publicité/`.
 ## À vérifier avant d'imprimer
 
 - Le numéro de téléphone, l'email et le nom sont corrects (déjà vérifiés avec les informations fournies).
-- Le lien du QR code (`lyonaistudio.github.io`) ne fonctionnera pleinement qu'une fois le site déployé sur GitHub Pages (voir le `README.md` principal du projet).
-- Si un nom de domaine personnalisé est acheté plus tard (ex. `lyonaistudio.fr`), pensez à régénérer ces fichiers avec la nouvelle adresse.
+- Le lien du QR code (`lyonaistudio.fr`) est actif : le site est déployé et le domaine personnalisé configuré (voir le `README.md` principal du projet).

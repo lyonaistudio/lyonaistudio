@@ -23,7 +23,7 @@ function backSvg() {
   const rows = [
     ["T.", SITE.phone],
     ["E.", SITE.email],
-    ["W.", "lyonaistudio.github.io"],
+    ["W.", "lyonaistudio.fr"],
   ];
   const rowStartY = mm(30);
   const rowGap = mm(6.4);

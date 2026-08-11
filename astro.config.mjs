@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://lyonaistudio.github.io',
+  site: 'https://lyonaistudio.fr',
   vite: {
     plugins: [tailwindcss()]
   },
