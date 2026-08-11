@@ -33,7 +33,6 @@ puis l'option "Enforce HTTPS" est activée dans les réglages Pages du dépôt.
 
 ## À compléter avant mise en ligne
 
-- **Formspree** : créer un compte sur [formspree.io](https://formspree.io), créer un formulaire, puis remplacer `YOUR_FORMSPREE_ID` dans `src/lib/site.ts` (`FORMSPREE_ENDPOINT`) par l'endpoint réel. Configurer l'adresse email de destination directement dans le tableau de bord Formspree.
 - **SIRET** : remplacer `[SIRET EN ATTENTE]` dans `src/pages/mentions-legales.astro` une fois le numéro obtenu.
 - **Réseaux sociaux** : ajouter les liens dans `SITE.sameAs` (`src/lib/site.ts`) une fois les profils créés (LinkedIn, etc.), pour enrichir les données structurées `LocalBusiness`.
 

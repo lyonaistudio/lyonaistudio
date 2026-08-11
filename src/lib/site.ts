@@ -38,4 +38,4 @@ export const NAV_LINKS = [
   { href: "/contact/", label: "Contact" },
 ] as const;
 
-export const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORMSPREE_ID";
+export const FORMSPREE_ENDPOINT = "https://formspree.io/f/mjgzeldk";
