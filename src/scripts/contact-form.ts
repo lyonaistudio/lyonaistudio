@@ -1,3 +1,20 @@
+const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/gv5ror2kws485nk7je3a5amweqt2qxfx";
+
+function notifyMake(form: HTMLFormElement) {
+  const data = new FormData(form);
+  const payload: Record<string, string> = {};
+  for (const [key, value] of data.entries()) {
+    if (key === "_gotcha" || typeof value !== "string") continue;
+    payload[key] = value;
+  }
+  fetch(MAKE_WEBHOOK_URL, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" },
+    keepalive: true,
+  }).catch(() => {});
+}
+
 export function initContactForm() {
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
   const successBanner = document.getElementById("success-banner");
@@ -24,6 +41,7 @@ export function initContactForm() {
       });
 
       if (res.ok) {
+        notifyMake(form);
         form.classList.add("hidden");
         successBanner?.classList.remove("hidden");
       } else {
