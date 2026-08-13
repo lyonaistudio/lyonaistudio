@@ -1,11 +1,19 @@
 const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/gv5ror2kws485nk7je3a5amweqt2qxfx";
 
+// Make's formula syntax breaks on field names containing spaces, so the
+// keys sent to the automation webhook are simplified (Formspree still gets
+// the original accented/spaced field names, unaffected by this).
+const MAKE_KEY_ALIASES: Record<string, string> = {
+  "Type d'entreprise": "TypeEntreprise",
+  "Secteur d'activité": "SecteurActivite",
+};
+
 function notifyMake(form: HTMLFormElement) {
   const data = new FormData(form);
   const payload: Record<string, string> = {};
   for (const [key, value] of data.entries()) {
     if (key === "_gotcha" || typeof value !== "string") continue;
-    payload[key] = value;
+    payload[MAKE_KEY_ALIASES[key] ?? key] = value;
   }
   fetch(MAKE_WEBHOOK_URL, {
     method: "POST",
