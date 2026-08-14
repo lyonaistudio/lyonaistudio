@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import { SITE } from "../lib/site";
+---
+
+<BaseLayout
+  title="Conditions générales de vente — Lyon AI Studio"
+  description="Conditions générales de vente de Lyon AI Studio : devis, paiement, délais, propriété intellectuelle, maintenance et garanties."
+  path="/cgv/"
+>
+  <Breadcrumb items={[{ name: "CGV", url: "/cgv/" }]} />
+  <PageHero eyebrow="LÉGAL" title="Conditions générales de vente" />
+
+  <section class="prose-article prose prose-invert mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <p class="text-sm text-mist">
+      Les présentes conditions générales de vente (CGV) s'appliquent à toute prestation réalisée
+      par {SITE.name} (Thomas Batisse, entreprise individuelle, SIRET : [SIRET EN ATTENTE]),
+      ci-après « le Prestataire », au bénéfice de tout client professionnel ou particulier,
+      ci-après « le Client ».
+    </p>
+
+    <h2>1. Objet</h2>
+    <p>
+      Le Prestataire propose des prestations de création de site internet et de mise en place
+      d'automatisations / agents IA (ci-après « les Prestations »), telles que décrites sur le
+      site {SITE.url} ou dans le devis accepté par le Client.
+    </p>
+
+    <h2>2. Devis et commande</h2>
+    <p>
+      Toute Prestation fait l'objet d'un devis écrit, gratuit et sans engagement, établi après un
+      échange sur les besoins du Client. Le devis est valable 30 jours à compter de sa date
+      d'émission. La commande est considérée comme ferme à réception de l'acceptation écrite du
+      devis par le Client (signature, email de confirmation, ou versement de l'acompte prévu à
+      l'article 3).
+    </p>
+
+    <h2>3. Tarifs et modalités de paiement</h2>
+    <p>
+      Les tarifs sont indiqués sur le devis, en euros. Sauf mention contraire, un acompte de 30 %
+      est demandé à la commande, le solde étant dû à la livraison de la Prestation. Le paiement
+      s'effectue par virement bancaire, sauf autre modalité convenue entre les parties.
+    </p>
+    <p>
+      Conformément à la loi, tout retard de paiement entraîne de plein droit l'application de
+      pénalités de retard au taux légal en vigueur, ainsi qu'une indemnité forfaitaire pour frais
+      de recouvrement de 40 €, sans qu'un rappel préalable ne soit nécessaire.
+    </p>
+
+    <h2>4. Délais de réalisation</h2>
+    <p>
+      Les délais annoncés dans le devis sont donnés à titre indicatif et courent à compter de la
+      réception, par le Prestataire, de l'ensemble des éléments nécessaires à la réalisation
+      (contenus, images, accès, validations). Tout retard du Client dans la fourniture de ces
+      éléments a pour conséquence un report équivalent du délai de livraison, sans que la
+      responsabilité du Prestataire ne puisse être engagée à ce titre.
+    </p>
+
+    <h2>5. Obligations du Client</h2>
+    <p>
+      Le Client s'engage à fournir dans un délai raisonnable les informations, contenus (textes,
+      images, logos) et accès nécessaires à la réalisation de la Prestation. Le Client garantit
+      être titulaire des droits sur les contenus qu'il fournit et en assume l'entière
+      responsabilité.
+    </p>
+
+    <h2>6. Propriété intellectuelle</h2>
+    <p>
+      Le code source développé spécifiquement pour le Client et les livrables associés sont
+      cédés au Client à compter du paiement intégral de la Prestation, pour une utilisation liée
+      à son activité. Le Prestataire conserve le droit de faire état de la réalisation à des fins
+      de présentation de son activité (portfolio, réalisations), sauf demande contraire écrite du
+      Client.
+    </p>
+    <p>
+      Certains éléments (polices de caractères, bibliothèques logicielles, services tiers) restent
+      soumis à leurs licences respectives et ne sont pas cédés au Client.
+    </p>
+
+    <h2>7. Maintenance et support après livraison</h2>
+    <p>
+      Une période de <strong>30 jours suivant la livraison</strong> est incluse dans chaque
+      Prestation de création de site, pendant laquelle les corrections de bugs et
+      dysfonctionnements imputables à la réalisation initiale sont prises en charge sans frais
+      supplémentaires.
+    </p>
+    <p>
+      Passé ce délai, ou pour toute évolution, ajout de contenu ou modification ne relevant pas
+      d'une correction de bug, une intervention peut être proposée au tarif horaire en vigueur, ou
+      dans le cadre d'un forfait de maintenance mensuel sur demande. Les automatisations / agents
+      IA mis en place peuvent faire l'objet d'un suivi et d'ajustements dans les mêmes conditions.
+    </p>
+
+    <h2>8. Garanties et responsabilité</h2>
+    <p>
+      Le Prestataire s'engage à réaliser les Prestations avec soin et selon les règles de l'art. Il
+      ne peut cependant garantir un résultat commercial précis (nombre de visiteurs, de contacts,
+      de ventes, position dans les résultats de recherche) dans la mesure où ces résultats dépendent
+      de facteurs extérieurs à sa seule intervention.
+    </p>
+    <p>
+      La responsabilité du Prestataire ne saurait être engagée en cas de force majeure, de panne
+      d'un service tiers (hébergeur, outil d'automatisation, service de messagerie) indépendante
+      de sa volonté, ou de mauvaise utilisation des outils livrés par le Client.
+    </p>
+
+    <h2>9. Résiliation et annulation</h2>
+    <p>
+      En cas d'annulation par le Client après acceptation du devis, l'acompte versé reste acquis au
+      Prestataire à titre de dédommagement pour le temps déjà engagé, sauf accord contraire entre
+      les parties.
+    </p>
+
+    <h2>10. Droit applicable</h2>
+    <p>
+      Les présentes CGV sont soumises au droit français. En cas de litige, et à défaut de résolution
+      amiable, les tribunaux français seront seuls compétents.
+    </p>
+
+    <p class="text-sm text-mist">Dernière mise à jour : {new Date().toLocaleDateString("fr-FR", { year: "numeric", month: "long" })}.</p>
+  </section>
+</BaseLayout>
