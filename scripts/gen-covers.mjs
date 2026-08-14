@@ -61,3 +61,4 @@ async function build(seed, filename) {
 await build(11, "cover-artisan.webp");
 await build(42, "cover-agent-ia.webp");
 await build(77, "cover-site-web.webp");
+await build(103, "cover-gbp.webp");
