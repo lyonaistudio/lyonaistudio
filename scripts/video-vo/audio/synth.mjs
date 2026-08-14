@@ -4,7 +4,7 @@
 import { writeFileSync } from "node:fs";
 
 const SR = 44100;
-const DURATION = 55.65;
+const DURATION = 53.39;
 const TEMPO = 112;
 const BEAT = 60 / TEMPO;
 
@@ -90,11 +90,11 @@ const CHORD_DUR = BEATS_PER_CHORD * BEAT;
 // instrumental-only outro tail after the voice ends.
 function energyAt(t) {
   if (t < 0.6) return 0.15; // pre-roll: near silence before the voice starts
-  if (t < 21.28) return 0.45; // hook / problem / value: steady soft bed
-  if (t < 24.18) return 0.7; // bridge: brief instrumental lift
-  if (t < 34.35) return 0.5; // AI agent explainer: back to a calm bed
-  if (t < 45.01) return 0.6; // recap lines: gentle build
-  if (t < 51.45) return 0.8; // CTA voice: building toward the close
+  if (t < 20.42) return 0.45; // hook / problem / value: steady soft bed
+  if (t < 23.29) return 0.7; // bridge: brief instrumental lift
+  if (t < 32.7) return 0.5; // AI agent explainer: back to a calm bed
+  if (t < 42.99) return 0.6; // recap lines: gentle build
+  if (t < 49.19) return 0.8; // CTA voice: building toward the close
   return 1.0; // outro tail after narration ends: full, satisfying peak
 }
 

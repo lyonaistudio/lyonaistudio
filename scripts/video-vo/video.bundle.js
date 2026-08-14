@@ -4826,49 +4826,49 @@ var voice_timeline_default = [
     id: "hook1",
     text: "Aujourd'hui, avant m\xEAme de vous appeler, vos clients vous cherchent sur Google.",
     start: 0.6,
-    duration: 4.73
+    duration: 4.79
   },
   {
     id: "hook2",
     text: "Sans site internet, vous \xEAtes invisible, m\xEAme si votre travail est excellent.",
-    start: 5.78,
-    duration: 5.24
+    start: 5.84,
+    duration: 4.79
   },
   {
     id: "value1",
     text: "Lyon AI Studio con\xE7oit des sites qui donnent confiance d\xE8s la premi\xE8re visite: rapides, clairs, et pens\xE9s pour transformer un visiteur en demande de contact.",
-    start: 11.47,
-    duration: 9.36
+    start: 11.08,
+    duration: 8.89
   },
   {
     id: "bridge",
     text: "Et parce que votre temps est pr\xE9cieux, on va plus loin.",
-    start: 21.28,
-    duration: 2.9
+    start: 20.42,
+    duration: 2.87
   },
   {
     id: "ai1",
     text: "Des agents IA qui r\xE9pondent \xE0 vos clients, prennent les rendez-vous, et relancent automatiquement les devis sans r\xE9ponse, m\xEAme quand vous \xEAtes sur le terrain.",
-    start: 24.63,
-    duration: 9.72
+    start: 23.74,
+    duration: 8.5
   },
   {
     id: "recap1",
     text: "Un site qui vous repr\xE9sente. Des outils qui travaillent \xE0 votre place.",
-    start: 34.79,
-    duration: 4.5
+    start: 32.7,
+    duration: 4.54
   },
   {
     id: "recap2",
     text: "Un seul interlocuteur, du premier \xE9change jusqu'\xE0 la mise en service.",
-    start: 39.75,
-    duration: 4.81
+    start: 37.68,
+    duration: 4.86
   },
   {
     id: "cta",
     text: "Lyon AI Studio. Contactez-nous, et faites de votre pr\xE9sence en ligne un v\xE9ritable atout.",
-    start: 45.01,
-    duration: 6.44
+    start: 42.99,
+    duration: 6.2
   }
 ];
 
