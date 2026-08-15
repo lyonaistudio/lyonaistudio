@@ -76,6 +76,7 @@ const schemas = [localBusinessSchema(), ...jsonLd];
       import { initMagnetic } from "../scripts/magnetic";
       import { initScramble } from "../scripts/scramble";
       import { initMobileMenu } from "../scripts/mobile-menu";
+      import { initSpotlight } from "../scripts/spotlight";
 
       // astro:page-load fires on the very first load AND after every
       // client-side transition, so page-specific DOM (headlines, buttons,
@@ -85,6 +86,7 @@ const schemas = [localBusinessSchema(), ...jsonLd];
         initMagnetic();
         initScramble();
         initMobileMenu();
+        initSpotlight();
       });
     </script>
   </body>

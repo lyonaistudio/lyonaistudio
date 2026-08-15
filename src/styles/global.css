@@ -112,12 +112,36 @@ body {
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* View transitions: quick, sharp cut rather than the default lingering morph —
-   matches the site's technical tone. */
-::view-transition-old(root),
+/* View transitions : la page sortante s'efface et recule légèrement, la
+   nouvelle arrive en un cran plus grande — donne une sensation de profondeur
+   plutôt qu'un simple fondu plat. */
+::view-transition-old(root) {
+  animation: page-out 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
 ::view-transition-new(root) {
-  animation-duration: 0.22s;
-  animation-timing-function: ease-out;
+  animation: page-in 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.01ms;
+  }
 }
 
 /* Grain très subtil sur tout le site : casse la platitude des aplats sombres,
@@ -167,4 +191,49 @@ body {
     animation: none;
   }
 }
+
+/* Halo qui suit le curseur sur les cartes premium (services, réalisations) —
+   position pilotée par --sx/--sy, mis à jour en JS via pointermove. */
+.spotlight-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: opacity 0.5s ease;
+  background: radial-gradient(
+    480px circle at var(--sx, 50%) var(--sy, 50%),
+    color-mix(in srgb, var(--color-accent) 45%, transparent),
+    transparent 70%
+  );
+}
+
+[data-spotlight]:hover .spotlight-glow {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .spotlight-glow {
+    display: none;
+  }
+}
+
+/* Entrée "pop" des chiffres clés : léger overshoot pour donner du poids
+   à la bande stats sans tomber dans le gadget. */
+.stat-band .stat {
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stat-band.is-visible .stat {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.stat-band.is-visible .stat:nth-child(1) { transition-delay: 0ms; }
+.stat-band.is-visible .stat:nth-child(2) { transition-delay: 90ms; }
+.stat-band.is-visible .stat:nth-child(3) { transition-delay: 180ms; }
+.stat-band.is-visible .stat:nth-child(4) { transition-delay: 270ms; }
 
