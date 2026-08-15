@@ -8,11 +8,11 @@ const { items } = Astro.props;
 
 <div class="divide-y divide-ink-line border-y border-ink-line">
   {items.map((item) => (
-    <details class="group reveal py-6">
-      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-medium text-paper marker:content-none">
+    <details class="group reveal border-l-2 border-transparent px-4 py-6 transition-colors open:border-accent open:bg-ink-soft/40 hover:bg-ink-soft/30">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-medium text-paper marker:content-none transition-colors group-hover:text-accent">
         {item.question}
         <span
-          class="shrink-0 font-mono text-accent transition-transform group-open:rotate-45"
+          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-ink-line font-mono text-accent transition-all group-hover:border-accent group-open:rotate-45 group-open:border-accent"
           aria-hidden="true"
         >
           +

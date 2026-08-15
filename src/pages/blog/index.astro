@@ -26,7 +26,7 @@ const posts = (await getCollection("blog")).sort(
       {posts.map((post) => (
         <a
           href={`/blog/${post.id}/`}
-          class="reveal group flex flex-col overflow-hidden border border-ink-line bg-ink-soft transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-[0_24px_48px_-24px_rgba(226,103,44,0.35)]"
+          class="reveal group flex flex-col overflow-hidden border border-ink-line bg-gradient-to-b from-ink-soft to-ink shadow-[0_20px_40px_-28px_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-[0_28px_56px_-24px_rgba(226,103,44,0.35)]"
         >
           <img
             src={post.data.image}

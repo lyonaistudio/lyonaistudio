@@ -124,7 +124,7 @@ const posts = (await getCollection("blog"))
         {posts.map((post) => (
           <a
             href={`/blog/${post.id}/`}
-            class="reveal group flex flex-col border border-ink-line bg-ink-soft p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-[0_24px_48px_-24px_rgba(226,103,44,0.35)]"
+            class="reveal group flex flex-col border border-ink-line bg-gradient-to-b from-ink-soft to-ink p-6 shadow-[0_20px_40px_-28px_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-[0_28px_56px_-24px_rgba(226,103,44,0.35)]"
           >
             <span class="font-mono text-xs uppercase tracking-wide text-mist">
               {post.data.publishDate.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
