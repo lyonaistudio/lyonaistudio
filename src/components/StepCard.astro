@@ -13,7 +13,7 @@ const { number, title, description, isLast = false } = Astro.props;
   {!isLast && (
     <span class="absolute left-[19px] top-10 h-[calc(100%-2rem)] w-px bg-ink-line" aria-hidden="true"></span>
   )}
-  <span class="flex h-10 w-10 shrink-0 items-center justify-center border border-accent font-mono text-sm text-accent">
+  <span class="flex h-10 w-10 shrink-0 items-center justify-center border border-accent bg-ink-soft font-mono text-sm text-accent shadow-[0_0_24px_-6px_rgba(226,103,44,0.5)]">
     {number}
   </span>
   <div>

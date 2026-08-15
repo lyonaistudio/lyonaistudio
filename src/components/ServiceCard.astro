@@ -10,7 +10,8 @@ interface Props {
 const { index, title, description, points, href } = Astro.props;
 ---
 
-<article class="reveal group flex flex-col border border-ink-line bg-ink-soft p-8 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-[0_24px_48px_-24px_rgba(226,103,44,0.35)]">
+<article class="reveal group relative flex flex-col overflow-hidden border border-ink-line bg-gradient-to-b from-ink-soft to-ink p-8 shadow-[0_24px_48px_-30px_rgba(0,0,0,0.8)] transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-[0_32px_64px_-24px_rgba(226,103,44,0.35)]">
+  <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/0 blur-3xl transition-colors duration-500 group-hover:bg-accent/10" aria-hidden="true"></div>
   <span class="font-mono text-sm text-accent">{index}</span>
   <h3 class="mt-4 font-display text-2xl font-semibold text-paper">{title}</h3>
   <p class="mt-3 text-sm leading-relaxed text-paper-dim">{description}</p>
