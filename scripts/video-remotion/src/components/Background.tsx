@@ -32,7 +32,8 @@ export const Background: React.FC<{ totalDuration: number; fps: number }> = ({
           inset: -80,
           backgroundImage: `linear-gradient(${COLORS.inkLine} 1px, transparent 1px), linear-gradient(90deg, ${COLORS.inkLine} 1px, transparent 1px)`,
           backgroundSize: "56px 56px",
-          opacity: 0.5,
+          opacity: 0.4,
+          filter: "blur(1.5px)",
           transform: `translate(${driftX}px, ${driftY}px) scale(${scale})`,
         }}
       />
@@ -40,7 +41,17 @@ export const Background: React.FC<{ totalDuration: number; fps: number }> = ({
         style={{
           position: "absolute",
           inset: 0,
-          background: `radial-gradient(700px 700px at ${glowX}% ${glowY}%, rgba(226,103,44,0.16), transparent 65%)`,
+          background: `radial-gradient(760px 760px at ${glowX}% ${glowY}%, rgba(226,103,44,0.20), transparent 65%)`,
+          filter: "blur(2px)",
+        }}
+      />
+      {/* Secondary cool-toned rim light, opposite corner, for a subtle
+          two-tone (split-toning) cinematic grade rather than flat orange. */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(900px 900px at ${100 - glowX}% ${100 - glowY}%, rgba(60,70,90,0.10), transparent 60%)`,
         }}
       />
       <div
@@ -48,19 +59,29 @@ export const Background: React.FC<{ totalDuration: number; fps: number }> = ({
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%)",
+            "radial-gradient(ellipse at center, transparent 32%, rgba(0,0,0,0.68) 100%)",
+        }}
+      />
+      {/* Subtle top/bottom letterbox shading for extra depth + focus on
+          the vertical center band where the content lives. */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 14%, transparent 86%, rgba(0,0,0,0.4) 100%)",
         }}
       />
       <svg
         width={W}
         height={H}
-        style={{ position: "absolute", inset: 0, opacity: 0.5, mixBlendMode: "overlay" }}
+        style={{ position: "absolute", inset: 0, opacity: 0.6, mixBlendMode: "overlay" }}
       >
         <filter id="grain">
           <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" />
           <feColorMatrix type="saturate" values="0" />
         </filter>
-        <rect width={W} height={H} filter="url(#grain)" opacity={0.06} />
+        <rect width={W} height={H} filter="url(#grain)" opacity={0.085} />
       </svg>
     </div>
   );

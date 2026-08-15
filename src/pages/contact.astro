@@ -51,7 +51,7 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
                 name="Prénom"
                 type="text"
                 required
-                class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+                class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
               />
             </div>
             <div>
@@ -61,7 +61,7 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
                 name="Nom"
                 type="text"
                 required
-                class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+                class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
               />
             </div>
           </div>
@@ -73,7 +73,7 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
               name="Email"
               type="email"
               required
-              class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+              class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
             />
           </div>
 
@@ -86,7 +86,7 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
                 id="type-entreprise"
                 name="Type d'entreprise"
                 required
-                class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper focus:border-accent focus:outline-none"
+                class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
               >
                 <option value="">Sélectionner…</option>
                 <option value="Artisan">Artisan</option>
@@ -105,7 +105,7 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
                 name="Secteur d'activité"
                 type="text"
                 placeholder="Ex. plomberie, coiffure, conseil…"
-                class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+                class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
               />
             </div>
           </div>
@@ -119,14 +119,14 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
               name="Message"
               rows="6"
               required
-              class="mt-2 w-full border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+              class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
             ></textarea>
           </div>
 
           <button
             id="contact-submit"
             type="submit"
-            class="rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-60"
+            class="rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink shadow-[0_16px_32px_-14px_rgba(226,103,44,0.55)] transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_20px_40px_-14px_rgba(226,103,44,0.65)] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
           >
             Envoyer la demande
           </button>

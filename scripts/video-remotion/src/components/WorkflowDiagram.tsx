@@ -75,7 +75,7 @@ const Node: React.FC<{ item: { label: string; icon: string }; delay: number; fro
         borderRadius: 12,
         opacity: p,
         transform: `translateX(${(1 - p) * (fromRight ? 60 : -60)}px) scale(${0.9 + p * 0.1})`,
-        boxShadow: "0 12px 30px -14px rgba(0,0,0,0.6)",
+        boxShadow: "0 20px 40px -16px rgba(0,0,0,0.7), 0 6px 14px -6px rgba(0,0,0,0.5)",
       }}
     >
       {!fromRight && <Icon type={item.icon} color={COLORS.accent} />}

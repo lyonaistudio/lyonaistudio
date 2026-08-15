@@ -11,6 +11,10 @@ export const Value1Scene: React.FC<{ subtitle: string; durationInFrames: number 
   const boxP = spring({ frame, fps, config: { damping: 14, stiffness: 110 } });
   const panY = interpolate(frame, [10, durationInFrames - 10], [0, -2200], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const captionP = spring({ frame: frame - 6, fps, config: { damping: 200 } });
+  // Card settles from a slight 3D lean into flat, for a bit of real depth
+  // instead of a pure flat-2D pop-in.
+  const tiltX = interpolate(boxP, [0, 1], [10, 0]);
+  const tiltY = interpolate(boxP, [0, 1], [-6, 0]);
 
   return (
     <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", padding: "0 60px" }}>
@@ -23,15 +27,34 @@ export const Value1Scene: React.FC<{ subtitle: string; durationInFrames: number 
           width: "100%",
           maxWidth: 960,
           opacity: boxP,
-          transform: `scale(${0.9 + boxP * 0.1}) translateY(${(1 - boxP) * 30}px)`,
+          perspective: 1600,
         }}
       >
+        {/* Ambient contact shadow beneath the card, separate from the box
+            shadow, to sell that it's floating above the background. */}
+        <div
+          style={{
+            width: "82%",
+            height: 60,
+            margin: "0 auto -30px",
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse, rgba(0,0,0,0.55), transparent 70%)",
+            transform: `scale(${0.9 + boxP * 0.1})`,
+            opacity: boxP * 0.8,
+          }}
+        />
+        <div
+          style={{
+            transform: `scale(${0.9 + boxP * 0.1}) translateY(${(1 - boxP) * 30}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
+            transformStyle: "preserve-3d",
+          }}
+        >
         <div
           style={{
             border: `2px solid ${COLORS.inkLine}`,
             borderRadius: 20,
             overflow: "hidden",
-            boxShadow: "0 40px 100px -30px rgba(0,0,0,0.75)",
+            boxShadow: "0 50px 120px -30px rgba(0,0,0,0.8), 0 18px 40px -20px rgba(0,0,0,0.6)",
             background: COLORS.ink,
           }}
         >
@@ -66,6 +89,7 @@ export const Value1Scene: React.FC<{ subtitle: string; durationInFrames: number 
               }}
             />
           </div>
+        </div>
         </div>
       </div>
 

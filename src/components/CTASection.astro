@@ -8,13 +8,17 @@ interface Props {
 const { title, description, buttonLabel = "Faire une demande de renseignements" } = Astro.props;
 ---
 
-<section class="grid-motif border-y border-ink-line bg-ink-soft">
-  <div class="reveal mx-auto max-w-3xl px-6 py-20 text-center">
+<section class="grid-motif relative overflow-hidden border-y border-ink-line bg-ink-soft">
+  <div
+    class="pointer-events-none absolute left-1/2 top-1/2 h-72 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/8 blur-[110px]"
+    aria-hidden="true"
+  ></div>
+  <div class="reveal relative mx-auto max-w-3xl px-6 py-20 text-center">
     <h2 class="font-display text-3xl font-semibold text-paper sm:text-4xl">{title}</h2>
     <p class="mt-4 text-base leading-relaxed text-paper-dim">{description}</p>
     <a
       href="/contact/"
-      class="magnetic mt-8 inline-block rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft"
+      class="magnetic mt-8 inline-block rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink shadow-[0_16px_36px_-14px_rgba(226,103,44,0.55)] transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_20px_44px_-14px_rgba(226,103,44,0.65)]"
     >
       {buttonLabel}
     </a>

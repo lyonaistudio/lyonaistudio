@@ -100,7 +100,15 @@ export const MainVideo: React.FC = () => {
   };
 
   return (
-    <AbsoluteFill style={{ background: COLORS.ink }}>
+    <AbsoluteFill
+      style={{
+        background: COLORS.ink,
+        // Global cinematic grade: deeper blacks, slightly punchier
+        // contrast/saturation, so the composite reads less "flat CSS" and
+        // more like a color-graded shot.
+        filter: "contrast(1.12) saturate(1.14) brightness(0.97)",
+      }}
+    >
       <Background totalDuration={TOTAL_DURATION_SEC} fps={fps} />
       <Header appearFrame={F(beat.hook1.start) + F(0.3)} />
 
@@ -120,16 +128,35 @@ export const MainVideo: React.FC = () => {
       {/* Audio */}
       <Audio src={staticFile("narration.wav")} />
       <Audio src={staticFile("score.wav")} volume={0.5} />
-      {panels.slice(0, -1).map((p) => (
-        <Sequence key={"sfx-" + p.id} from={p.inFrame} durationInFrames={30}>
-          <Audio src={staticFile("whoosh.wav")} volume={0.35} />
-        </Sequence>
-      ))}
+
+      {/* Varied transition SFX per beat, instead of the same whoosh every
+          time: bigger "reveal" moments get the whoosh, smaller beat
+          changes get a lighter tick, keeping the mix from feeling
+          repetitive. */}
+      {(() => {
+        const whooshAt = new Set(["hook2", "value1", "ai1"]);
+        return panels.slice(0, -1).map((p, i) => {
+          const nextId = panels[i + 1].id;
+          const useWhoosh = whooshAt.has(nextId);
+          return (
+            <Sequence key={"sfx-" + p.id} from={p.outFrame - F(0.05)} durationInFrames={30}>
+              <Audio src={staticFile(useWhoosh ? "whoosh.wav" : "tick.wav")} volume={useWhoosh ? 0.32 : 0.22} />
+            </Sequence>
+          );
+        });
+      })()}
+
       <Sequence from={panels[panels.length - 1].inFrame} durationInFrames={40}>
-        <Audio src={staticFile("riser.wav")} volume={0.4} />
+        <Audio src={staticFile("riser.wav")} volume={0.38} />
       </Sequence>
+
+      {/* Soft confirmation ding as the CTA button/QR lands. */}
+      <Sequence from={F(beat.cta.start) + F(2.3)} durationInFrames={30}>
+        <Audio src={staticFile("ding.wav")} volume={0.3} />
+      </Sequence>
+
       <Sequence from={F(beat.hook1.start) + F(0.3)} durationInFrames={20}>
-        <Audio src={staticFile("tick.wav")} volume={0.3} />
+        <Audio src={staticFile("tick.wav")} volume={0.25} />
       </Sequence>
     </AbsoluteFill>
   );
