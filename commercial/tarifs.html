@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Tarifs — Lyon AI Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #121110;
+    --ink-soft: #1a1815;
+    --ink-line: #2b2721;
+    --paper: #f4f1ea;
+    --paper-dim: #d9d4c8;
+    --mist: #93897a;
+    --accent: #e2672c;
+    --accent-soft: #f0a06f;
+    --accent-dim: #9c4720;
+  }
+
+  * { box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Inter", sans-serif;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    padding: 18mm 16mm;
+  }
+
+  .page:last-child { page-break-after: auto; }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--ink-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ink-line) 1px, transparent 1px);
+    background-size: 14mm 14mm;
+    opacity: 0.5;
+  }
+
+  h1, h2, h3 {
+    font-family: "Space Grotesk", sans-serif;
+    color: var(--paper);
+    margin: 0;
+  }
+
+  .mono {
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .logo-mark {
+    width: 9mm;
+    height: 9mm;
+    border-radius: 2mm;
+    background: var(--ink-soft);
+    border: 0.4mm solid var(--ink-line);
+    position: relative;
+    display: inline-block;
+  }
+  .logo-mark::after {
+    content: "";
+    position: absolute;
+    left: 3mm; top: 2.3mm;
+    width: 1.6mm; height: 4.6mm;
+    background: var(--accent);
+  }
+  .logo-mark::before {
+    content: "";
+    position: absolute;
+    left: 3mm; top: 5.5mm;
+    width: 3.6mm; height: 1.4mm;
+    background: var(--accent);
+  }
+
+  .brand-line {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 11pt;
+  }
+
+  /* ---------- COVER ---------- */
+  .cover { display: flex; flex-direction: column; justify-content: space-between; }
+  .cover .top { position: relative; z-index: 1; }
+  .cover .glow {
+    position: absolute;
+    top: -60mm; right: -60mm;
+    width: 160mm; height: 160mm;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%);
+  }
+  .cover .middle {
+    position: relative; z-index: 1;
+    margin-top: 70mm;
+  }
+  .cover h1 {
+    font-size: 34pt;
+    line-height: 1.12;
+    font-weight: 700;
+    max-width: 150mm;
+  }
+  .cover .subtitle {
+    margin-top: 6mm;
+    font-size: 12pt;
+    color: var(--paper-dim);
+    max-width: 130mm;
+    line-height: 1.5;
+  }
+  .cover .meta {
+    position: relative; z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    border-top: 0.3mm solid var(--ink-line);
+    padding-top: 5mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8.5pt;
+    color: var(--mist);
+  }
+
+  /* ---------- HEADER (inner pages) ---------- */
+  .page-header {
+    position: relative; z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.3mm solid var(--ink-line);
+    padding-bottom: 5mm;
+    margin-bottom: 10mm;
+  }
+  .page-header .page-no {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8.5pt;
+    color: var(--mist);
+  }
+
+  .section-title { font-size: 20pt; font-weight: 700; margin-top: 3mm; max-width: 150mm; line-height: 1.2; }
+  .section-intro { margin-top: 4mm; color: var(--paper-dim); line-height: 1.6; max-width: 150mm; font-size: 10pt; }
+
+  /* ---------- OFFER CARD ---------- */
+  .offers { position: relative; z-index: 1; margin-top: 8mm; display: flex; flex-direction: column; gap: 6mm; }
+  .offer {
+    border: 0.3mm solid var(--ink-line);
+    background: linear-gradient(180deg, var(--ink-soft), var(--ink));
+    padding: 7mm 8mm;
+    position: relative;
+  }
+  .offer.featured { border-color: color-mix(in srgb, var(--accent) 55%, var(--ink-line)); }
+  .offer-top { display: flex; justify-content: space-between; align-items: baseline; gap: 6mm; }
+  .offer-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 14pt; color: var(--paper); }
+  .offer-tag { font-family: "JetBrains Mono", monospace; font-size: 7.5pt; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; }
+  .offer-price { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 18pt; color: var(--accent); white-space: nowrap; }
+  .offer-price .unit { font-family: "Inter", sans-serif; font-weight: 500; font-size: 8.5pt; color: var(--mist); }
+
+  .offer-body { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 5mm; }
+  .offer ul { margin: 0; padding: 0; list-style: none; }
+  .offer li { position: relative; padding-left: 4mm; margin-bottom: 1.8mm; font-size: 9.3pt; color: var(--paper-dim); line-height: 1.45; }
+  .offer li::before { content: ""; position: absolute; left: 0; top: 2mm; width: 1.4mm; height: 1.4mm; background: var(--accent); }
+
+  .why-box {
+    border-left: 0.5mm solid var(--accent-dim);
+    padding-left: 3.5mm;
+    font-size: 8.7pt;
+    color: var(--mist);
+    line-height: 1.5;
+  }
+  .why-box .why-label { font-family: "JetBrains Mono", monospace; font-size: 7.5pt; color: var(--accent-soft); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 1.5mm; }
+
+  /* ---------- SUBSCRIPTION TABLE ---------- */
+  .sub-grid { position: relative; z-index: 1; margin-top: 8mm; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; }
+  .sub-card {
+    border: 0.3mm solid var(--ink-line);
+    background: linear-gradient(180deg, var(--ink-soft), var(--ink));
+    padding: 6mm 5.5mm;
+    display: flex;
+    flex-direction: column;
+  }
+  .sub-card.mid { border-color: color-mix(in srgb, var(--accent) 55%, var(--ink-line)); }
+  .sub-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 12pt; }
+  .sub-price { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 20pt; color: var(--accent); margin-top: 2mm; }
+  .sub-price span { font-size: 8pt; font-weight: 500; color: var(--mist); font-family: "Inter", sans-serif; }
+  .sub-card ul { margin: 4mm 0 0; padding: 0; list-style: none; flex: 1; }
+  .sub-card li { position: relative; padding-left: 3.5mm; margin-bottom: 1.6mm; font-size: 8.3pt; color: var(--paper-dim); line-height: 1.4; }
+  .sub-card li::before { content: ""; position: absolute; left: 0; top: 1.8mm; width: 1.2mm; height: 1.2mm; background: var(--accent); }
+  .sub-why { margin-top: 3mm; font-size: 7.6mm; }
+  .sub-why { font-size: 7.8pt; color: var(--mist); line-height: 1.45; border-top: 0.3mm solid var(--ink-line); padding-top: 2.5mm; }
+
+  .note-band {
+    position: relative; z-index: 1;
+    margin-top: 7mm;
+    border: 0.3mm dashed var(--ink-line);
+    padding: 4.5mm 6mm;
+    font-size: 8.7pt;
+    color: var(--paper-dim);
+    line-height: 1.5;
+  }
+  .note-band strong { color: var(--paper); }
+
+  /* ---------- LAUNCH / CTA PAGE ---------- */
+  .launch-box {
+    position: relative; z-index: 1;
+    margin-top: 6mm;
+    border: 0.3mm solid color-mix(in srgb, var(--accent) 55%, var(--ink-line));
+    background: radial-gradient(120% 100% at 0% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent), var(--ink-soft);
+    padding: 8mm;
+  }
+  .launch-box .offer-tag { margin-bottom: 2mm; display: block; }
+  .launch-box h3 { font-size: 15pt; max-width: 130mm; line-height: 1.3; }
+  .launch-box p { color: var(--paper-dim); font-size: 9.5pt; line-height: 1.6; margin-top: 3mm; max-width: 140mm; }
+
+  .steps { position: relative; z-index: 1; margin-top: 9mm; display: flex; flex-direction: column; gap: 4.5mm; }
+  .step { display: flex; gap: 5mm; align-items: flex-start; }
+  .step-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9pt;
+    color: var(--accent);
+    border: 0.3mm solid var(--ink-line);
+    background: var(--ink-soft);
+    width: 8mm; height: 8mm;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-text .step-title { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 10.5pt; }
+  .step-text .step-desc { color: var(--paper-dim); font-size: 8.8pt; margin-top: 1mm; line-height: 1.5; max-width: 130mm; }
+
+  .contact-band {
+    position: absolute; left: 16mm; right: 16mm; bottom: 16mm; z-index: 1;
+    border-top: 0.3mm solid var(--ink-line);
+    padding-top: 5mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .contact-band .brand-line { font-size: 10pt; }
+  .contact-band .contacts { font-family: "JetBrains Mono", monospace; font-size: 8.5pt; color: var(--paper-dim); text-align: right; line-height: 1.6; }
+  .contact-band .contacts a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+  <!-- PAGE 1 — COUVERTURE -->
+  <section class="page cover">
+    <div class="grid-bg"></div>
+    <div class="glow"></div>
+    <div class="top">
+      <div class="brand-line"><span class="logo-mark"></span> Lyon AI Studio</div>
+    </div>
+    <div class="middle">
+      <span class="eyebrow">// Offres & Tarifs 2026</span>
+      <h1>Sites internet &amp; automatisation IA, sur-mesure.</h1>
+      <p class="subtitle">
+        Un document simple pour comprendre les offres, ce qu'elles comprennent exactement,
+        et pourquoi elles sont au prix où elles sont — sans jargon ni surprise à la facture.
+      </p>
+    </div>
+    <div class="meta">
+      <span>Lyon AI Studio — lyoniastudio@gmail.com — 07 76 62 42 15</span>
+      <span>lyonaistudio.fr</span>
+    </div>
+  </section>
+
+  <!-- PAGE 2 — POSITIONNEMENT -->
+  <section class="page">
+    <div class="grid-bg"></div>
+    <div class="page-header">
+      <div class="brand-line"><span class="logo-mark"></span> Lyon AI Studio</div>
+      <span class="page-no mono">02 / 06</span>
+    </div>
+    <span class="eyebrow">// Pourquoi ce document</span>
+    <h2 class="section-title">Un interlocuteur unique, du design à l'automatisation.</h2>
+    <p class="section-intro">
+      La plupart des prestataires font soit un site internet, soit de l'automatisation — rarement les deux
+      avec la même exigence. Lyon AI Studio conçoit des sites 100% sur-mesure (jamais de template générique)
+      et met en place les mêmes outils d'automatisation professionnels que ceux utilisés sur ce document et
+      sur lyonaistudio.fr : agent IA, workflows, notifications automatiques.
+    </p>
+    <p class="section-intro">
+      Être seul aux commandes du projet, du premier échange à la mise en ligne, évite les frais de structure
+      d'une agence tout en gardant un niveau de finition professionnel — c'est ce qui permet des tarifs
+      positionnés sous le marché agence, sans compromis sur la qualité.
+    </p>
+
+    <div class="note-band" style="margin-top: 14mm;">
+      <strong>Comment lire ce document —</strong> chaque offre indique ce qu'elle comprend, son prix, et une
+      explication courte de <em>pourquoi</em> ce prix (temps de travail estimé, comparaison avec le marché).
+      L'objectif : que le prix soit compris dès la lecture, sans avoir à le demander.
+    </div>
+
+    <div class="note-band" style="margin-top: 6mm;">
+      <strong>Bon à savoir —</strong> tous les prix sont HT (auto-entreprise, TVA non applicable — art. 293B
+      du CGI). Un devis détaillé et personnalisé est toujours établi avant tout démarrage de projet.
+    </div>
+  </section>
+
+  <!-- PAGE 3 — SITES INTERNET -->
+  <section class="page">
+    <div class="grid-bg"></div>
+    <div class="page-header">
+      <div class="brand-line"><span class="logo-mark"></span> Lyon AI Studio</div>
+      <span class="page-no mono">03 / 06</span>
+    </div>
+    <span class="eyebrow">// 01 — Création de site internet</span>
+    <h2 class="section-title">Un site qui vous représente, pas un gabarit générique.</h2>
+
+    <div class="offers">
+      <div class="offer">
+        <div class="offer-top">
+          <div><span class="offer-tag">Essentiel</span><div class="offer-name">Site vitrine</div></div>
+          <div class="offer-price">1 490 €</div>
+        </div>
+        <div class="offer-body">
+          <ul>
+            <li>Jusqu'à 5 pages (Accueil, Services, À propos, Contact, +1 libre)</li>
+            <li>Design 100% sur-mesure, aucun template</li>
+            <li>Optimisé mobile et référencement local</li>
+            <li>Formulaire de contact fonctionnel</li>
+            <li>Mise en ligne et configuration du nom de domaine</li>
+          </ul>
+          <div class="why-box">
+            <span class="why-label">Pourquoi ce prix</span>
+            Environ 6 à 8 jours de travail complet (design, intégration, tests, mise en ligne) au tarif d'un
+            freelance confirmé, sans les frais de structure d'une agence — un site sur-mesure d'agence
+            équivalent démarre habituellement autour de 3 500 €.
+          </div>
+        </div>
+      </div>
+
+      <div class="offer featured">
+        <div class="offer-top">
+          <div><span class="offer-tag">Pro</span><div class="offer-name">Site vitrine augmenté</div></div>
+          <div class="offer-price">2 490 €</div>
+        </div>
+        <div class="offer-body">
+          <ul>
+            <li>Tout Essentiel, jusqu'à 10 pages</li>
+            <li>Blog / actualités pour le référencement dans la durée</li>
+            <li>Prise de rendez-vous ou formulaire multi-étapes</li>
+            <li>Contenus rédigés ou optimisés pour le SEO</li>
+            <li>Google Analytics + Search Console configurés</li>
+          </ul>
+          <div class="why-box">
+            <span class="why-label">Pourquoi ce prix</span>
+            10 à 12 jours de travail : structure et contenu pensés pour convertir un visiteur en demande de
+            contact. Positionné bas de fourchette du marché lyonnais en agence (3 500 à 8 000 €) pour un
+            niveau de finition comparable.
+          </div>
+        </div>
+      </div>
+
+      <div class="offer">
+        <div class="offer-top">
+          <div><span class="offer-tag">Sur-mesure</span><div class="offer-name">E-commerce &amp; projets spécifiques</div></div>
+          <div class="offer-price">à partir de 3 900 €</div>
+        </div>
+        <div class="offer-body">
+          <ul>
+            <li>Boutique en ligne, espace client, réservation, multi-langue…</li>
+            <li>Direction artistique dédiée à votre marque</li>
+            <li>Accompagnement rapproché sur toute la durée du projet</li>
+          </ul>
+          <div class="why-box">
+            <span class="why-label">Pourquoi ce prix</span>
+            Chaque projet sur-mesure a un périmètre différent. Le prix exact est établi après un échange pour
+            évaluer précisément le temps de développement nécessaire — jamais de forfait générique appliqué
+            à l'aveugle.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 4 — AUTOMATISATION -->
+  <section class="page">
+    <div class="grid-bg"></div>
+    <div class="page-header">
+      <div class="brand-line"><span class="logo-mark"></span> Lyon AI Studio</div>
+      <span class="page-no mono">04 / 06</span>
+    </div>
+    <span class="eyebrow">// 02 — Automatisation &amp; agent IA</span>
+    <h2 class="section-title">Des outils qui travaillent à votre place.</h2>
+
+    <div class="offers">
+      <div class="offer">
+        <div class="offer-top">
+          <div><span class="offer-tag">Automatisation simple</span><div class="offer-name">Un workflow automatisé</div></div>
+          <div class="offer-price">à partir de 890 €</div>
+        </div>
+        <div class="offer-body">
+          <ul>
+            <li>Ex. : formulaire → email de confirmation auto + notification + tableur</li>
+            <li>Connexion de vos outils existants (Gmail, Sheets, Calendar…)</li>
+            <li>Tests en conditions réelles avant mise en service</li>
+          </ul>
+          <div class="why-box">
+            <span class="why-label">Pourquoi ce prix</span>
+            2 à 3 jours de configuration et de tests sur un outil professionnel d'automatisation — le même
+            que celui utilisé sur lyonaistudio.fr. Nettement sous les 2 000 à 8 000 € pratiqués en agence
+            pour ce type de prestation, car aucun développement lourd sur-mesure n'est nécessaire.
+          </div>
+        </div>
+      </div>
+
+      <div class="offer featured">
+        <div class="offer-top">
+          <div><span class="offer-tag">Agent IA</span><div class="offer-name">Agent IA sur-mesure</div></div>
+          <div class="offer-price">à partir de 2 490 €</div>
+        </div>
+        <div class="offer-body">
+          <ul>
+            <li>Répond, qualifie et oriente automatiquement les demandes entrantes</li>
+            <li>Réponses rédigées dans le ton de votre entreprise</li>
+            <li>Jusqu'à 3 workflows connectés</li>
+            <li>Formation à l'utilisation et au pilotage de l'agent</li>
+          </ul>
+          <div class="why-box">
+            <span class="why-label">Pourquoi ce prix</span>
+            6 à 8 jours de travail (scénarios, prompts IA, intégrations, tests). Les agences spécialisées
+            facturent en général 8 000 à 30 000 € pour un agent IA équivalent — une structure allégée et des
+            outils optimisés en coût permettent un prix nettement inférieur, sans réduire le niveau
+            d'exigence.
+          </div>
+        </div>
+      </div>
+
+      <div class="offer">
+        <div class="offer-top">
+          <div><span class="offer-tag">Pack combiné</span><div class="offer-name">Site + Automatisation</div></div>
+          <div class="offer-price">-8% <span class="unit">sur le total</span></div>
+        </div>
+        <div class="offer-body">
+          <ul>
+            <li>Toute combinaison Site (Essentiel/Pro) + Automatisation ou Agent IA</li>
+            <li>Un seul interlocuteur, un seul planning de mise en œuvre</li>
+          </ul>
+          <div class="why-box">
+            <span class="why-label">Pourquoi ce prix</span>
+            Confier le site et l'automatisation à une seule personne supprime les allers-retours et le temps
+            de coordination entre deux prestataires — la remise reflète ce gain de temps, répercuté sur le
+            prix.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 5 — ABONNEMENT -->
+  <section class="page">
+    <div class="grid-bg"></div>
+    <div class="page-header">
+      <div class="brand-line"><span class="logo-mark"></span> Lyon AI Studio</div>
+      <span class="page-no mono">05 / 06</span>
+    </div>
+    <span class="eyebrow">// 03 — Abonnement mensuel</span>
+    <h2 class="section-title">Pour que le site et les automatisations continuent de travailler après la mise en ligne.</h2>
+    <p class="section-intro">
+      Un site ou une automatisation qu'on n'entretient pas perd en efficacité avec le temps. Ces formules
+      couvrent la maintenance technique et, à partir de « Croissance », du temps de travail réservé chaque
+      mois pour faire évoluer ce qui a été mis en place.
+    </p>
+
+    <div class="sub-grid">
+      <div class="sub-card">
+        <div class="offer-tag">Sérénité</div>
+        <div class="sub-name">Maintenance</div>
+        <div class="sub-price">49 €<span> / mois</span></div>
+        <ul>
+          <li>Hébergement et nom de domaine suivis</li>
+          <li>Mises à jour de sécurité et sauvegardes</li>
+          <li>30 min de petites modifications / mois</li>
+          <li>Surveillance de la disponibilité</li>
+        </ul>
+        <div class="sub-why">Aligné bas de fourchette marché (35–200 €/mois) pour un socle technique fiable.</div>
+      </div>
+
+      <div class="sub-card mid">
+        <div class="offer-tag">Croissance</div>
+        <div class="sub-name">Maintenance + évolutions</div>
+        <div class="sub-price">149 €<span> / mois</span></div>
+        <ul>
+          <li>Tout Sérénité</li>
+          <li>2h de modifications ou évolutions / mois</li>
+          <li>Vérification mensuelle des automatisations</li>
+          <li>Rapport mensuel simple (visites, demandes)</li>
+        </ul>
+        <div class="sub-why">Équivaut à une demi-journée dédiée chaque mois, au même tarif journalier que les prestations ponctuelles.</div>
+      </div>
+
+      <div class="sub-card">
+        <div class="offer-tag">Pilote IA</div>
+        <div class="sub-name">Amélioration continue</div>
+        <div class="sub-price">349 €<span> / mois</span></div>
+        <ul>
+          <li>Tout Croissance</li>
+          <li>Évolution continue de l'agent IA et des automatisations</li>
+          <li>Support prioritaire (réponse &lt; 4h ouvrées)</li>
+          <li>4h de travail dédiées / mois</li>
+        </ul>
+        <div class="sub-why">Pour un système qui s'améliore en continu — reste inférieur au coût d'un mi-temps technique interne.</div>
+      </div>
+    </div>
+
+    <div class="note-band" style="margin-top: 8mm;">
+      <strong>Sans engagement</strong> — résiliable à tout moment avec un mois de préavis. Paiement mensuel
+      ou annuel (2 mois offerts en cas de paiement annuel).
+    </div>
+  </section>
+
+  <!-- PAGE 6 — OFFRE DE LANCEMENT + DÉMARCHE -->
+  <section class="page">
+    <div class="grid-bg"></div>
+    <div class="page-header">
+      <div class="brand-line"><span class="logo-mark"></span> Lyon AI Studio</div>
+      <span class="page-no mono">06 / 06</span>
+    </div>
+    <span class="eyebrow">// Offre de lancement</span>
+    <h2 class="section-title">Pour bien démarrer.</h2>
+
+    <div class="launch-box">
+      <span class="offer-tag">Places limitées</span>
+      <h3>-25% sur une offre Site ou Pack combiné pour les 5 premiers projets</h3>
+      <p>
+        En échange d'un avis Google et de l'autorisation d'utiliser votre projet comme étude de cas
+        (comme pour Maison Maona, déjà visible sur lyonaistudio.fr). Une façon de démarrer une
+        collaboration sur des bases avantageuses pour les deux parties, le temps de construire ensemble
+        un premier historique de résultats concrets.
+      </p>
+    </div>
+
+    <span class="eyebrow" style="display:block; margin-top: 12mm;">// Déroulement</span>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num mono">01</div>
+        <div class="step-text"><div class="step-title">Prise de contact</div><div class="step-desc">Vous décrivez votre besoin via le formulaire, par email ou par téléphone.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num mono">02</div>
+        <div class="step-text"><div class="step-title">Échange sur le besoin</div><div class="step-desc">On discute de votre activité, de vos contraintes, et de ce qui aurait vraiment un impact.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num mono">03</div>
+        <div class="step-text"><div class="step-title">Devis détaillé</div><div class="step-desc">Vous recevez un devis clair basé sur ce document, sans jargon ni frais caché.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-num mono">04</div>
+        <div class="step-text"><div class="step-title">Réalisation</div><div class="step-desc">Le site ou l'automatisation est mis en place, testé, et vous êtes formé pour l'utiliser.</div></div>
+      </div>
+    </div>
+
+    <div class="contact-band">
+      <div class="brand-line"><span class="logo-mark"></span> Lyon AI Studio</div>
+      <div class="contacts">
+        <a href="mailto:lyoniastudio@gmail.com">lyoniastudio@gmail.com</a><br />
+        07 76 62 42 15 — lyonaistudio.fr
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
