@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Lyon AI Studio",
   url: "https://lyonaistudio.fr",
-  email: "lyoniastudio@gmail.com",
+  email: "lyonaistudio@gmail.com",
   phone: "07 76 62 42 15",
   phoneHref: "+33776624215",
   city: "Lyon",

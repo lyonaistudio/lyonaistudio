@@ -313,7 +313,7 @@ const html = `<!doctype html>
         <div class="outro-tag">Sites internet &amp; automatisation IA</div>
         <div class="outro-contact">
           <div class="row"><span class="lab">T.</span><span>07 76 62 42 15</span></div>
-          <div class="row"><span class="lab">E.</span><span>lyoniastudio@gmail.com</span></div>
+          <div class="row"><span class="lab">E.</span><span>lyonaistudio@gmail.com</span></div>
         </div>
         <div class="outro-cta">
           <div class="cta-btn">Demande de renseignements sans engagement</div>

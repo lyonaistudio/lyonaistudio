@@ -69,7 +69,7 @@ export const CTAScene: React.FC = () => {
         </div>
         <div style={{ marginTop: 8 }}>
           <span style={{ color: COLORS.accent }}>E. </span>
-          <span style={{ color: COLORS.paper }}>lyoniastudio@gmail.com</span>
+          <span style={{ color: COLORS.paper }}>lyonaistudio@gmail.com</span>
         </div>
       </div>
 
