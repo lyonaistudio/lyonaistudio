@@ -52,6 +52,11 @@ export function mountRibbonMesh(canvas: HTMLCanvasElement) {
   if (!ctx) return;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // On touch devices the mouse-reactive point of this animation is moot, and
+  // a continuous rAF loop redrawing ~23 noisy curves competes with the main
+  // thread during scroll on modest phones. Treat it like reduced motion:
+  // flat background instead of an endless render loop.
+  const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
   let width = 0;
   let height = 0;
@@ -197,7 +202,7 @@ export function mountRibbonMesh(canvas: HTMLCanvasElement) {
   canvas.addEventListener("mouseleave", handlePointerLeave);
   canvas.addEventListener("mousedown", handlePointerDown);
 
-  if (reduceMotion) {
+  if (reduceMotion || isCoarsePointer) {
     // Draw a single calm frame and skip the animation loop entirely.
     ctx.fillStyle = INK;
     ctx.fillRect(0, 0, width, height);
