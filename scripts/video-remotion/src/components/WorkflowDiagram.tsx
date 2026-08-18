@@ -55,6 +55,14 @@ function Icon({ type, color }: { type: string; color: string }) {
   }
 }
 
+const NODE_WIDTH = 320;
+// Anchor points the SVG connectors are drawn to — must match the node's
+// actual edge exactly, otherwise the dashed line either falls short of the
+// card or runs on underneath it (the bug: cards were auto-width but the
+// paths used a single guessed x, so longer labels swallowed the line).
+const LEFT_EDGE = NODE_WIDTH;
+const RIGHT_EDGE = 900 - NODE_WIDTH;
+
 const Node: React.FC<{ item: { label: string; icon: string }; delay: number; fromRight: boolean }> = ({
   item,
   delay,
@@ -66,10 +74,13 @@ const Node: React.FC<{ item: { label: string; icon: string }; delay: number; fro
   return (
     <div
       style={{
+        width: NODE_WIDTH,
+        boxSizing: "border-box",
         display: "flex",
         alignItems: "center",
+        justifyContent: fromRight ? "space-between" : "flex-start",
         gap: 14,
-        padding: "18px 26px",
+        padding: "18px 24px",
         background: COLORS.inkSoft,
         border: `1px solid ${COLORS.inkLine}`,
         borderRadius: 12,
@@ -79,7 +90,7 @@ const Node: React.FC<{ item: { label: string; icon: string }; delay: number; fro
       }}
     >
       {!fromRight && <Icon type={item.icon} color={COLORS.accent} />}
-      <span style={{ fontFamily: FONT_BODY, fontSize: 24, color: COLORS.paper, fontWeight: 600 }}>
+      <span style={{ fontFamily: FONT_BODY, fontSize: 24, color: COLORS.paper, fontWeight: 600, whiteSpace: "nowrap" }}>
         {item.label}
       </span>
       {fromRight && <Icon type={item.icon} color={COLORS.accentSoft} />}
@@ -104,7 +115,7 @@ export const WorkflowDiagram: React.FC<{ appearFrame: number }> = ({ appearFrame
         {rows.map((i) => (
           <React.Fragment key={i}>
             <path
-              d={`M 230 ${60 + rowY[i]} Q 400 210 450 210`}
+              d={`M ${LEFT_EDGE} ${60 + rowY[i]} Q ${(LEFT_EDGE + 450) / 2} 210 450 210`}
               stroke={COLORS.accent}
               strokeWidth={2}
               strokeDasharray="10 8"
@@ -113,7 +124,7 @@ export const WorkflowDiagram: React.FC<{ appearFrame: number }> = ({ appearFrame
               opacity={spring({ frame: frame - appearFrame - i * 4, fps, config: { damping: 200 } })}
             />
             <path
-              d={`M 450 210 Q 500 210 670 ${60 + rowY[i]}`}
+              d={`M 450 210 Q ${(450 + RIGHT_EDGE) / 2} 210 ${RIGHT_EDGE} ${60 + rowY[i]}`}
               stroke={COLORS.accentSoft}
               strokeWidth={2}
               strokeDasharray="10 8"
@@ -127,12 +138,12 @@ export const WorkflowDiagram: React.FC<{ appearFrame: number }> = ({ appearFrame
 
       <div style={{ position: "absolute", left: 0, top: 30, display: "flex", flexDirection: "column", gap: 40 }}>
         {LEFT.map((item, i) => (
-          <Node key={item.label} item={item} delay={appearFrame + i * 6} fromRight={false} />
+          <Node key={item.label} item={item} delay={appearFrame + i * 10} fromRight={false} />
         ))}
       </div>
       <div style={{ position: "absolute", right: 0, top: 30, display: "flex", flexDirection: "column", gap: 40 }}>
         {RIGHT.map((item, i) => (
-          <Node key={item.label} item={item} delay={appearFrame + 6 + i * 6} fromRight />
+          <Node key={item.label} item={item} delay={appearFrame + 10 + i * 10} fromRight />
         ))}
       </div>
 

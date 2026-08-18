@@ -10,13 +10,11 @@ export const AI1Scene: React.FC<{ subtitle: string; captionBottom?: number }> = 
   const captionP = spring({ frame: frame - 60, fps, config: { damping: 200 } });
 
   return (
-    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", padding: "0 60px" }}>
-      <div style={{ width: "100%", marginTop: 210, marginBottom: 10, textAlign: "center" }}>
+    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 60px" }}>
+      <div style={{ width: "100%", marginBottom: 30, textAlign: "center" }}>
         <Eyebrow label="L'AGENT IA, CONCRÈTEMENT" appearFrame={2} style={{ textAlign: "center", width: "100%" }} />
       </div>
-      <div style={{ marginTop: 60 }}>
-        <WorkflowDiagram appearFrame={6} />
-      </div>
+      <WorkflowDiagram appearFrame={6} />
       <div
         style={{
           position: "absolute",

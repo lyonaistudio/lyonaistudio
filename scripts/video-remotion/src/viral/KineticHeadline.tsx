@@ -30,7 +30,7 @@ export const KineticHeadline: React.FC<{
           {line.map((word, wi) => {
             const idx = globalIndex++;
             const p = spring({
-              frame: frame - startFrame - idx * 3.2,
+              frame: frame - startFrame - idx * 4.2,
               fps,
               config: { damping: 16, stiffness: 160 },
             });

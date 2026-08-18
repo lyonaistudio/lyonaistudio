@@ -27,12 +27,17 @@ Deux vidéos verticales 1080×1920, format "contenu natif" (cadre façon appli s
 d'engagement, mention `lyonaistudio`), sans voix off — 100% typographie animée + musique, pour fonctionner
 muet sur Instagram/TikTok. Chacune se concentre sur un seul argument pour rester efficace :
 
-- `video-agent-ia-reseaux-sociaux.mp4` (25,5 s) — l'agent IA : accroche (appels/messages manqués),
+- `video-agent-ia-reseaux-sociaux.mp4` (43,6 s) — l'agent IA : accroche (appels/messages manqués),
   révélation de l'agent, schéma "L'agent IA, concrètement" (mêmes visuels que la vidéo explicative),
-  arguments "sans embaucher personne" / "disponible 24 h/24, 7 j/7", puis appel à l'action.
-- `video-sites-reseaux-sociaux.mp4` (26,5 s) — la création de site : mêmes accroches que la vidéo
-  explicative ("vos clients vous cherchent sur Google"), mockup d'un vrai site réalisé, arguments
-  "optimisé SEO" / "prêt en quelques semaines", puis appel à l'action.
+  statistique "~10 secondes" de temps de réponse, trois arguments ("sans embaucher personne",
+  "disponible 24 h/24, 7 j/7", "zéro appel/message oublié"), puis appel à l'action détaillé.
+- `video-sites-reseaux-sociaux.mp4` (44,1 s) — la création de site : mêmes accroches que la vidéo
+  explicative ("vos clients vous cherchent sur Google"), mockup d'un vrai site réalisé, argument
+  "responsive" (mobile/tablette/ordinateur), trois arguments ("optimisé SEO", "prêt en quelques
+  semaines", "design sur-mesure"), puis appel à l'action détaillé.
+
+Rythme volontairement plus posé qu'un premier jet (chaque argument reste affiché plusieurs secondes)
+pour rester lisible et crédible plutôt que de viser l'effet "montage ultra-rapide".
 
 Bandes sonores dédiées, 100% synthétisées par code, aucun sample réutilisé :
 `scripts/video-remotion/synth-viral.mjs` (agent IA, rythme soutenu) et

@@ -7,6 +7,7 @@ import { COLORS, FPS } from "./theme";
 import { Background } from "./components/Background";
 import { SocialChrome } from "./viral/SocialChrome";
 import { ChecklistScene } from "./viral/scenes/ChecklistScene";
+import { DevicesScene } from "./viral/scenes/DevicesScene";
 import { LogoScene } from "./viral/scenes/LogoScene";
 import { ViralCTAScene } from "./viral/scenes/ViralCTAScene";
 import { Hook1Scene } from "./scenes/Hook1Scene";
@@ -21,14 +22,16 @@ const F = (sec: number) => Math.round(sec * FPS);
 
 const BEATS = [
   { id: "hook1", start: 0.0 },
-  { id: "hook2", start: 4.0 },
-  { id: "value1", start: 8.0 },
-  { id: "check1", start: 14.5 },
-  { id: "check2", start: 16.5 },
-  { id: "logo", start: 18.5 },
-  { id: "cta", start: 20.8 },
+  { id: "hook2", start: 5.5 },
+  { id: "value1", start: 11.0 },
+  { id: "devices", start: 20.0 },
+  { id: "check1", start: 25.0 },
+  { id: "check2", start: 28.0 },
+  { id: "check3", start: 31.0 },
+  { id: "logo", start: 34.0 },
+  { id: "cta", start: 37.0 },
 ];
-const CTA_DURATION = 5.0;
+const CTA_DURATION = 6.5;
 const END_FADE = 0.6;
 export const TOTAL_DURATION_SEC = BEATS[BEATS.length - 1].start + CTA_DURATION + END_FADE;
 
@@ -88,17 +91,21 @@ export const SitesVideo: React.FC = () => {
             captionBottom={320}
           />
         );
+      case "devices":
+        return <DevicesScene />;
       case "check1":
         return <ChecklistScene text="Optimisé pour Google (SEO)" />;
       case "check2":
         return <ChecklistScene text="Prêt en quelques semaines" />;
+      case "check3":
+        return <ChecklistScene text="Design sur-mesure, pas un template" />;
       case "logo":
         return <LogoScene />;
       case "cta":
         return (
           <ViralCTAScene
             headline={[[{ text: "Discutons" }, { text: "de" }, { text: "votre" }, { text: "site.", accent: true }]]}
-            tagline="Un premier échange, sans engagement."
+            tagline="Un premier échange, sans engagement — présentation sous quelques jours."
           />
         );
       default:
@@ -126,7 +133,7 @@ export const SitesVideo: React.FC = () => {
       <Audio src={staticFile("sites-score.wav")} volume={0.85} />
 
       {(() => {
-        const whooshAt = new Set(["value1", "cta"]);
+        const whooshAt = new Set(["value1", "devices", "cta"]);
         return panels.slice(0, -1).map((p, i) => {
           const nextId = panels[i + 1].id;
           const useWhoosh = whooshAt.has(nextId);

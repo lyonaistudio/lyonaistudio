@@ -5,7 +5,7 @@
 import { writeFileSync } from "node:fs";
 
 const SR = 44100;
-const DURATION = 26.4;
+const DURATION = 44.1;
 const TEMPO = 100;
 const BEAT = 60 / TEMPO;
 
@@ -87,12 +87,13 @@ const CHORD_DUR = BEATS_PER_CHORD * BEAT;
 // Énergie plafonnée à 0.85 (jamais le "plein groove" du score Agents) et
 // section value1 volontairement calme pour laisser le mockup du site parler.
 function energyAt(t) {
-  if (t < 4.0) return 0.12;
-  if (t < 8.0) return 0.3;
-  if (t < 14.5) return 0.5;
-  if (t < 18.5) return 0.4;
-  if (t < 20.8) return 0.3;
-  return 0.85;
+  if (t < 5.5) return 0.12; // hook1: sparse
+  if (t < 11.0) return 0.28; // hook2: building
+  if (t < 20.0) return 0.5; // value1: let the site mockup breathe
+  if (t < 25.0) return 0.42; // devices
+  if (t < 34.0) return 0.4; // three checklist beats
+  if (t < 37.0) return 0.3; // logo: breathe
+  return 0.85; // CTA
 }
 
 const master = empty(DURATION + 1);

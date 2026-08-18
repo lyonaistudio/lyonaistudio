@@ -5,7 +5,7 @@
 import { writeFileSync } from "node:fs";
 
 const SR = 44100;
-const DURATION = 25.5;
+const DURATION = 43.6;
 const TEMPO = 128;
 const BEAT = 60 / TEMPO;
 
@@ -87,14 +87,13 @@ const CHORD_DUR = BEATS_PER_CHORD * BEAT;
 // "drop" complet dès la révélation de l'agent, léger retrait aux checklists
 // pour que le "tick" de chaque coche s'entende, respiration au logo, pic au CTA.
 function energyAt(t) {
-  if (t < 1.8) return 0.12;
-  if (t < 3.6) return 0.45;
-  if (t < 7.6) return 1.0;
-  if (t < 11.2) return 0.95;
-  if (t < 15.0) return 0.8;
-  if (t < 17.5) return 0.65;
-  if (t < 19.9) return 0.5;
-  return 1.0;
+  if (t < 5.5) return 0.15; // hook: sparse, notifications
+  if (t < 11.5) return 0.5; // persona reveal: building
+  if (t < 20.0) return 1.0; // workflow: full groove, the detailed section
+  if (t < 24.5) return 0.85; // stat callout
+  if (t < 33.5) return 0.72; // three checklist beats
+  if (t < 36.5) return 0.5; // logo: breathe
+  return 1.0; // CTA: peak
 }
 
 const master = empty(DURATION + 1);

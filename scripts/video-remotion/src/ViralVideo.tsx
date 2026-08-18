@@ -8,6 +8,7 @@ import { Background } from "./components/Background";
 import { SocialChrome } from "./viral/SocialChrome";
 import { HookScene } from "./viral/scenes/HookScene";
 import { PersonaScene } from "./viral/scenes/PersonaScene";
+import { StatScene } from "./viral/scenes/StatScene";
 import { ChecklistScene } from "./viral/scenes/ChecklistScene";
 import { LogoScene } from "./viral/scenes/LogoScene";
 import { ViralCTAScene } from "./viral/scenes/ViralCTAScene";
@@ -21,14 +22,16 @@ const F = (sec: number) => Math.round(sec * FPS);
 
 const BEATS = [
   { id: "hook", start: 0.0 },
-  { id: "persona", start: 3.6 },
-  { id: "workflow", start: 8.0 },
-  { id: "check1", start: 13.6 },
-  { id: "check2", start: 15.5 },
-  { id: "logo", start: 17.5 },
-  { id: "cta", start: 19.9 },
+  { id: "persona", start: 5.5 },
+  { id: "workflow", start: 11.5 },
+  { id: "stat", start: 20.0 },
+  { id: "check1", start: 24.5 },
+  { id: "check2", start: 27.5 },
+  { id: "check3", start: 30.5 },
+  { id: "logo", start: 33.5 },
+  { id: "cta", start: 36.5 },
 ];
-const CTA_DURATION = 5.0;
+const CTA_DURATION = 6.5;
 const END_FADE = 0.6;
 export const TOTAL_DURATION_SEC = BEATS[BEATS.length - 1].start + CTA_DURATION + END_FADE;
 
@@ -75,17 +78,31 @@ export const ViralVideo: React.FC = () => {
             captionBottom={320}
           />
         );
+      case "stat":
+        return (
+          <StatScene
+            target={10}
+            prefix="~"
+            unit="secondes"
+            lines={[
+              [{ text: "Une" }, { text: "réponse" }, { text: "jour" }],
+              [{ text: "et" }, { text: "nuit," }, { text: "sans" }, { text: "exception.", accent: true }],
+            ]}
+          />
+        );
       case "check1":
         return <ChecklistScene text="Sans embaucher personne" />;
       case "check2":
         return <ChecklistScene text="Disponible 24 h/24, 7 j/7" />;
+      case "check3":
+        return <ChecklistScene text="Zéro appel, zéro message oublié" />;
       case "logo":
         return <LogoScene />;
       case "cta":
         return (
           <ViralCTAScene
             headline={[[{ text: "Automatisez" }, { text: "votre" }, { text: "relation" }, { text: "client.", accent: true }]]}
-            tagline="Répondez à vos clients, même absent."
+            tagline="Répondez à vos clients, même absent — sans rien changer à votre quotidien."
           />
         );
       default:
@@ -113,7 +130,7 @@ export const ViralVideo: React.FC = () => {
       <Audio src={staticFile("viral-score.wav")} volume={0.85} />
 
       {(() => {
-        const whooshAt = new Set(["persona", "cta"]);
+        const whooshAt = new Set(["persona", "workflow", "stat", "cta"]);
         return panels.slice(0, -1).map((p, i) => {
           const nextId = panels[i + 1].id;
           const useWhoosh = whooshAt.has(nextId);
