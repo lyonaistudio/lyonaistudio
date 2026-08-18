@@ -21,7 +21,7 @@ const VIDEOS = [
 
 <section class="grid-motif border-y border-ink-line">
   <div class="reveal mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 sm:py-24 lg:grid-cols-[0.9fr_1.1fr]">
-    <div class="order-2 lg:order-1">
+    <div>
       <Eyebrow label="EN VIDÉO" />
       <h2 class="mt-4 font-display text-3xl font-semibold text-paper sm:text-4xl">
         Nos deux services, en vidéo.
@@ -38,7 +38,7 @@ const VIDEOS = [
       </a>
     </div>
 
-    <div class="order-1 flex flex-wrap justify-center gap-8 lg:order-2">
+    <div class="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
       {
         VIDEOS.map((v) => (
           <div class="flex flex-col items-center gap-3">
@@ -72,7 +72,7 @@ const VIDEOS = [
 <style>
   .phone-shell {
     position: relative;
-    width: min(220px, 42vw);
+    width: min(220px, 38vw);
     aspect-ratio: 9 / 16;
     border-radius: 2rem;
     border: 8px solid var(--color-ink-soft);
