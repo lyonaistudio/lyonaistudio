@@ -1,5 +1,22 @@
 ---
 import Eyebrow from "./Eyebrow.astro";
+
+const VIDEOS = [
+  {
+    id: "video-sites",
+    label: "Sites internet",
+    poster: "/videos/sites-poster.jpg",
+    src: "/videos/sites.mp4",
+    alt: "Aperçu de la vidéo de présentation du service Sites internet",
+  },
+  {
+    id: "video-agent-ia",
+    label: "Agent IA",
+    poster: "/videos/agent-ia-poster.jpg",
+    src: "/videos/agent-ia.mp4",
+    alt: "Aperçu de la vidéo de présentation du service Agent IA",
+  },
+];
 ---
 
 <section class="grid-motif border-y border-ink-line">
@@ -7,11 +24,11 @@ import Eyebrow from "./Eyebrow.astro";
     <div class="order-2 lg:order-1">
       <Eyebrow label="EN VIDÉO" />
       <h2 class="mt-4 font-display text-3xl font-semibold text-paper sm:text-4xl">
-        Une minute pour comprendre ce qu'on fait.
+        Nos deux services, en vidéo.
       </h2>
       <p class="mt-4 max-w-md text-base leading-relaxed text-paper-dim">
-        Pourquoi un bon site change tout, ce qu'un agent IA peut faire à votre place, et un vrai
-        exemple de réalisation — en images plutôt qu'en longs discours.
+        Un site qui inspire confiance dès la première visite, et un agent IA qui répond à vos
+        clients à votre place — en images plutôt qu'en longs discours.
       </p>
       <a
         href="/contact/"
@@ -21,28 +38,33 @@ import Eyebrow from "./Eyebrow.astro";
       </a>
     </div>
 
-    <div class="order-1 flex justify-center lg:order-2">
-      <div class="phone-shell">
-        <div class="phone-notch" aria-hidden="true"></div>
-        <button id="video-play-btn" type="button" class="video-trigger" aria-label="Lire la vidéo de présentation">
-          <img src="/videos/poster.jpg" alt="Aperçu de la vidéo de présentation Lyon AI Studio" loading="lazy" decoding="async" />
-          <span class="play-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none">
-              <path d="M8 5v14l11-7-11-7Z" fill="currentColor" />
-            </svg>
-          </span>
-        </button>
-        <video
-          id="showcase-video"
-          class="hidden"
-          playsinline
-          controls
-          preload="none"
-          poster="/videos/poster.jpg"
-        >
-          <source src="/videos/lyon-ai-studio-presentation.mp4" type="video/mp4" />
-        </video>
-      </div>
+    <div class="order-1 flex flex-wrap justify-center gap-8 lg:order-2">
+      {
+        VIDEOS.map((v) => (
+          <div class="flex flex-col items-center gap-3">
+            <span class="font-mono text-xs uppercase tracking-widest text-accent">{v.label}</span>
+            <div class="phone-shell">
+              <div class="phone-notch" aria-hidden="true" />
+              <button
+                data-video-btn={v.id}
+                type="button"
+                class="video-trigger"
+                aria-label={`Lire la vidéo — ${v.label}`}
+              >
+                <img src={v.poster} alt={v.alt} loading="lazy" decoding="async" />
+                <span class="play-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="26" height="26" fill="none">
+                    <path d="M8 5v14l11-7-11-7Z" fill="currentColor" />
+                  </svg>
+                </span>
+              </button>
+              <video id={v.id} class="hidden" playsinline controls preload="none" poster={v.poster}>
+                <source src={v.src} type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>
@@ -50,10 +72,10 @@ import Eyebrow from "./Eyebrow.astro";
 <style>
   .phone-shell {
     position: relative;
-    width: min(280px, 70vw);
+    width: min(220px, 42vw);
     aspect-ratio: 9 / 16;
-    border-radius: 2.5rem;
-    border: 10px solid var(--color-ink-soft);
+    border-radius: 2rem;
+    border: 8px solid var(--color-ink-soft);
     outline: 2px solid var(--color-ink-line);
     overflow: hidden;
     background: var(--color-ink);
@@ -66,9 +88,9 @@ import Eyebrow from "./Eyebrow.astro";
     left: 50%;
     transform: translateX(-50%);
     width: 42%;
-    height: 22px;
+    height: 18px;
     background: var(--color-ink-soft);
-    border-radius: 0 0 14px 14px;
+    border-radius: 0 0 12px 12px;
     z-index: 5;
   }
 
@@ -102,8 +124,8 @@ import Eyebrow from "./Eyebrow.astro";
   .play-icon::before {
     content: "";
     position: absolute;
-    width: 64px;
-    height: 64px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: var(--color-accent);
     transition: transform 0.2s ease;
@@ -113,28 +135,31 @@ import Eyebrow from "./Eyebrow.astro";
     transform: scale(1.08);
   }
 
-  #showcase-video {
+  .phone-shell video {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  #showcase-video.hidden {
+  .phone-shell video.hidden {
     display: none;
   }
 </style>
 
 <script>
   function initVideoShowcase() {
-    const btn = document.getElementById("video-play-btn");
-    const video = document.getElementById("showcase-video") as HTMLVideoElement | null;
-    if (!btn || !video || btn.dataset.init) return;
-    btn.dataset.init = "true";
-
-    btn.addEventListener("click", () => {
-      btn.style.display = "none";
-      video.classList.remove("hidden");
-      video.play();
+    const buttons = document.querySelectorAll<HTMLButtonElement>("[data-video-btn]");
+    buttons.forEach((btn) => {
+      if (btn.dataset.init) return;
+      btn.dataset.init = "true";
+      const id = btn.dataset.videoBtn;
+      const video = id ? (document.getElementById(id) as HTMLVideoElement | null) : null;
+      if (!video) return;
+      btn.addEventListener("click", () => {
+        btn.style.display = "none";
+        video.classList.remove("hidden");
+        video.play();
+      });
     });
   }
 
