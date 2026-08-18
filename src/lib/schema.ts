@@ -9,7 +9,6 @@ export function localBusinessSchema() {
     description: SITE.description,
     url: SITE.url,
     email: SITE.email,
-    telephone: SITE.phoneHref,
     priceRange: "€€",
     address: {
       "@type": "PostalAddress",
