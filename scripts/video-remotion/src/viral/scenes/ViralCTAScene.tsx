@@ -33,8 +33,8 @@ export const ViralCTAScene: React.FC<{ headline?: Word[][]; tagline?: string }> 
       </p>
       <div style={{ textAlign: "center", opacity: contactP, fontFamily: FONT_MONO, fontSize: 24, marginTop: 4 }}>
         <div>
-          <span style={{ color: COLORS.accent }}>T. </span>
-          <span style={{ color: COLORS.paper }}>07 76 62 42 15</span>
+          <span style={{ color: COLORS.accent }}>E. </span>
+          <span style={{ color: COLORS.paper }}>lyonaistudio@gmail.com</span>
         </div>
       </div>
       <div

@@ -64,10 +64,6 @@ export const CTAScene: React.FC = () => {
 
       <div style={{ marginTop: 34, textAlign: "center", opacity: contactP, fontFamily: FONT_MONO, fontSize: 26 }}>
         <div>
-          <span style={{ color: COLORS.accent }}>T. </span>
-          <span style={{ color: COLORS.paper }}>07 76 62 42 15</span>
-        </div>
-        <div style={{ marginTop: 8 }}>
           <span style={{ color: COLORS.accent }}>E. </span>
           <span style={{ color: COLORS.paper }}>lyonaistudio@gmail.com</span>
         </div>

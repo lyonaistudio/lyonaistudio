@@ -38,7 +38,7 @@ puis l'option "Enforce HTTPS" est activée dans les réglages Pages du dépôt.
 
 ## Checklist SEO — actions hors code, après livraison
 
-- [ ] Créer et valider la fiche **Google Business Profile** avec les mêmes informations NAP (nom, adresse/zone, téléphone) que le site : Lyon AI Studio, Lyon, 07 76 62 42 15.
+- [ ] Créer et valider la fiche **Google Business Profile** avec les mêmes informations que le site : Lyon AI Studio, Lyon (le site n'affiche volontairement pas de numéro de téléphone).
 - [ ] Connecter **Google Search Console** au domaine et soumettre le sitemap : `https://lyonaistudio.fr/sitemap-index.xml`.
 - [ ] Collecter des **avis clients Google** au fil des missions, puis connecter le widget d'avis sur la page Contact (emplacement déjà réservé).
 - [ ] Obtenir des **liens externes** : annuaires locaux lyonnais, partenaires, profil LinkedIn actif.
