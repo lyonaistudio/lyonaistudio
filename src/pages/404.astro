@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+---
+
+<BaseLayout
+  title="Page introuvable — Lyon AI Studio"
+  description="Cette page n'existe pas ou plus. Retrouvez l'accueil, les services ou la page de contact."
+  path="/404/"
+>
+  <PageHero
+    eyebrow="404"
+    title="Cette page n'existe pas"
+    description="Le lien est peut-être obsolète ou mal orthographié. Voici où aller à la place."
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <div class="flex flex-wrap gap-4">
+      <a
+        href="/"
+        class="magnetic rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
+      >
+        Retour à l'accueil
+      </a>
+      <a
+        href="/services/"
+        class="magnetic rounded-sm border border-ink-line px-6 py-3 font-mono text-sm font-medium text-paper transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
+      >
+        Voir les services
+      </a>
+      <a
+        href="/contact/"
+        class="magnetic rounded-sm border border-ink-line px-6 py-3 font-mono text-sm font-medium text-paper transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
+      >
+        Contact
+      </a>
+    </div>
+  </section>
+</BaseLayout>

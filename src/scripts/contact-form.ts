@@ -20,8 +20,19 @@ function notifyMake(form: HTMLFormElement) {
     body: JSON.stringify(payload),
     headers: { "Content-Type": "application/json" },
     keepalive: true,
-  }).catch(() => {});
+  }).catch((err) => {
+    // Best-effort: Formspree already has the submission, so a failure here
+    // doesn't lose the lead — but it's worth surfacing in the console for
+    // debugging rather than disappearing entirely.
+    console.error("notifyMake failed", err);
+  });
 }
+
+// Bots that fill and submit a form in well under a second are extremely
+// common. This costs nothing (no external service, no user friction) and
+// catches the least sophisticated traffic on top of the honeypot field.
+const MIN_FILL_TIME_MS = 2500;
+let formRenderedAt = 0;
 
 export function initContactForm() {
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
@@ -30,12 +41,23 @@ export function initContactForm() {
   const submitBtn = document.getElementById("contact-submit") as HTMLButtonElement | null;
   if (!form || form.dataset.init) return;
   form.dataset.init = "true";
+  formRenderedAt = Date.now();
 
   const submitLabel = submitBtn?.textContent ?? "Envoyer la demande";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     errorBanner?.classList.add("hidden");
+
+    if (Date.now() - formRenderedAt < MIN_FILL_TIME_MS) {
+      // Behaves like a normal successful submission from the bot's point of
+      // view (no error, no retry signal) while never actually sending
+      // anything — no benefit to the bot in adapting.
+      form.classList.add("hidden");
+      successBanner?.classList.remove("hidden");
+      return;
+    }
+
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = "Envoi en cours…";

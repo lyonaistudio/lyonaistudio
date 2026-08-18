@@ -21,12 +21,12 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
   <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
     <div class="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
       <div>
-        <div id="success-banner" class="mb-8 hidden border border-accent bg-ink-soft p-6" role="status">
+        <div id="success-banner" class="mb-8 hidden border border-accent bg-ink-soft p-6" role="status" aria-live="polite">
           <p class="font-display font-semibold text-accent">Message envoyé.</p>
           <p class="mt-1 text-sm text-paper-dim">Merci, je reviens vers vous rapidement.</p>
         </div>
 
-        <div id="error-banner" class="mb-8 hidden border border-ink-line bg-ink-soft p-6" role="alert">
+        <div id="error-banner" class="mb-8 hidden border border-ink-line bg-ink-soft p-6" role="alert" aria-live="polite">
           <p class="font-display font-semibold text-paper">Envoi impossible pour le moment.</p>
           <p class="mt-1 text-sm text-paper-dim">
             Réessayez, ou écrivez-moi directement à
