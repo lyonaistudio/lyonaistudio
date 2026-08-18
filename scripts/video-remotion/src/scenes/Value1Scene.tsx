@@ -4,7 +4,11 @@ import { staticFile } from "remotion";
 import { COLORS, FONT_DISPLAY } from "../theme";
 import { Eyebrow } from "../components/Header";
 
-export const Value1Scene: React.FC<{ subtitle: string; durationInFrames: number }> = ({ subtitle, durationInFrames }) => {
+export const Value1Scene: React.FC<{ subtitle: string; durationInFrames: number; captionBottom?: number }> = ({
+  subtitle,
+  durationInFrames,
+  captionBottom = 150,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -96,7 +100,7 @@ export const Value1Scene: React.FC<{ subtitle: string; durationInFrames: number 
       <div
         style={{
           position: "absolute",
-          bottom: 150,
+          bottom: captionBottom,
           left: 80,
           right: 80,
           textAlign: "center",

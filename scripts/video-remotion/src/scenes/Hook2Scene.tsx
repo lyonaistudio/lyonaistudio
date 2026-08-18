@@ -3,7 +3,7 @@ import { useCurrentFrame, useVideoConfig, spring } from "remotion";
 import { COLORS, FONT_DISPLAY, FONT_MONO } from "../theme";
 import { Eyebrow } from "../components/Header";
 
-export const Hook2Scene: React.FC<{ subtitle: string }> = ({ subtitle }) => {
+export const Hook2Scene: React.FC<{ subtitle: string; captionBottom?: number }> = ({ subtitle, captionBottom = 190 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -72,7 +72,7 @@ export const Hook2Scene: React.FC<{ subtitle: string }> = ({ subtitle }) => {
       <div
         style={{
           position: "absolute",
-          bottom: 190,
+          bottom: captionBottom,
           left: 80,
           right: 80,
           textAlign: "center",

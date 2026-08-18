@@ -21,6 +21,28 @@ téléphone cliquable) via `public/videos/lyon-ai-studio-presentation.mp4`.
 
 Regénérer/modifier : voir `scripts/video/README.md`.
 
+## Vidéos courtes — réseaux sociaux (native ads)
+
+Deux vidéos verticales 1080×1920, format "contenu natif" (cadre façon appli sociale : heure, icônes
+d'engagement, mention `lyonaistudio`), sans voix off — 100% typographie animée + musique, pour fonctionner
+muet sur Instagram/TikTok. Chacune se concentre sur un seul argument pour rester efficace :
+
+- `video-agent-ia-reseaux-sociaux.mp4` (25,5 s) — l'agent IA : accroche (appels/messages manqués),
+  révélation de l'agent, schéma "L'agent IA, concrètement" (mêmes visuels que la vidéo explicative),
+  arguments "sans embaucher personne" / "disponible 24 h/24, 7 j/7", puis appel à l'action.
+- `video-sites-reseaux-sociaux.mp4` (26,5 s) — la création de site : mêmes accroches que la vidéo
+  explicative ("vos clients vous cherchent sur Google"), mockup d'un vrai site réalisé, arguments
+  "optimisé SEO" / "prêt en quelques semaines", puis appel à l'action.
+
+Bandes sonores dédiées, 100% synthétisées par code, aucun sample réutilisé :
+`scripts/video-remotion/synth-viral.mjs` (agent IA, rythme soutenu) et
+`scripts/video-remotion/synth-sites.mjs` (sites, ambiance plus posée/premium).
+
+Regénérer : voir `scripts/video-remotion/README ci-dessous` — en résumé, depuis `scripts/video-remotion/` :
+`node synth-viral.mjs` / `node synth-sites.mjs` (si la musique doit être régénérée), puis
+`npm run render:agents` / `npm run render:sites`, puis copier `out/video-agents.mp4` /
+`out/video-sites.mp4` dans ce dossier.
+
 ## Fichiers imprimés
 
 | Fichier | Format | Usage |

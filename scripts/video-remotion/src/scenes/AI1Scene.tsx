@@ -4,7 +4,7 @@ import { COLORS, FONT_DISPLAY } from "../theme";
 import { Eyebrow } from "../components/Header";
 import { WorkflowDiagram } from "../components/WorkflowDiagram";
 
-export const AI1Scene: React.FC<{ subtitle: string }> = ({ subtitle }) => {
+export const AI1Scene: React.FC<{ subtitle: string; captionBottom?: number }> = ({ subtitle, captionBottom = 150 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const captionP = spring({ frame: frame - 60, fps, config: { damping: 200 } });
@@ -20,7 +20,7 @@ export const AI1Scene: React.FC<{ subtitle: string }> = ({ subtitle }) => {
       <div
         style={{
           position: "absolute",
-          bottom: 150,
+          bottom: captionBottom,
           left: 80,
           right: 80,
           textAlign: "center",

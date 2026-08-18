@@ -5,7 +5,7 @@ import { Eyebrow } from "../components/Header";
 
 const QUERY = "plombier lyon";
 
-export const Hook1Scene: React.FC<{ subtitle: string }> = ({ subtitle }) => {
+export const Hook1Scene: React.FC<{ subtitle: string; captionBottom?: number }> = ({ subtitle, captionBottom = 190 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -69,7 +69,7 @@ export const Hook1Scene: React.FC<{ subtitle: string }> = ({ subtitle }) => {
       <div
         style={{
           position: "absolute",
-          bottom: 190,
+          bottom: captionBottom,
           left: 80,
           right: 80,
           textAlign: "center",

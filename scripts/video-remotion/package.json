@@ -6,7 +6,11 @@
   "scripts": {
     "start": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts LyonAIStudio out/video.mp4",
-    "still": "remotion still src/index.ts LyonAIStudio out/still.png"
+    "still": "remotion still src/index.ts LyonAIStudio out/still.png",
+    "render:agents": "remotion render src/index.ts LyonAIStudioAgents out/video-agents.mp4",
+    "still:agents": "remotion still src/index.ts LyonAIStudioAgents out/still-agents.png",
+    "render:sites": "remotion render src/index.ts LyonAIStudioSites out/video-sites.mp4",
+    "still:sites": "remotion still src/index.ts LyonAIStudioSites out/still-sites.png"
   },
   "type": "module",
   "keywords": [],
