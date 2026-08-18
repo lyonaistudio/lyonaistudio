@@ -121,12 +121,10 @@ async function versoSvg() {
 
     <line x1="${contentX}" y1="${contactY}" x2="${bw - margin}" y2="${contactY}" stroke="${COLOR.inkLine}" stroke-width="2"/>
 
-    <text x="${contentX}" y="${contactY + mm(11)}" font-family="${FONT.mono}" font-weight="700" font-size="${mm(3.6)}" fill="${COLOR.accent}">T.</text>
-    <text x="${contentX + mm(7)}" y="${contactY + mm(11)}" font-family="${FONT.mono}" font-weight="400" font-size="${mm(3.6)}" fill="${COLOR.paperDim}">${esc(SITE.phone)}</text>
-    <text x="${contentX}" y="${contactY + mm(18)}" font-family="${FONT.mono}" font-weight="700" font-size="${mm(3.6)}" fill="${COLOR.accent}">E.</text>
-    <text x="${contentX + mm(7)}" y="${contactY + mm(18)}" font-family="${FONT.mono}" font-weight="400" font-size="${mm(3.6)}" fill="${COLOR.paperDim}">${esc(SITE.email)}</text>
-    <text x="${contentX}" y="${contactY + mm(25)}" font-family="${FONT.mono}" font-weight="700" font-size="${mm(3.6)}" fill="${COLOR.accent}">H.</text>
-    <text x="${contentX + mm(7)}" y="${contactY + mm(25)}" font-family="${FONT.mono}" font-weight="400" font-size="${mm(3.6)}" fill="${COLOR.paperDim}">${esc(SITE.hours)}</text>
+    <text x="${contentX}" y="${contactY + mm(11)}" font-family="${FONT.mono}" font-weight="700" font-size="${mm(3.6)}" fill="${COLOR.accent}">E.</text>
+    <text x="${contentX + mm(7)}" y="${contactY + mm(11)}" font-family="${FONT.mono}" font-weight="400" font-size="${mm(3.6)}" fill="${COLOR.paperDim}">${esc(SITE.email)}</text>
+    <text x="${contentX}" y="${contactY + mm(18)}" font-family="${FONT.mono}" font-weight="700" font-size="${mm(3.6)}" fill="${COLOR.accent}">H.</text>
+    <text x="${contentX + mm(7)}" y="${contactY + mm(18)}" font-family="${FONT.mono}" font-weight="400" font-size="${mm(3.6)}" fill="${COLOR.paperDim}">${esc(SITE.hours)}</text>
 
     <rect x="${bw - margin - qrSize}" y="${contactY + mm(7)}" width="${qrSize}" height="${qrSize}" fill="${COLOR.paper}"/>
     <image x="${bw - margin - qrSize}" y="${contactY + mm(7)}" width="${qrSize}" height="${qrSize}" href="${qr}"/>

@@ -21,7 +21,6 @@ function frontSvg() {
 
 function backSvg() {
   const rows = [
-    ["T.", SITE.phone],
     ["E.", SITE.email],
     ["W.", "lyonaistudio.fr"],
   ];
