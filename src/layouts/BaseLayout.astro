@@ -45,7 +45,7 @@ const schemas = [localBusinessSchema(), ...jsonLd];
       content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; media-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://formspree.io https://hook.eu1.make.com; frame-src https://www.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
     />
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-    <meta name="theme-color" content="#121110" />
+    <meta name="theme-color" content="#0a0a0a" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -75,14 +75,14 @@ const schemas = [localBusinessSchema(), ...jsonLd];
   <body class="flex min-h-screen flex-col antialiased">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:text-ink"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:text-white"
     >
       Aller au contenu
     </a>
     <div class="grain-overlay" aria-hidden="true" transition:persist></div>
     <Cursor />
     <Header />
-    <main id="main" class="flex-1">
+    <main id="main" class="flex-1 pt-20">
       <slot />
     </main>
     <Footer />

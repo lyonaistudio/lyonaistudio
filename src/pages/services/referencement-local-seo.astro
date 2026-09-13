@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import CTASection from "../../components/CTASection.astro";
+---
+
+<BaseLayout
+  title="Référencement local / SEO à Lyon — Lyon AI Studio"
+  description="Référencement local pour votre site internet à Lyon : optimisation technique, fiche Google Business Profile et mots-clés adaptés à vos clients réels."
+  path="/services/referencement-local-seo/"
+>
+  <Breadcrumb
+    items={[
+      { name: "Services", url: "/services/" },
+      { name: "Référencement local / SEO", url: "/services/referencement-local-seo/" },
+    ]}
+  />
+  <PageHero
+    eyebrow="SERVICE — RÉFÉRENCEMENT LOCAL"
+    title="Référencement local / SEO"
+    description="Un site magnifique que personne ne trouve sur Google ne sert à rien. Le référencement local, c'est ce qui vous met devant les clients qui cherchent déjà près de chez eux."
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <Eyebrow label="POUR QUI" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Toute activité qui dépend d'une clientèle locale
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Que vous soyez artisan, commerce de proximité ou profession libérale, l'essentiel de vos clients
+      potentiels vous cherche depuis Lyon et ses alentours — pas depuis l'autre bout de la France. Le
+      référencement local vise précisément ces recherches-là, plutôt que de viser un classement national
+      qui n'apporterait pas de clients concrets.
+    </p>
+
+    <Eyebrow label="CE QUE ÇA INCLUT" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Une visibilité construite sur des bases techniques solides
+    </h2>
+    <ul class="mt-6 space-y-4">
+      {[
+        ["Optimisation technique du site", "Structure des pages, balises, vitesse de chargement : les bases que Google utilise pour comprendre et classer votre site sont posées dès la construction."],
+        ["Fiche Google Business Profile", "Votre fiche d'établissement est créée ou optimisée — c'est souvent ce qui apparaît en premier dans une recherche locale, avant même votre site."],
+        ["Mots-clés pertinents", "Le contenu du site reprend les termes que vos clients tapent réellement, pas un vocabulaire générique déconnecté de leurs recherches."],
+        ["Contenu qui répond à une intention", "Chaque page est pensée pour répondre à une question ou un besoin précis, plutôt que de décrire votre activité de façon abstraite."],
+      ].map(([title, text]) => (
+        <li class="border-l-2 border-accent pl-4">
+          <p class="font-display font-semibold text-paper">{title}</p>
+          <p class="mt-1 text-sm leading-relaxed text-paper-dim">{text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <Eyebrow label="POURQUOI ÇA CHANGE LES CHOSES" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Être trouvé au bon moment, par la bonne personne
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Une recherche locale ("plombier Lyon 3", "coiffeur près de moi"...) vient souvent d'un besoin
+      immédiat — la personne qui cherche est prête à agir rapidement. Être visible à ce moment précis a
+      beaucoup plus d'impact qu'une visibilité générique. C'est un travail qui continue de porter ses
+      fruits dans la durée, contrairement à une campagne publicitaire qui s'arrête dès qu'on arrête de
+      payer.
+    </p>
+  </section>
+
+  <CTASection
+    title="Vous ne savez pas si votre site est bien référencé ?"
+    description="Envoyez-moi votre site, je vous donne un avis honnête sur ce qui pourrait être amélioré."
+  />
+</BaseLayout>

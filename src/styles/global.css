@@ -1,29 +1,30 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@import "@fontsource/space-grotesk/500.css";
-@import "@fontsource/space-grotesk/600.css";
-@import "@fontsource/space-grotesk/700.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
+@import "@fontsource/rethink-sans/400.css";
+@import "@fontsource/rethink-sans/500.css";
+@import "@fontsource/rethink-sans/600.css";
+@import "@fontsource/rethink-sans/700.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
 
 @theme {
-  /* Palette resserrée : graphite chaud + papier + accent cuivre */
-  --color-ink: #121110;
-  --color-ink-soft: #1a1815;
-  --color-ink-line: #2b2721;
-  --color-paper: #f4f1ea;
-  --color-paper-dim: #d9d4c8;
-  --color-mist: #93897a;
-  --color-accent: #e2672c;
-  --color-accent-soft: #f0a06f;
-  --color-accent-dim: #9c4720;
+  /* Palette sombre + rouge, inspirée de la nouvelle référence testdesignlyon.txt (ikuzo.fr) */
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #161616;
+  --color-ink-line: rgba(255, 255, 255, 0.1);
+  --color-paper: #ffffff;
+  --color-paper-dim: #aaaaaa;
+  --color-mist: #777777;
+  --color-accent: #ff003d;
+  --color-accent-soft: #ff3860;
+  --color-accent-dim: #7d001e;
+  --color-yellow: #ff003d;
+  --color-yellow-ink: #ff003d;
+  --color-green: #23d160;
 
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Rethink Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Rethink Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -40,7 +41,7 @@ body {
 
 ::selection {
   background-color: var(--color-accent);
-  color: var(--color-ink);
+  color: #fff;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -66,12 +67,6 @@ body {
 
 .reveal.is-visible {
   transform: translateY(0);
-}
-
-.grid-motif {
-  background-image: linear-gradient(var(--color-ink-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-ink-line) 1px, transparent 1px);
-  background-size: 48px 48px;
 }
 
 .prose-article {

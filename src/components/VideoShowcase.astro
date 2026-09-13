@@ -19,11 +19,11 @@ const VIDEOS = [
 ];
 ---
 
-<section class="grid-motif border-y border-ink-line">
+<section class="border-y border-ink-line bg-ink">
   <div class="reveal mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 sm:py-24 lg:grid-cols-[0.9fr_1.1fr]">
     <div>
       <Eyebrow label="EN VIDÉO" />
-      <h2 class="mt-4 font-display text-3xl font-semibold text-paper sm:text-4xl">
+      <h2 class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">
         Nos deux services, en vidéo.
       </h2>
       <p class="mt-4 max-w-md text-base leading-relaxed text-paper-dim">
@@ -32,7 +32,7 @@ const VIDEOS = [
       </p>
       <a
         href="/contact/"
-        class="magnetic mt-8 inline-block rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft"
+        class="magnetic mt-8 inline-block rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-accent-soft"
       >
         Demander un échange
       </a>
@@ -53,7 +53,7 @@ const VIDEOS = [
               >
                 <img src={v.poster} alt={v.alt} loading="lazy" decoding="async" />
                 <span class="play-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="26" height="26" fill="none">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
                     <path d="M8 5v14l11-7-11-7Z" fill="currentColor" />
                   </svg>
                 </span>
@@ -118,21 +118,28 @@ const VIDEOS = [
   }
 
   .play-icon svg {
-    color: var(--color-ink);
+    position: relative;
+    z-index: 1;
+    color: var(--color-paper);
+    transform: translateX(1px);
   }
 
   .play-icon::before {
     content: "";
     position: absolute;
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: var(--color-accent);
-    transition: transform 0.2s ease;
+    background: rgba(18, 17, 16, 0.5);
+    backdrop-filter: blur(3px);
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+    transition: transform 0.2s ease, background-color 0.2s ease;
   }
 
   .video-trigger:hover .play-icon::before {
     transform: scale(1.08);
+    background: var(--color-accent);
   }
 
   .phone-shell video {

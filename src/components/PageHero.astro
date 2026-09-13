@@ -10,14 +10,14 @@ interface Props {
 const { eyebrow, title, description } = Astro.props;
 ---
 
-<section class="grid-motif relative overflow-hidden border-b border-ink-line">
+<section class="relative overflow-hidden bg-[linear-gradient(180deg,#0a0a0a_0%,#2a030c_100%)]">
   <div
-    class="pointer-events-none absolute -left-24 -top-32 h-96 w-96 rounded-full bg-accent/10 blur-[120px]"
+    class="pointer-events-none absolute -left-24 -top-32 h-96 w-96 rounded-full bg-accent/15 blur-[120px]"
     aria-hidden="true"
   ></div>
-  <div class="relative mx-auto max-w-4xl px-6 py-16 sm:py-24">
+  <div class="relative mx-auto max-w-6xl px-6 py-20 sm:py-28">
     <Eyebrow label={eyebrow} />
-    <h1 class="mt-4 font-display text-4xl font-semibold text-paper sm:text-5xl">{title}</h1>
+    <h1 class="mt-6 max-w-3xl font-display text-[2.5rem] font-bold leading-[1.08] text-paper sm:text-[3.25rem]">{title}</h1>
     {description && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-paper-dim">{description}</p>}
   </div>
 </section>

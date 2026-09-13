@@ -21,12 +21,12 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
   <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
     <div class="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
       <div>
-        <div id="success-banner" class="mb-8 hidden border border-accent bg-ink-soft p-6" role="status" aria-live="polite">
+        <div id="success-banner" class="mb-8 hidden rounded-2xl border border-accent bg-ink-soft p-6" role="status" aria-live="polite">
           <p class="font-display font-semibold text-accent">Message envoyé.</p>
           <p class="mt-1 text-sm text-paper-dim">Merci, je reviens vers vous rapidement.</p>
         </div>
 
-        <div id="error-banner" class="mb-8 hidden border border-ink-line bg-ink-soft p-6" role="alert" aria-live="polite">
+        <div id="error-banner" class="mb-8 hidden rounded-3xl bg-ink-soft p-6" role="alert" aria-live="polite">
           <p class="font-display font-semibold text-paper">Envoi impossible pour le moment.</p>
           <p class="mt-1 text-sm text-paper-dim">
             Réessayez, ou écrivez-moi directement à
@@ -45,48 +45,48 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
 
           <div class="grid gap-6 sm:grid-cols-2">
             <div>
-              <label for="prenom" class="font-mono text-xs uppercase tracking-wide text-mist">Prénom</label>
+              <label for="prenom" class="text-sm font-semibold text-paper-dim">Prénom</label>
               <input
                 id="prenom"
                 name="Prénom"
                 type="text"
                 required
-                class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
+                class="mt-2 w-full rounded-2xl border border-white/20 bg-white/[0.06] px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(255,0,61,0.15)] focus:outline-none"
               />
             </div>
             <div>
-              <label for="nom" class="font-mono text-xs uppercase tracking-wide text-mist">Nom</label>
+              <label for="nom" class="text-sm font-semibold text-paper-dim">Nom</label>
               <input
                 id="nom"
                 name="Nom"
                 type="text"
                 required
-                class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
+                class="mt-2 w-full rounded-2xl border border-white/20 bg-white/[0.06] px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(255,0,61,0.15)] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label for="email" class="font-mono text-xs uppercase tracking-wide text-mist">Email</label>
+            <label for="email" class="text-sm font-semibold text-paper-dim">Email</label>
             <input
               id="email"
               name="Email"
               type="email"
               required
-              class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
+              class="mt-2 w-full rounded-2xl border border-white/20 bg-white/[0.06] px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(255,0,61,0.15)] focus:outline-none"
             />
           </div>
 
           <div class="grid gap-6 sm:grid-cols-2">
             <div>
-              <label for="type-entreprise" class="font-mono text-xs uppercase tracking-wide text-mist">
+              <label for="type-entreprise" class="text-sm font-semibold text-paper-dim">
                 Type d'entreprise
               </label>
               <select
                 id="type-entreprise"
                 name="Type d'entreprise"
                 required
-                class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
+                class="mt-2 w-full rounded-2xl border border-white/20 bg-white/[0.06] px-4 py-3 text-paper transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(255,0,61,0.15)] focus:outline-none"
               >
                 <option value="">Sélectionner…</option>
                 <option value="Artisan">Artisan</option>
@@ -97,7 +97,7 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
               </select>
             </div>
             <div>
-              <label for="secteur" class="font-mono text-xs uppercase tracking-wide text-mist">
+              <label for="secteur" class="text-sm font-semibold text-paper-dim">
                 Secteur d'activité
               </label>
               <input
@@ -105,13 +105,13 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
                 name="Secteur d'activité"
                 type="text"
                 placeholder="Ex. plomberie, coiffure, conseil…"
-                class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
+                class="mt-2 w-full rounded-2xl border border-white/20 bg-white/[0.06] px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(255,0,61,0.15)] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label for="message" class="font-mono text-xs uppercase tracking-wide text-mist">
+            <label for="message" class="text-sm font-semibold text-paper-dim">
               Décrivez ce que vous recherchez
             </label>
             <textarea
@@ -119,14 +119,14 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
               name="Message"
               rows="6"
               required
-              class="mt-2 w-full rounded-sm border border-ink-line bg-ink-soft px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(226,103,44,0.15)] focus:outline-none"
+              class="mt-2 w-full rounded-2xl border border-white/20 bg-white/[0.06] px-4 py-3 text-paper placeholder:text-mist transition-all focus:border-accent focus:shadow-[0_0_0_3px_rgba(255,0,61,0.15)] focus:outline-none"
             ></textarea>
           </div>
 
           <button
             id="contact-submit"
             type="submit"
-            class="rounded-sm bg-accent px-6 py-3 font-mono text-sm font-medium text-ink shadow-[0_16px_32px_-14px_rgba(226,103,44,0.55)] transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_20px_40px_-14px_rgba(226,103,44,0.65)] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
+            class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white shadow-[0_16px_32px_-14px_rgba(255,0,61,0.55)] transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_20px_40px_-14px_rgba(255,0,61,0.65)] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
           >
             Envoyer la demande
           </button>
@@ -134,7 +134,7 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
       </div>
 
       <aside class="space-y-8">
-        <div class="border border-ink-line bg-ink-soft p-6">
+        <div class="rounded-3xl bg-ink-soft p-6">
           <Eyebrow label="COORDONNÉES" />
           <ul class="mt-4 space-y-3 text-sm text-paper-dim">
             <li>
@@ -145,9 +145,9 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
           </ul>
         </div>
 
-        <div class="border border-ink-line bg-ink-soft p-6">
+        <div class="rounded-3xl bg-ink-soft p-6">
           <Eyebrow label="ZONE D'INTERVENTION" />
-          <div class="mt-4 aspect-video w-full overflow-hidden border border-ink-line grayscale">
+          <div class="mt-4 aspect-video w-full overflow-hidden rounded-2xl grayscale">
             <iframe
               title="Carte — Lyon, France"
               src="https://www.google.com/maps?q=Lyon,France&output=embed"
@@ -161,7 +161,7 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
           </p>
         </div>
 
-        <div class="border border-ink-line p-6">
+        <div class="rounded-3xl bg-ink-soft/60 p-6">
           <Eyebrow label="RÉPONSE PERSONNELLE" />
           <p class="mt-4 text-sm text-paper-dim">
             Chaque message est lu et traité personnellement par Thomas — pas d'équipe commerciale,

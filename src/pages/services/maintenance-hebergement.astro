@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import CTASection from "../../components/CTASection.astro";
+---
+
+<BaseLayout
+  title="Maintenance & hébergement de site internet à Lyon — Lyon AI Studio"
+  description="Hébergement, mises à jour et suivi technique de votre site internet à Lyon, pour qu'il reste fiable, rapide et sécurisé dans la durée."
+  path="/services/maintenance-hebergement/"
+>
+  <Breadcrumb
+    items={[
+      { name: "Services", url: "/services/" },
+      { name: "Maintenance & hébergement", url: "/services/maintenance-hebergement/" },
+    ]}
+  />
+  <PageHero
+    eyebrow="SERVICE — MAINTENANCE & HÉBERGEMENT"
+    title="Maintenance & hébergement"
+    description="Un site livré n'est pas un site terminé pour toujours. Sans suivi, il vieillit, ralentit et devient une faille de sécurité — sans que vous vous en rendiez compte."
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <Eyebrow label="POUR QUI" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Toute personne qui ne veut pas gérer la technique elle-même
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Que votre site ait été réalisé par mes soins ou par quelqu'un d'autre, vous n'avez pas à devenir
+      technicien pour qu'il reste fiable. Ce service s'adresse à ceux qui veulent un site qui continue de
+      fonctionner correctement, sans avoir à surveiller eux-mêmes les mises à jour ou l'hébergement.
+    </p>
+
+    <Eyebrow label="CE QUE ÇA INCLUT" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Un suivi qui évite les mauvaises surprises
+    </h2>
+    <ul class="mt-6 space-y-4">
+      {[
+        ["Hébergement fiable", "Le site est hébergé sur une infrastructure sérieuse, adaptée à sa taille réelle — pas surdimensionnée, pas fragile."],
+        ["Mises à jour techniques", "Les briques logicielles qui font tourner le site sont maintenues à jour, pour limiter les failles de sécurité connues."],
+        ["Sauvegardes régulières", "En cas de problème, on revient à une version fonctionnelle plutôt que de repartir de zéro."],
+        ["Corrections réactives", "Si quelque chose casse (formulaire, affichage, lien), c'est traité rapidement, sans que vous ayez à chercher pourquoi."],
+        ["Petites modifications de contenu", "Un changement de texte, de photo ou de tarif ne nécessite pas de rouvrir tout un projet — c'est pris en charge."],
+      ].map(([title, text]) => (
+        <li class="border-l-2 border-accent pl-4">
+          <p class="font-display font-semibold text-paper">{title}</p>
+          <p class="mt-1 text-sm leading-relaxed text-paper-dim">{text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <Eyebrow label="POURQUOI ÇA CHANGE LES CHOSES" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Un site à l'abandon perd en confiance et en visibilité
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Un site jamais mis à jour ralentit, peut afficher des erreurs, et devient une porte d'entrée plus
+      facile pour des attaques automatisées — ce qui abîme aussi bien l'expérience de vos visiteurs que
+      votre référencement. Un suivi régulier évite ces dérives silencieuses et vous laisse vous concentrer
+      sur votre activité plutôt que sur la technique.
+    </p>
+  </section>
+
+  <CTASection
+    title="Votre site actuel n'est plus suivi ?"
+    description="Dites-moi où il est hébergé et depuis quand il n'a pas été mis à jour — je vous dis honnêtement où vous en êtes."
+  />
+</BaseLayout>

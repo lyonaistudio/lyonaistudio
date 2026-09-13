@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import CTASection from "../../components/CTASection.astro";
+---
+
+<BaseLayout
+  title="UX / UI Design à Lyon — Lyon AI Studio"
+  description="Conception UX/UI pour votre site internet à Lyon : parcours clair, hiérarchie visuelle lisible, design qui inspire confiance et pousse à l'action."
+  path="/services/ux-ui-design/"
+>
+  <Breadcrumb
+    items={[
+      { name: "Services", url: "/services/" },
+      { name: "UX / UI Design", url: "/services/ux-ui-design/" },
+    ]}
+  />
+  <PageHero
+    eyebrow="SERVICE — UX / UI DESIGN"
+    title="UX / UI Design"
+    description="Un site peut être joli et pourtant ne convertir personne. L'UX/UI, c'est ce qui fait la différence entre un visiteur qui repart et un visiteur qui vous contacte."
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <Eyebrow label="POUR QUI" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Toute création ou refonte de site
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Le travail UX/UI n'est pas une option qui s'ajoute au-dessus du design — c'est la base de toute
+      création de site chez moi. Que vous partiez de zéro ou que vous refondiez un site existant qui ne
+      convertit pas, l'objectif est le même : qu'un visiteur comprenne en quelques secondes ce que vous
+      proposez, et sache immédiatement comment vous contacter.
+    </p>
+
+    <Eyebrow label="CE QUE ÇA INCLUT" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Un parcours pensé, pas un empilement de sections
+    </h2>
+    <ul class="mt-6 space-y-4">
+      {[
+        ["Parcours utilisateur réfléchi", "L'ordre des informations suit ce que se demande réellement votre visiteur, pas un plan de site générique recopié d'un modèle."],
+        ["Hiérarchie visuelle claire", "Ce qui compte le plus (votre offre, votre valeur, le bouton de contact) attire l'œil en premier — pas noyé au milieu du reste."],
+        ["Interface lisible et accessible", "Contrastes suffisants, tailles de texte confortables, zones cliquables assez grandes — pensé pour être utilisable par tout le monde, y compris sur mobile."],
+        ["Cohérence visuelle", "Une seule identité graphique du début à la fin du site, pas un patchwork de styles selon les pages."],
+        ["Testé sur vrais écrans", "Le rendu est vérifié sur mobile, tablette et desktop avant livraison, pas seulement sur l'écran large du développeur."],
+      ].map(([title, text]) => (
+        <li class="border-l-2 border-accent pl-4">
+          <p class="font-display font-semibold text-paper">{title}</p>
+          <p class="mt-1 text-sm leading-relaxed text-paper-dim">{text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <Eyebrow label="POURQUOI ÇA CHANGE LES CHOSES" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Un visiteur perdu ne revient pas
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      La plupart des visiteurs quittent un site en quelques secondes s'ils ne comprennent pas rapidement
+      ce qu'on leur propose ou comment agir. Un bon travail UX/UI ne se voit pas forcément — c'est
+      justement le but : tout paraît évident et naturel. Mais c'est ce qui transforme une simple visite en
+      demande de contact, sans que le visiteur ait eu à réfléchir pour trouver l'information qu'il
+      cherchait.
+    </p>
+  </section>
+
+  <CTASection
+    title="Un site qui existe déjà mais qui ne convertit pas ?"
+    description="Décrivez-moi le problème que vous observez, on regarde ensemble ce qui bloque."
+  />
+</BaseLayout>

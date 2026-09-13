@@ -6,19 +6,19 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<div class="divide-y divide-ink-line border-y border-ink-line">
+<div class="space-y-3">
   {items.map((item) => (
-    <details class="group reveal border-l-2 border-transparent px-4 py-6 transition-colors open:border-accent open:bg-ink-soft/40 hover:bg-ink-soft/30">
-      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-medium text-paper marker:content-none transition-colors group-hover:text-accent">
+    <details class="group reveal rounded-2xl bg-white/5 px-6 py-5 sm:px-8">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-5 font-display text-lg font-semibold text-paper marker:content-none sm:text-xl">
         {item.question}
         <span
-          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-ink-line font-mono text-accent transition-all group-hover:border-accent group-open:rotate-45 group-open:border-accent"
+          class="shrink-0 text-2xl font-medium text-accent transition-transform group-open:rotate-45"
           aria-hidden="true"
         >
           +
         </span>
       </summary>
-      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-paper-dim">{item.answer}</p>
+      <p class="mt-3 max-w-2xl pr-10 text-base leading-relaxed text-paper-dim">{item.answer}</p>
     </details>
   ))}
 </div>

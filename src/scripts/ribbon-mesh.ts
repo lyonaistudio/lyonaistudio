@@ -1,13 +1,13 @@
 // Fond animé "ribbon mesh" pour le hero de l'accueil : des rubans ondulants réactifs
 // au curseur, avec une petite salve de particules au clic. Palette limitée à la
-// marque (graphite + cuivre) — pas de bleu/violet générique.
+// marque (noir + rouge) — pas de bleu/violet générique.
 
-const INK = "#121110";
+const INK = "#0a0a0a";
 
 // rgb() triplets so we can vary alpha per-draw without re-parsing hex each frame.
-const ACCENT_RGB = "226, 103, 44";
-const ACCENT_SOFT_RGB = "240, 160, 111";
-const INK_LINE_RGB = "43, 39, 33";
+const ACCENT_RGB = "255, 0, 61";
+const ACCENT_SOFT_RGB = "255, 56, 96";
+const INK_LINE_RGB = "255, 255, 255";
 
 class Particle {
   x: number;

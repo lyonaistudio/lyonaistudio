@@ -1,0 +1,79 @@
+---
+// Graphique abstrait "réseau de nœuds" pour le hero — évoque l'IA / l'automatisation,
+// dans la charte de la marque. Élément original, statique en position, animé en douceur.
+const nodes = [
+  { id: 1, x: 60, y: 70 },
+  { id: 2, x: 150, y: 30 },
+  { id: 3, x: 245, y: 85, big: true },
+  { id: 4, x: 330, y: 45 },
+  { id: 5, x: 372, y: 140 },
+  { id: 6, x: 288, y: 190, big: true },
+  { id: 7, x: 190, y: 165 },
+  { id: 8, x: 95, y: 200 },
+  { id: 9, x: 205, y: 265 },
+  { id: 10, x: 320, y: 270 },
+  { id: 11, x: 40, y: 155 },
+];
+
+const edges: [number, number][] = [
+  [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [3, 7], [7, 8], [1, 8], [8, 11],
+  [7, 9], [6, 7], [9, 10], [6, 10], [2, 7],
+];
+
+const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
+---
+
+<div class="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] max-w-[520px] lg:block" aria-hidden="true">
+  <svg class="network-graphic absolute right-[6%] top-1/2 w-full max-w-[420px] -translate-y-1/2" viewBox="0 0 400 320" fill="none">
+    {edges.map(([a, b]) => {
+      const na = byId[a];
+      const nb = byId[b];
+      return <line x1={na.x} y1={na.y} x2={nb.x} y2={nb.y} stroke="currentColor" class="text-white/15" stroke-width="1" />;
+    })}
+    {nodes.map((n) => (
+      <>
+        {n.big && <circle cx={n.x} cy={n.y} r="16" fill="currentColor" class="node-glow text-accent/20" />}
+        <circle cx={n.x} cy={n.y} r={n.big ? 5 : 3} fill="currentColor" class={n.big ? "node-pulse text-accent" : "text-white/40"} />
+      </>
+    ))}
+  </svg>
+</div>
+
+<style>
+  .network-graphic {
+    animation: network-drift 12s ease-in-out infinite;
+  }
+
+  @keyframes network-drift {
+    0%, 100% { transform: translateY(-50%) translate(0, 0); }
+    50% { transform: translateY(-50%) translate(0, -10px); }
+  }
+
+  .node-pulse {
+    animation: node-pulse 3s ease-in-out infinite;
+  }
+
+  .node-glow {
+    animation: node-glow 3s ease-in-out infinite;
+  }
+
+  circle.node-pulse:nth-of-type(1) { animation-delay: 0s; }
+
+  @keyframes node-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+
+  @keyframes node-glow {
+    0%, 100% { opacity: 0.2; r: 16; }
+    50% { opacity: 0.4; r: 20; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .network-graphic,
+    .node-pulse,
+    .node-glow {
+      animation: none;
+    }
+  }
+</style>
