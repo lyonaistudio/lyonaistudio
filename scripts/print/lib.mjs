@@ -29,15 +29,16 @@ export function esc(str) {
     .replace(/>/g, "&gt;");
 }
 
-export function gridMotif(w, h, step, opacity = 1) {
-  let g = "";
-  for (let x = 0; x <= w; x += step) {
-    g += `<line x1="${x}" y1="0" x2="${x}" y2="${h}" stroke="${COLOR.inkLine}" stroke-width="1.5" opacity="${opacity}"/>`;
-  }
-  for (let y = 0; y <= h; y += step) {
-    g += `<line x1="0" y1="${y}" x2="${w}" y2="${y}" stroke="${COLOR.inkLine}" stroke-width="1.5" opacity="${opacity}"/>`;
-  }
-  return g;
+// Soft radial glow — echoes the blurred accent glow used behind the hero
+// on the live site (PageHero.astro), rather than the old checkered grid.
+export function radialGlow(id, cx, cy, r, color, opacity = 0.35) {
+  return {
+    defs: `<radialGradient id="${id}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="${color}" stop-opacity="${opacity}"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+    </radialGradient>`,
+    use: `<circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#${id})"/>`,
+  };
 }
 
 function mulberry32(a) {

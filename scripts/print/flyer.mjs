@@ -1,4 +1,4 @@
-import { mm, COLOR, FONT, esc, gridMotif, nodeMotif, logoMark, qrDataUri, renderAndCrop } from "./lib.mjs";
+import { mm, COLOR, FONT, esc, nodeMotif, logoMark, radialGlow, qrDataUri, renderAndCrop } from "./lib.mjs";
 import { SITE } from "./site-data.mjs";
 
 const TRIM_W = 148, TRIM_H = 210, BLEED = 3;
@@ -17,16 +17,18 @@ function textLines(x, startY, lines, { font, weight, size, fill, lineHeight, spa
 
 function rectoSvg() {
   const contentW = bw - margin * 2;
+  const glow = radialGlow("rectoGlow", bw - mm(30), mm(70), mm(60), COLOR.accent, 0.28);
   return `
   <svg width="${bw}" height="${bh}" viewBox="0 0 ${bw} ${bh}" xmlns="http://www.w3.org/2000/svg">
+    <defs>${glow.defs}</defs>
     <rect width="${bw}" height="${bh}" fill="${COLOR.ink}"/>
-    <g>${gridMotif(bw, bh, mm(12), 0.55)}</g>
+    ${glow.use}
     <g>${nodeMotif(21, margin, mm(128), bw - margin * 2, mm(42), 7)}</g>
 
     ${logoMark(margin, margin, mm(11))}
     <text x="${margin + mm(14)}" y="${margin + mm(7.4)}" font-family="${FONT.display}" font-weight="700" font-size="${mm(7)}" fill="${COLOR.paper}">${esc("Lyon AI Studio")}</text>
 
-    <text x="${margin}" y="${margin + mm(30)}" font-family="${FONT.mono}" font-weight="500" font-size="${mm(3.6)}" fill="${COLOR.accent}" letter-spacing="2">${esc("// LYON — SITES WEB & AUTOMATISATION IA")}</text>
+    <text x="${margin}" y="${margin + mm(30)}" font-family="${FONT.mono}" font-weight="500" font-size="${mm(3.6)}" fill="${COLOR.accent}" letter-spacing="2">${esc("// SITES WEB & AUTOMATISATION IA")}</text>
 
     ${textLines(margin, margin + mm(45), ["Votre site,", "vos tâches", "automatisées."], {
       font: FONT.display, weight: 700, size: mm(9.5), fill: COLOR.paper, lineHeight: mm(11.5),
@@ -34,13 +36,13 @@ function rectoSvg() {
 
     ${textLines(margin, margin + mm(89), [
       "Création de sites internet et automatisation",
-      "par IA pour les artisans, commerces et PME",
-      "de la région lyonnaise.",
+      "par IA pour les artisans, commerces et PME,",
+      "partout en France.",
     ], { font: FONT.sans, weight: 500, size: mm(4.4), fill: COLOR.paperDim, lineHeight: mm(6.6) })}
 
     <rect x="${margin}" y="${bh - margin - mm(22)}" width="${mm(14)}" height="${mm(0.9)}" fill="${COLOR.accent}"/>
     <text x="${margin}" y="${bh - margin - mm(12)}" font-family="${FONT.mono}" font-weight="500" font-size="${mm(4)}" fill="${COLOR.accent}">${esc("→ Au dos : nos services & contact")}</text>
-    <text x="${margin}" y="${bh - margin}" font-family="${FONT.sans}" font-weight="400" font-size="${mm(3.6)}" fill="${COLOR.mist}">${esc(SITE.city + ", France — intervention à distance")}</text>
+    <text x="${margin}" y="${bh - margin}" font-family="${FONT.sans}" font-weight="400" font-size="${mm(3.6)}" fill="${COLOR.mist}">${esc("Basé à Lyon — intervention partout en France")}</text>
   </svg>`;
 }
 
@@ -100,10 +102,13 @@ async function versoSvg() {
   const qrSize = mm(26);
   const qr = await qrDataUri(SITE.url, { dark: COLOR.ink, light: COLOR.paper, width: 600 });
 
+  const glow = radialGlow("versoGlow", margin, mm(30), mm(50), COLOR.accent, 0.22);
+
   return `
   <svg width="${bw}" height="${bh}" viewBox="0 0 ${bw} ${bh}" xmlns="http://www.w3.org/2000/svg">
+    <defs>${glow.defs}</defs>
     <rect width="${bw}" height="${bh}" fill="${COLOR.ink}"/>
-    <g>${gridMotif(bw, bh, mm(12), 0.55)}</g>
+    ${glow.use}
 
     ${logoMark(margin, margin, mm(8.5))}
     <text x="${margin + mm(11)}" y="${margin + mm(5.8)}" font-family="${FONT.display}" font-weight="700" font-size="${mm(5.4)}" fill="${COLOR.paper}">${esc("Lyon AI Studio")}</text>
