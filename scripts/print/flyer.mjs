@@ -23,7 +23,7 @@ function rectoSvg() {
     <defs>${glow.defs}</defs>
     <rect width="${bw}" height="${bh}" fill="${COLOR.ink}"/>
     ${glow.use}
-    <g>${nodeMotif(21, margin, mm(128), bw - margin * 2, mm(42), 7)}</g>
+    <g>${nodeMotif(21, mm(100), mm(50), mm(40), mm(65), 7)}</g>
 
     ${logoMark(margin, margin, mm(11))}
     <text x="${margin + mm(14)}" y="${margin + mm(7.4)}" font-family="${FONT.display}" font-weight="700" font-size="${mm(7)}" fill="${COLOR.paper}">${esc("Lyon AI Studio")}</text>
@@ -39,6 +39,23 @@ function rectoSvg() {
       "par IA pour les artisans, commerces et PME,",
       "partout en France.",
     ], { font: FONT.sans, weight: 500, size: mm(4.4), fill: COLOR.paperDim, lineHeight: mm(6.6) })}
+
+    <text x="${margin}" y="${margin + mm(118)}" font-family="${FONT.mono}" font-weight="500" font-size="${mm(3.4)}" fill="${COLOR.accent}" letter-spacing="1.5">${esc("// NOS DOMAINES D'EXPERTISE")}</text>
+    ${[
+      "Création & refonte de site internet",
+      "Automatisation & agents IA",
+      "UX / UI Design",
+      "Maintenance & hébergement",
+      "Référencement local / SEO",
+    ]
+      .map((d, i) => {
+        const y = margin + mm(128) + i * mm(9);
+        return `
+          <circle cx="${margin + mm(1.4)}" cy="${y - mm(1.5)}" r="${mm(1.1)}" fill="${COLOR.accent}"/>
+          <text x="${margin + mm(5.5)}" y="${y}" font-family="${FONT.sans}" font-weight="500" font-size="${mm(4.3)}" fill="${COLOR.paper}">${esc(d)}</text>
+        `;
+      })
+      .join("\n")}
 
     <rect x="${margin}" y="${bh - margin - mm(22)}" width="${mm(14)}" height="${mm(0.9)}" fill="${COLOR.accent}"/>
     <text x="${margin}" y="${bh - margin - mm(12)}" font-family="${FONT.mono}" font-weight="500" font-size="${mm(4)}" fill="${COLOR.accent}">${esc("→ Au dos : nos services & contact")}</text>
@@ -133,7 +150,8 @@ async function versoSvg() {
 
     <rect x="${bw - margin - qrSize}" y="${contactY + mm(7)}" width="${qrSize}" height="${qrSize}" fill="${COLOR.paper}"/>
     <image x="${bw - margin - qrSize}" y="${contactY + mm(7)}" width="${qrSize}" height="${qrSize}" href="${qr}"/>
-    <text x="${bw - margin - qrSize / 2}" y="${contactY + qrSize + mm(13)}" font-family="${FONT.mono}" font-weight="500" font-size="${mm(2.7)}" fill="${COLOR.mist}" text-anchor="middle">${esc("Scannez — en savoir plus")}</text>
+    <text x="${bw - margin - qrSize / 2}" y="${contactY + qrSize + mm(9)}" font-family="${FONT.mono}" font-weight="700" font-size="${mm(3.1)}" fill="${COLOR.accent}" text-anchor="middle">${esc("Scannez →")}</text>
+    <text x="${bw - margin - qrSize / 2}" y="${contactY + qrSize + mm(14.5)}" font-family="${FONT.sans}" font-weight="400" font-size="${mm(3)}" fill="${COLOR.mist}" text-anchor="middle">${esc("Découvrez nos créations")}</text>
 
     <rect x="${contentX}" y="${bh - margin - mm(4)}" width="${mm(14)}" height="${mm(0.9)}" fill="${COLOR.accent}"/>
     <text x="${contentX}" y="${bh - margin}" font-family="${FONT.sans}" font-weight="500" font-size="${mm(3.6)}" fill="${COLOR.paper}">${esc("Demande de renseignements sans engagement")}</text>

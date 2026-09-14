@@ -23,18 +23,39 @@ function frontSvg() {
 
 async function backSvg() {
   const glow = radialGlow("backGlow", bw - mm(18), bh - mm(16), mm(30), COLOR.accent, 0.28);
+
+  const domains = [
+    "Création & refonte de site",
+    "Automatisation & agents IA",
+    "UX / UI Design",
+    "Maintenance & hébergement",
+    "Référencement local / SEO",
+  ];
+  const domainsStartY = margin + mm(14.4);
+  const domainGap = mm(3.5);
+  let domainsSvg = "";
+  domains.forEach((d, i) => {
+    const y = domainsStartY + i * domainGap;
+    domainsSvg += `
+      <circle cx="${margin + mm(0.9)}" cy="${y - mm(1)}" r="${mm(0.55)}" fill="${COLOR.accent}"/>
+      <text x="${margin + mm(3)}" y="${y}" font-family="${FONT.sans}" font-weight="400" font-size="${mm(2.55)}" fill="${COLOR.paperDim}">${esc(d)}</text>
+    `;
+  });
+
+  const accentLineY = domainsStartY + domains.length * domainGap + mm(1);
+
   const rows = [
     ["E.", SITE.email],
     ["W.", "lyonaistudio.fr"],
   ];
-  const rowStartY = margin + mm(26.5);
-  const rowGap = mm(6.4);
+  const rowStartY = accentLineY + mm(4.5);
+  const rowGap = mm(4.6);
   let rowsSvg = "";
   rows.forEach(([label, value], i) => {
     const y = rowStartY + i * rowGap;
     rowsSvg += `
-      <text x="${margin}" y="${y}" font-family="${FONT.mono}" font-weight="700" font-size="${mm(3.3)}" fill="${COLOR.accent}">${esc(label)}</text>
-      <text x="${margin + mm(7)}" y="${y}" font-family="${FONT.mono}" font-weight="400" font-size="${mm(3.3)}" fill="${COLOR.paperDim}">${esc(value)}</text>
+      <text x="${margin}" y="${y}" font-family="${FONT.mono}" font-weight="700" font-size="${mm(2.9)}" fill="${COLOR.accent}">${esc(label)}</text>
+      <text x="${margin + mm(6)}" y="${y}" font-family="${FONT.mono}" font-weight="400" font-size="${mm(2.9)}" fill="${COLOR.paperDim}">${esc(value)}</text>
     `;
   });
 
@@ -48,13 +69,14 @@ async function backSvg() {
     <defs>${glow.defs}</defs>
     <rect width="${bw}" height="${bh}" fill="${COLOR.ink}"/>
     ${glow.use}
-    <text x="${margin}" y="${margin + mm(2.6)}" font-family="${FONT.mono}" font-weight="500" font-size="${mm(2.7)}" fill="${COLOR.accent}" letter-spacing="1.5">${esc("// LYON AI STUDIO")}</text>
-    <text x="${margin}" y="${margin + mm(10.6)}" font-family="${FONT.display}" font-weight="700" font-size="${mm(5.8)}" fill="${COLOR.paper}">${esc("Sites internet & agents IA")}</text>
-    <text x="${margin}" y="${margin + mm(15.6)}" font-family="${FONT.sans}" font-weight="500" font-size="${mm(3.1)}" fill="${COLOR.mist}">${esc("100% sur-mesure, partout en France")}</text>
-    <rect x="${margin}" y="${margin + mm(18.6)}" width="${mm(10)}" height="${mm(0.7)}" fill="${COLOR.accent}"/>
+    <text x="${margin}" y="${margin + mm(2.6)}" font-family="${FONT.mono}" font-weight="500" font-size="${mm(2.7)}" fill="${COLOR.accent}" letter-spacing="1.5">${esc("// NOS DOMAINES")}</text>
+    <text x="${margin}" y="${margin + mm(9.2)}" font-family="${FONT.display}" font-weight="700" font-size="${mm(5)}" fill="${COLOR.paper}">${esc("Sites internet & agents IA")}</text>
+    ${domainsSvg}
+    <rect x="${margin}" y="${accentLineY}" width="${mm(10)}" height="${mm(0.7)}" fill="${COLOR.accent}"/>
     ${rowsSvg}
     <rect x="${qrX - mm(1.5)}" y="${qrY - mm(1.5)}" width="${qrSize + mm(3)}" height="${qrSize + mm(3)}" fill="${COLOR.paper}" rx="${mm(1.2)}"/>
     <image x="${qrX}" y="${qrY}" width="${qrSize}" height="${qrSize}" href="${qr}"/>
+    <text x="${qrX + qrSize}" y="${qrY - mm(2)}" font-family="${FONT.mono}" font-weight="600" font-size="${mm(2.3)}" fill="${COLOR.accent}" text-anchor="end">${esc("SCANNEZ →")}</text>
   </svg>`;
 }
 
