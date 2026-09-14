@@ -47,7 +47,10 @@ export function faqSchema(items: { question: string; answer: string }[]) {
       name: item.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: item.answer,
+        // Answers may contain inline links (<a href="…">) for on-page internal
+        // linking — stripped here so the JSON-LD text stays plain, matching
+        // what a screen reader or rich-result snippet would read aloud.
+        text: item.answer.replace(/<[^>]+>/g, ""),
       },
     })),
   };
@@ -62,7 +65,7 @@ export function articleSchema(options: {
 }) {
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: options.title,
     description: options.description,
     image: `${SITE.url}${options.image}`,

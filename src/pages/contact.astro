@@ -3,13 +3,45 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import Eyebrow from "../components/Eyebrow.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
 import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
+import { faqSchema } from "../lib/schema";
+
+const faqItems = [
+  {
+    question: "Sous quel délai Lyon AI Studio répond-il à une demande de contact ?",
+    answer:
+      "Chaque message envoyé via ce formulaire reçoit une réponse personnelle sous 48h ouvrées, généralement plus rapidement. Aucun standard automatisé — c'est moi qui lis et réponds à chaque demande.",
+  },
+  {
+    question: "Dois-je préciser un budget avant de vous contacter ?",
+    answer:
+      "Non, ce n'est pas nécessaire. Décrivez simplement votre besoin et votre activité — je vous propose ensuite une estimation adaptée après avoir compris le projet, pas un tarif générique déconnecté de votre situation réelle.",
+  },
+  {
+    question: "Puis-je vous contacter par téléphone plutôt que par formulaire ?",
+    answer:
+      "Oui, mes coordonnées sont indiquées sur cette page. Le formulaire reste le moyen le plus rapide pour décrire un besoin en détail, mais un échange téléphonique est possible dès que le projet est cerné.",
+  },
+  {
+    question: "Que se passe-t-il après l'envoi du formulaire de contact ?",
+    answer:
+      "Vous recevez une confirmation immédiate à l'écran, puis une réponse personnelle par email sous 48h. L'étape suivante est décrite en détail sur la page <a href=\"/comment-ca-se-passe/\" class=\"text-accent underline underline-offset-2\">déroulement d'un projet</a>.",
+  },
+  {
+    question: "Intervenez-vous pour des entreprises situées hors de Lyon ?",
+    answer:
+      "L'activité est basée à Lyon, mais l'ensemble du travail se fait à distance — cela n'empêche pas de travailler avec des structures situées ailleurs en France.",
+  },
+];
+const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
   title="Contact — Lyon AI Studio"
   description="Contactez Lyon AI Studio pour un projet de site internet ou d'automatisation IA. Réponse personnelle sous quelques jours."
   path="/contact/"
+  jsonLd={[schema]}
 >
   <Breadcrumb items={[{ name: "Contact", url: "/contact/" }]} />
   <PageHero
@@ -170,6 +202,16 @@ import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
           </p>
         </div>
       </aside>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Avant de nous écrire
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
     </div>
   </section>
 </BaseLayout>

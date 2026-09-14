@@ -4,12 +4,45 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServiceCard from "../../components/ServiceCard.astro";
 import CTASection from "../../components/CTASection.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import { faqSchema } from "../../lib/schema";
+
+const faqItems = [
+  {
+    question: "Quels services propose Lyon AI Studio ?",
+    answer:
+      "Deux services complémentaires : la <a href=\"/services/creation-site-internet/\" class=\"text-accent underline underline-offset-2\">création de site internet</a> sur-mesure, et l'<a href=\"/services/automatisation-ia/\" class=\"text-accent underline underline-offset-2\">automatisation par agent IA</a> pour les tâches répétitives. Le tout couvre aussi l'UX/UI, le référencement local et la maintenance, intégrés selon vos besoins.",
+  },
+  {
+    question: "Puis-je combiner création de site et automatisation IA ?",
+    answer:
+      "Oui, c'est même une combinaison fréquente : un site qui présente bien votre activité, couplé à un agent IA qui traite les demandes entrantes automatiquement. Les deux services sont pensés pour fonctionner ensemble, mais peuvent aussi être pris séparément.",
+  },
+  {
+    question: "Est-ce que je dois savoir ce dont j'ai besoin avant de vous contacter ?",
+    answer:
+      "Non, c'est même la majorité des situations que je rencontre. Mon rôle est de traduire votre besoin en solution technique adaptée, pas l'inverse — décrivez simplement votre activité et ce qui vous prend du temps.",
+  },
+  {
+    question: "Travaillez-vous uniquement avec des entreprises basées à Lyon ?",
+    answer:
+      "L'activité est basée à Lyon et principalement tournée vers les entreprises locales, mais tout le travail se fait à distance — voir la page <a href=\"/a-propos/\" class=\"text-accent underline underline-offset-2\">à propos</a> pour en savoir plus sur le fonctionnement.",
+  },
+  {
+    question: "Comment se passe un premier échange avec Lyon AI Studio ?",
+    answer:
+      "Vous décrivez votre besoin via le <a href=\"/contact/\" class=\"text-accent underline underline-offset-2\">formulaire de contact</a>, par email ou par téléphone. On échange ensuite sur votre activité avant de vous proposer une solution claire, sans jargon ni prix imposé avant d'avoir discuté.",
+  },
+];
+const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
-  title="Services — Création de site internet & automatisation IA à Lyon"
+  title="Services — Site internet & automatisation IA à Lyon"
   description="Deux services complémentaires : création de site internet et automatisation par IA, pensés pour les artisans, commerces et PME de la région lyonnaise."
   path="/services/"
+  jsonLd={[schema]}
 >
   <Breadcrumb items={[{ name: "Services", url: "/services/" }]} />
   <PageHero
@@ -19,6 +52,10 @@ import CTASection from "../../components/CTASection.astro";
   />
 
   <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+    <p class="mx-auto mb-12 max-w-2xl text-center text-lg leading-relaxed text-paper-dim">
+      Que vous ayez besoin d'une création web classique ou d'un site IA enrichi d'automatisation, la
+      démarche reste la même : comprendre votre activité avant de proposer une solution sur-mesure.
+    </p>
     <div class="grid gap-6 md:grid-cols-2">
       <ServiceCard
         index="01"
@@ -42,6 +79,16 @@ import CTASection from "../../components/CTASection.astro";
         ]}
         href="/services/automatisation-ia/"
       />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Questions fréquentes sur les services
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
     </div>
   </section>
 

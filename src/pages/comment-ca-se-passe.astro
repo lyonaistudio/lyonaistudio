@@ -4,12 +4,45 @@ import PageHero from "../components/PageHero.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import StepCard from "../components/StepCard.astro";
 import CTASection from "../components/CTASection.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import { faqSchema } from "../lib/schema";
+
+const faqItems = [
+  {
+    question: "Combien de temps dure chaque étape du projet ?",
+    answer:
+      "La prise de contact et l'échange se font en quelques jours. La proposition suit rapidement. La réalisation, elle, dépend de l'ampleur du projet — un site simple prend quelques semaines, une automatisation complexe peut demander plus de temps.",
+  },
+  {
+    question: "Dois-je préparer un cahier des charges avant de contacter Lyon AI Studio ?",
+    answer:
+      "Non, ce n'est pas nécessaire. Quelques lignes décrivant votre activité et votre besoin suffisent pour démarrer l'échange — le cahier des charges se construit ensuite ensemble, pendant la deuxième étape.",
+  },
+  {
+    question: "Puis-je changer d'avis après avoir reçu la proposition ?",
+    answer:
+      "Oui, aucun engagement n'est pris avant que tout soit clair de votre côté. La proposition sert justement à valider ensemble que la solution correspond bien à votre besoin avant de démarrer la réalisation.",
+  },
+  {
+    question: "Suis-je accompagné après la livraison du site ou de l'automatisation ?",
+    answer:
+      "Oui, un temps est prévu pour vous former à l'outil livré, et les 30 jours suivants incluent les corrections de bugs liés à la réalisation sans frais supplémentaires — voir aussi la page <a href=\"/services/maintenance-hebergement/\" class=\"text-accent underline underline-offset-2\">maintenance & hébergement</a> pour un suivi dans la durée.",
+  },
+  {
+    question: "Comment démarrer la première étape ?",
+    answer:
+      "Un message via la page <a href=\"/contact/\" class=\"text-accent underline underline-offset-2\">contact</a> suffit — décrivez votre activité et ce qui vous amène, la réponse arrive sous 48h.",
+  },
+];
+const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
   title="Comment ça se passe — Lyon AI Studio"
   description="Le déroulement d'un projet avec Lyon AI Studio, étape par étape : prise de contact, échange, proposition, réalisation."
   path="/comment-ca-se-passe/"
+  jsonLd={[schema]}
 >
   <Breadcrumb items={[{ name: "Comment ça se passe", url: "/comment-ca-se-passe/" }]} />
   <PageHero
@@ -19,27 +52,38 @@ import CTASection from "../components/CTASection.astro";
   />
 
   <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
-    <StepCard
-      number="01"
-      title="Prise de contact"
-      description="Vous décrivez votre besoin via le formulaire de contact, par email ou par téléphone. Quelques lignes suffisent pour démarrer — pas besoin d'un cahier des charges détaillé."
-    />
-    <StepCard
-      number="02"
-      title="Échange sur le besoin"
-      description="On discute de votre activité, de ce qui vous prend du temps ou de ce qui manque aujourd'hui. C'est cette étape qui permet de proposer quelque chose d'adapté plutôt qu'une solution générique."
-    />
-    <StepCard
-      number="03"
-      title="Proposition adaptée"
-      description="Vous recevez une proposition claire : ce qui sera fait, comment, et dans quel délai. Aucun engagement n'est pris avant que tout soit clair de votre côté."
-    />
-    <StepCard
-      number="04"
-      title="Réalisation"
-      description="Le site ou l'automatisation est mis en place et testé. Une fois livré, vous êtes accompagné pour prendre en main l'outil — vous n'êtes jamais laissé seul avec quelque chose que vous ne savez pas utiliser."
-      isLast
-    />
+    <ol class="space-y-12">
+      <StepCard
+        number="01"
+        title="Prise de contact"
+        description="Vous décrivez votre besoin via le formulaire de contact, par email ou par téléphone. Quelques lignes suffisent pour démarrer — pas besoin d'un cahier des charges détaillé."
+      />
+      <StepCard
+        number="02"
+        title="Échange sur le besoin"
+        description="On discute de votre activité, de ce qui vous prend du temps ou de ce qui manque aujourd'hui. C'est cette étape qui permet de proposer quelque chose d'adapté plutôt qu'une solution générique."
+      />
+      <StepCard
+        number="03"
+        title="Proposition adaptée"
+        description="Vous recevez une proposition claire : ce qui sera fait, comment, et dans quel délai. Aucun engagement n'est pris avant que tout soit clair de votre côté."
+      />
+      <StepCard
+        number="04"
+        title="Réalisation"
+        description="Le site ou l'automatisation est mis en place et testé. Une fois livré, vous êtes accompagné pour prendre en main l'outil — vous n'êtes jamais laissé seul avec quelque chose que vous ne savez pas utiliser."
+      />
+    </ol>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Questions fréquentes sur le déroulement
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
   </section>
 
   <CTASection

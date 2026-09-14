@@ -4,12 +4,44 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import CTASection from "../../components/CTASection.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import { faqSchema } from "../../lib/schema";
+
+const faqItems = [
+  {
+    question: "Combien coûte la création d'un site internet à Lyon ?",
+    answer:
+      "Chaque site est différent, donc chaque prix l'est aussi — il dépend du nombre de pages, du contenu à produire et des fonctionnalités souhaitées. Plutôt qu'un tarif générique qui ne correspondrait à rien de concret, je préfère comprendre votre besoin avant de vous proposer un montant clair et sans surprise.",
+  },
+  {
+    question: "Combien de temps faut-il pour créer un site internet ?",
+    answer:
+      "La plupart des sites vitrines pour une petite structure sont livrés en quelques semaines une fois le besoin bien défini. Le délai exact vous est communiqué dans la proposition, avant tout engagement — voir le <a href=\"/comment-ca-se-passe/\" class=\"text-accent underline underline-offset-2\">déroulement détaillé d'un projet</a>.",
+  },
+  {
+    question: "Est-ce que je pourrai modifier mon site moi-même après la livraison ?",
+    answer:
+      "Oui. Le site est livré avec une structure pensée pour que vous puissiez ajouter du contenu simplement. Un temps d'explication est prévu à la livraison, et un <a href=\"/services/maintenance-hebergement/\" class=\"text-accent underline underline-offset-2\">suivi maintenance</a> reste disponible si vous préférez ne pas y toucher.",
+  },
+  {
+    question: "Un site internet sur-mesure est-il vraiment mieux qu'un site fait avec Wix ou Shopify ?",
+    answer:
+      "Un constructeur de site peut suffire pour démarrer, mais il impose souvent un design générique, des limites techniques sur le référencement local, et un abonnement qui grimpe avec les options. Un site sur-mesure vous appartient, se charge plus vite, et est construit dès le départ pour le référencement — voir la page <a href=\"/services/referencement-local-seo/\" class=\"text-accent underline underline-offset-2\">référencement local</a>.",
+  },
+  {
+    question: "Le site sera-t-il bien référencé sur Google dès sa mise en ligne ?",
+    answer:
+      "La structure technique (balises, vitesse, mobile) est optimisée dès la construction, ce qui donne une base saine pour être indexé rapidement. Le référencement local continue ensuite de se travailler dans la durée — ce n'est jamais figé au jour de la livraison.",
+  },
+];
+const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
   title="Création de site internet à Lyon — Lyon AI Studio"
   description="Création de site internet sur-mesure à Lyon pour artisans, commerces et professions libérales : design soigné, référencement local, impeccable sur mobile."
   path="/services/creation-site-internet/"
+  jsonLd={[schema]}
 >
   <Breadcrumb
     items={[
@@ -66,6 +98,16 @@ import CTASection from "../../components/CTASection.astro";
       algorithmes des réseaux sociaux. C'est un investissement qui continue de vous apporter des
       demandes longtemps après sa mise en ligne, contrairement à une campagne publicitaire ponctuelle.
     </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Ce qu'on me demande le plus sur la création de site
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
   </section>
 
   <CTASection

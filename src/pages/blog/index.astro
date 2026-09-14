@@ -2,17 +2,50 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
 import { getCollection } from "astro:content";
+import { faqSchema } from "../../lib/schema";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
+
+const faqItems = [
+  {
+    question: "De quoi parlent les articles du blog Lyon AI Studio ?",
+    answer:
+      "De sites internet et d'automatisation IA pour les artisans, commerces et PME de la région lyonnaise — référencement local, fiche Google Business Profile, quand créer un site, comment un agent IA peut être utile au quotidien.",
+  },
+  {
+    question: "À quelle fréquence de nouveaux articles sont-ils publiés ?",
+    answer:
+      "De nouveaux articles sont ajoutés régulièrement, centrés sur des questions concrètes que se posent les entreprises locales plutôt que sur des sujets techniques abstraits.",
+  },
+  {
+    question: "Les conseils du blog s'appliquent-ils à mon secteur d'activité ?",
+    answer:
+      "Les principes (référencement local, présence en ligne, automatisation des tâches répétitives) s'appliquent à la plupart des artisans, commerces et professions libérales — n'hésitez pas à <a href=\"/contact/\" class=\"text-accent underline underline-offset-2\">me contacter</a> pour un avis adapté à votre situation précise.",
+  },
+  {
+    question: "Puis-je suggérer un sujet d'article ?",
+    answer:
+      "Oui, si une question revient souvent dans votre activité et que vous ne trouvez pas de réponse claire ailleurs, écrivez-le via la page <a href=\"/contact/\" class=\"text-accent underline underline-offset-2\">contact</a> — c'est souvent comme ça que naissent les prochains articles.",
+  },
+  {
+    question: "Le blog remplace-t-il un échange direct avec Lyon AI Studio ?",
+    answer:
+      "Non, il donne des repères généraux, mais chaque situation est différente. Pour un avis sur votre cas précis, la <a href=\"/faq/\" class=\"text-accent underline underline-offset-2\">FAQ générale</a> ou un message direct restent les moyens les plus rapides d'avoir une réponse concrète.",
+  },
+];
+const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
   title="Actualités & conseils — Lyon AI Studio"
   description="Conseils pratiques sur les sites internet et l'automatisation par IA pour les artisans, commerces et PME de Lyon."
   path="/blog/"
+  jsonLd={[schema]}
 >
   <Breadcrumb items={[{ name: "Actualités", url: "/blog/" }]} />
   <PageHero
@@ -49,6 +82,16 @@ const posts = (await getCollection("blog")).sort(
           </div>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Questions fréquentes sur le blog
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
     </div>
   </section>
 </BaseLayout>

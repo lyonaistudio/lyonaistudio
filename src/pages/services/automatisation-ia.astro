@@ -5,6 +5,37 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import CTASection from "../../components/CTASection.astro";
 import WorkflowDiagram from "../../components/WorkflowDiagram.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import { faqSchema } from "../../lib/schema";
+
+const faqItems = [
+  {
+    question: "Qu'est-ce qu'un agent IA, concrètement ?",
+    answer:
+      "C'est un programme capable de lire une demande (message, email, formulaire) et d'agir en conséquence — répondre, transmettre une information, déclencher une action — sans que vous interveniez à chaque fois. Contrairement à un chatbot générique, il est configuré spécifiquement pour votre activité et vos outils, pas pour répondre au hasard.",
+  },
+  {
+    question: "Est-ce que l'automatisation IA remplace un employé ?",
+    answer:
+      "Non, elle prend en charge les tâches répétitives et à faible valeur ajoutée (accusés de réception, tri, relances), pas la relation client ou les décisions qui demandent votre jugement. L'objectif est de vous redonner du temps, pas de retirer l'humain là où il compte vraiment.",
+  },
+  {
+    question: "Mes données sont-elles en sécurité avec un agent IA ?",
+    answer:
+      "L'automatisation s'appuie sur des outils professionnels reconnus et n'accède qu'aux informations strictement nécessaires à la tâche demandée. Le fonctionnement exact — quels outils, quelles données, quels accès — vous est expliqué avant la mise en place, sans zone d'ombre.",
+  },
+  {
+    question: "Combien coûte une automatisation IA pour une petite entreprise ?",
+    answer:
+      "Le prix dépend du nombre de tâches à automatiser et de la complexité des outils à connecter. Plutôt qu'un tarif générique, je préfère d'abord comprendre ce qui vous fait perdre du temps au quotidien avant de vous proposer un montant clair — voir la page <a href=\"/services/creation-site-internet/\" class=\"text-accent underline underline-offset-2\">création de site internet</a> si vous partez de zéro sur les deux volets.",
+  },
+  {
+    question: "Peut-on automatiser une seule tâche pour commencer ?",
+    answer:
+      "Oui, et c'est même l'approche recommandée : identifier les deux ou trois tâches qui prennent le plus de temps, les automatiser en priorité, puis élargir si c'est utile. Voir le <a href=\"/comment-ca-se-passe/\" class=\"text-accent underline underline-offset-2\">déroulement d'un projet</a> pour la méthode complète.",
+  },
+];
+const schema = faqSchema(faqItems);
 
 const examples = [
   {
@@ -35,9 +66,10 @@ const examples = [
 ---
 
 <BaseLayout
-  title="Automatisation & agent IA pour entreprises à Lyon — Lyon AI Studio"
+  title="Automatisation & agent IA à Lyon — Lyon AI Studio"
   description="Mise en place d'agents IA et de workflows d'automatisation pour les PME et commerces de Lyon : réponses automatiques, prise de rendez-vous, relances."
   path="/services/automatisation-ia/"
+  jsonLd={[schema]}
 >
   <Breadcrumb
     items={[
@@ -132,6 +164,16 @@ const examples = [
       mise en place est adaptée à vos outils existants et à votre façon de travailler — vous gardez la
       main sur ce qui compte, l'automatisation s'occupe du reste.
     </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Ce que les entreprises lyonnaises demandent le plus
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
   </section>
 
   <CTASection

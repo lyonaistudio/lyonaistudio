@@ -4,12 +4,44 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import CTASection from "../../components/CTASection.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import { faqSchema } from "../../lib/schema";
+
+const faqItems = [
+  {
+    question: "La maintenance est-elle obligatoire après la création d'un site ?",
+    answer:
+      "Non, mais elle est fortement recommandée. Sans elle, votre <a href=\"/services/creation-site-internet/\" class=\"text-accent underline underline-offset-2\">site internet</a> continue de fonctionner mais personne ne surveille les mises à jour de sécurité ni les pannes éventuelles — vous pouvez toujours la démarrer plus tard.",
+  },
+  {
+    question: "Où est hébergé mon site avec Lyon AI Studio ?",
+    answer:
+      "Sur une infrastructure adaptée à la taille réelle du site — ni surdimensionnée ni fragile. Le choix technique (hébergement statique, serveur, CDN) dépend du site et vous est expliqué clairement, sans jargon imposé.",
+  },
+  {
+    question: "Que se passe-t-il si mon site tombe en panne ?",
+    answer:
+      "Une correction est traitée rapidement dès qu'un problème est identifié — formulaire cassé, page qui ne charge plus, lien mort. Les 30 jours suivant une livraison, les corrections liées à la réalisation sont incluses sans frais.",
+  },
+  {
+    question: "Puis-je faire de petites modifications moi-même sans passer par la maintenance ?",
+    answer:
+      "Oui, le site est conçu pour que vous puissiez modifier facilement du contenu simple si vous le souhaitez. La maintenance prend le relais pour tout ce qui est technique — mises à jour, sauvegardes, sécurité — pas pour vous enlever la main sur votre contenu.",
+  },
+  {
+    question: "Combien coûte un contrat de maintenance mensuel ?",
+    answer:
+      "Cela dépend de la taille du site et du niveau de suivi souhaité (ponctuel ou mensuel). Décrivez-moi votre situation via la page <a href=\"/contact/\" class=\"text-accent underline underline-offset-2\">contact</a> et je vous propose une formule adaptée, sans engagement caché.",
+  },
+];
+const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
-  title="Maintenance & hébergement de site internet à Lyon — Lyon AI Studio"
+  title="Maintenance & hébergement site web à Lyon — Lyon AI Studio"
   description="Hébergement, mises à jour et suivi technique de votre site internet à Lyon, pour qu'il reste fiable, rapide et sécurisé dans la durée."
   path="/services/maintenance-hebergement/"
+  jsonLd={[schema]}
 >
   <Breadcrumb
     items={[
@@ -63,6 +95,16 @@ import CTASection from "../../components/CTASection.astro";
       votre référencement. Un suivi régulier évite ces dérives silencieuses et vous laisse vous concentrer
       sur votre activité plutôt que sur la technique.
     </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Questions fréquentes sur la maintenance
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
   </section>
 
   <CTASection

@@ -4,12 +4,44 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import CTASection from "../../components/CTASection.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import { faqSchema } from "../../lib/schema";
+
+const faqItems = [
+  {
+    question: "Quelle différence entre SEO et référencement local ?",
+    answer:
+      "Le SEO classique vise un classement général sur des mots-clés, parfois à l'échelle nationale. Le référencement local cible spécifiquement les recherches géolocalisées (\"plombier Lyon\", \"près de moi\") et la fiche Google Business Profile — c'est ce qui compte le plus pour une activité qui reçoit des clients localement.",
+  },
+  {
+    question: "Le référencement local est-il inclus dans la création de site ?",
+    answer:
+      "Les bases techniques (structure, vitesse, balises) le sont systématiquement dans chaque <a href=\"/services/creation-site-internet/\" class=\"text-accent underline underline-offset-2\">création de site internet</a>. Le travail plus approfondi (fiche Google, mots-clés élargis) peut être ajouté selon vos objectifs.",
+  },
+  {
+    question: "Combien de temps faut-il pour apparaître sur Google ?",
+    answer:
+      "Un site bien structuré techniquement peut être indexé en quelques jours à quelques semaines, mais un bon positionnement sur des recherches concurrentielles se construit sur plusieurs mois. C'est un travail de fond, pas un interrupteur qu'on active.",
+  },
+  {
+    question: "Qu'est-ce que la fiche Google Business Profile et pourquoi est-elle importante ?",
+    answer:
+      "C'est la fiche qui apparaît dans Google Maps et dans le bloc local en haut des résultats de recherche — souvent visible avant même votre site. Une fiche bien renseignée (horaires, photos, catégorie précise) améliore fortement votre visibilité locale.",
+  },
+  {
+    question: "Puis-je faire mon référencement local moi-même ?",
+    answer:
+      "En partie, oui — créer sa fiche Google est accessible à tous. Mais l'optimisation technique du site (structure, vitesse, balises) demande des compétences de développement, d'où l'intérêt de l'intégrer dès la <a href=\"/services/creation-site-internet/\" class=\"text-accent underline underline-offset-2\">construction du site</a> plutôt que de la corriger après coup.",
+  },
+];
+const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
   title="Référencement local / SEO à Lyon — Lyon AI Studio"
   description="Référencement local pour votre site internet à Lyon : optimisation technique, fiche Google Business Profile et mots-clés adaptés à vos clients réels."
   path="/services/referencement-local-seo/"
+  jsonLd={[schema]}
 >
   <Breadcrumb
     items={[
@@ -64,6 +96,16 @@ import CTASection from "../../components/CTASection.astro";
       fruits dans la durée, contrairement à une campagne publicitaire qui s'arrête dès qu'on arrête de
       payer.
     </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Questions fréquentes sur le référencement local
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
   </section>
 
   <CTASection

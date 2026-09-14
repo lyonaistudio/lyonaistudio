@@ -4,12 +4,44 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import CTASection from "../../components/CTASection.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import { faqSchema } from "../../lib/schema";
+
+const faqItems = [
+  {
+    question: "Qu'est-ce que l'UX/UI design, en une phrase ?",
+    answer:
+      "L'UX (expérience utilisateur) désigne la façon dont un visiteur comprend et navigue votre site, et l'UI (interface) sa présentation visuelle concrète — boutons, couleurs, typographie. Les deux travaillent ensemble pour qu'un site soit à la fois agréable à regarder et facile à utiliser.",
+  },
+  {
+    question: "L'UX/UI est-il inclus dans la création de site internet ?",
+    answer:
+      "Oui, systématiquement — ce n'est pas une option payante en plus. Chaque <a href=\"/services/creation-site-internet/\" class=\"text-accent underline underline-offset-2\">création de site internet</a> chez Lyon AI Studio intègre ce travail dès la conception, pas en correction après coup.",
+  },
+  {
+    question: "Comment savoir si mon site actuel a un problème d'UX ?",
+    answer:
+      "Les signes les plus courants : beaucoup de visiteurs mais peu de demandes de contact, des retours qui disent \"je n'ai pas trouvé l'information\", ou un taux de rebond élevé sur mobile. Si vous observez ça, une refonte ciblée sur le parcours peut suffire, sans tout reconstruire.",
+  },
+  {
+    question: "Combien de temps prend un travail d'UX/UI design ?",
+    answer:
+      "Il est intégré au planning global du site, pas traité comme une étape séparée qui rallonge le projet. Voir le <a href=\"/comment-ca-se-passe/\" class=\"text-accent underline underline-offset-2\">déroulement d'un projet</a> pour le détail des étapes et délais.",
+  },
+  {
+    question: "L'UX/UI design a-t-il un impact sur le référencement ?",
+    answer:
+      "Indirectement, oui : Google mesure des signaux liés à l'expérience (temps passé, taux de rebond, vitesse perçue) qui influencent le classement. Un site agréable à utiliser retient mieux les visiteurs, ce qui sert aussi le <a href=\"/services/referencement-local-seo/\" class=\"text-accent underline underline-offset-2\">référencement local</a>.",
+  },
+];
+const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
   title="UX / UI Design à Lyon — Lyon AI Studio"
   description="Conception UX/UI pour votre site internet à Lyon : parcours clair, hiérarchie visuelle lisible, design qui inspire confiance et pousse à l'action."
   path="/services/ux-ui-design/"
+  jsonLd={[schema]}
 >
   <Breadcrumb
     items={[
@@ -65,6 +97,16 @@ import CTASection from "../../components/CTASection.astro";
       demande de contact, sans que le visiteur ait eu à réfléchir pour trouver l'information qu'il
       cherchait.
     </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Questions fréquentes sur l'UX/UI
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
   </section>
 
   <CTASection
