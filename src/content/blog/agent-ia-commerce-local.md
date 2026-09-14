@@ -28,4 +28,4 @@ Un client qui a demandé un devis et n'a jamais répondu, un rendez-vous annuel 
 
 Un agent IA prend en charge les tâches répétitives et chronophages, pas la relation avec vos clients. L'objectif n'est pas de remplacer un échange humain quand il compte, mais de libérer le temps qui partait auparavant dans des tâches mécaniques : répondre à la même question pour la dixième fois, recopier une disponibilité dans un agenda, relancer manuellement une liste de clients.
 
-Chaque commerce a des besoins différents. La bonne approche consiste à identifier les deux ou trois tâches qui prennent le plus de temps au quotidien, et à automatiser celles-là en premier — pas à tout changer d'un coup.
+Chaque commerce a des besoins différents. La bonne approche consiste à identifier les deux ou trois tâches qui prennent le plus de temps au quotidien, et à automatiser celles-là en premier — pas à tout changer d'un coup. C'est exactement la démarche suivie pour la [mise en place d'un agent IA sur-mesure](/services/automatisation-ia/) : partir de ce qui vous fait perdre du temps, pas d'une liste de fonctionnalités génériques.

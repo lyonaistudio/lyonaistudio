@@ -2,19 +2,99 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import CTASection from "../../components/CTASection.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
 import { getCollection, render } from "astro:content";
-import { articleSchema } from "../../lib/schema";
+import { articleSchema, faqSchema } from "../../lib/schema";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
   return posts.map((post) => ({
     params: { id: post.id },
-    props: { post },
+    props: { post, allPosts: posts },
   }));
 }
 
-const { post } = Astro.props;
+const ARTICLE_FAQ: Record<string, { question: string; answer: string }[]> = {
+  "agent-ia-commerce-local": [
+    {
+      question: "Un agent IA coûte-t-il cher à mettre en place pour un petit commerce ?",
+      answer:
+        "Ça dépend des tâches à automatiser, donc du besoin réel — il n'y a pas de tarif générique. La <a href=\"/services/automatisation-ia/\" class=\"text-accent underline underline-offset-2\">mise en place d'un agent IA</a> commence toujours par identifier ce qui prend le plus de temps au quotidien, avant de parler chiffrage.",
+    },
+    {
+      question: "Faut-il des compétences techniques pour utiliser un agent IA au quotidien ?",
+      answer:
+        "Non. L'agent est configuré en amont pour votre activité ; une fois en place, il fonctionne en arrière-plan et vous n'avez à intervenir que sur ce qui nécessite vraiment votre attention.",
+    },
+    {
+      question: "Un agent IA peut-il remplacer complètement le service client ?",
+      answer:
+        "Non, et ce n'est pas l'objectif. Il prend en charge les tâches répétitives (réponses simples, prise de rendez-vous, relances), pas la relation avec vos clients quand elle compte vraiment.",
+    },
+  ],
+  "pourquoi-artisan-site-web-2026": [
+    {
+      question: "Un site internet est-il vraiment utile si je travaille déjà bien avec le bouche-à-oreille ?",
+      answer:
+        "Oui, les deux se complètent : le bouche-à-oreille touche les gens qui vous connaissent déjà, un site capte ceux qui vous cherchent sans encore vous connaître.",
+    },
+    {
+      question: "Combien de temps faut-il pour avoir un site internet opérationnel ?",
+      answer:
+        "Ça dépend de l'ampleur du projet, mais la plupart des sites pour une petite structure sont livrés en quelques semaines. Le délai exact est communiqué dans la <a href=\"/services/creation-site-internet/\" class=\"text-accent underline underline-offset-2\">proposition</a>, avant tout engagement.",
+    },
+    {
+      question: "Un site simple suffit-il pour un artisan ?",
+      answer:
+        "Dans la majorité des cas, oui : ce qui compte le plus, c'est la clarté, la lisibilité sur mobile et une façon simple de vous contacter — pas la complexité du site.",
+    },
+  ],
+  "referencement-local-lyon": [
+    {
+      question: "Combien de temps faut-il pour voir des résultats en référencement local ?",
+      answer:
+        "Ça prend du temps — ce n'est pas immédiat comme une publicité payante. C'est un travail progressif (fiche Google, cohérence des informations, avis) dont l'effet s'accumule et dure une fois en place.",
+    },
+    {
+      question: "Le référencement local est-il vraiment gratuit ?",
+      answer:
+        "Les leviers eux-mêmes (fiche Google Business Profile, cohérence NAP, avis clients) sont gratuits, mais ils demandent du temps à mettre en place et à entretenir correctement — c'est ce que couvre l'accompagnement en <a href=\"/services/referencement-local-seo/\" class=\"text-accent underline underline-offset-2\">référencement local</a>.",
+    },
+    {
+      question: "Dois-je faire de la publicité en plus du référencement local ?",
+      answer:
+        "Ce n'est pas obligatoire. La publicité peut accélérer les résultats à court terme, mais le bon ordre pour un budget limité est presque toujours de commencer par les bases gratuites, qui continuent de travailler une fois en place.",
+    },
+  ],
+  "fiche-google-business-profile-site-internet": [
+    {
+      question: "Puis-je avoir uniquement une fiche Google sans site internet ?",
+      answer:
+        "C'est possible, mais ça limite ce que vous pouvez montrer à un client qui veut en savoir plus que les horaires et la note — c'est là que le site prend le relais.",
+    },
+    {
+      question: "Comment relier ma fiche Google Business Profile à mon site ?",
+      answer:
+        "En ajoutant l'adresse du site dans les paramètres de la fiche, et en évoquant ou intégrant la fiche Google sur le site (avis, lien vers l'itinéraire) — un lien qui doit fonctionner dans les deux sens.",
+    },
+    {
+      question: "Qui peut m'aider à optimiser ma fiche Google Business Profile ?",
+      answer:
+        "C'est l'un des volets de l'accompagnement en <a href=\"/services/referencement-local-seo/\" class=\"text-accent underline underline-offset-2\">référencement local</a> — <a href=\"/contact/\" class=\"text-accent underline underline-offset-2\">contactez-moi</a> pour en discuter.",
+    },
+  ],
+};
+
+const { post, allPosts } = Astro.props;
 const { Content } = await render(post);
+
+const relatedPosts = allPosts
+  .filter((p) => p.id !== post.id)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+  .slice(0, 3);
+
+const faqItems = ARTICLE_FAQ[post.id] ?? [];
 
 const schema = articleSchema({
   title: post.data.title,
@@ -23,13 +103,14 @@ const schema = articleSchema({
   publishDate: post.data.publishDate,
   image: post.data.image,
 });
+const jsonLd = faqItems.length > 0 ? [schema, faqSchema(faqItems)] : [schema];
 ---
 
 <BaseLayout
   title={`${post.data.title} — Lyon AI Studio`}
   description={post.data.description}
   path={`/blog/${post.id}/`}
-  jsonLd={[schema]}
+  jsonLd={jsonLd}
 >
   <Breadcrumb items={[{ name: "Actualités", url: "/blog/" }, { name: post.data.title, url: `/blog/${post.id}/` }]} />
 
@@ -50,7 +131,45 @@ const schema = articleSchema({
     <div class="prose-article prose prose-invert mt-10 max-w-none">
       <Content />
     </div>
+
+    <p class="mt-10 border-t border-ink-line pt-6 text-sm text-paper-dim">
+      Écrit par <a href="/a-propos/" class="text-accent underline underline-offset-2">Thomas Batisse</a>, fondateur de Lyon AI Studio.
+    </p>
   </article>
+
+  {faqItems.length > 0 && (
+    <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+      <Eyebrow label="QUESTIONS FRÉQUENTES" />
+      <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+        Questions fréquentes
+      </h2>
+      <div class="mt-8">
+        <FAQAccordion items={faqItems} />
+      </div>
+    </section>
+  )}
+
+  {relatedPosts.length > 0 && (
+    <section class="mx-auto max-w-6xl px-6 pb-16 sm:pb-20">
+      <Eyebrow label="À LIRE AUSSI" />
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
+        {relatedPosts.map((related) => (
+          <a
+            href={`/blog/${related.id}/`}
+            class="reveal group flex flex-col rounded-3xl border border-ink-line bg-ink-soft p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50"
+          >
+            <span class="text-xs font-bold uppercase tracking-wide text-mist">
+              {related.data.publishDate.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+            </span>
+            <h3 class="mt-3 font-display text-lg font-bold text-paper group-hover:text-accent">
+              {related.data.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-paper-dim">{related.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <CTASection
     title="Envie d'appliquer ça à votre activité ?"

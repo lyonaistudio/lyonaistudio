@@ -26,4 +26,4 @@ Un site bien construit techniquement (structure claire, informations cohérentes
 
 Un site internet n'a pas besoin d'être compliqué ni de coûter une fortune pour être efficace. L'essentiel : qu'il soit clair, qu'il inspire confiance, qu'il soit lisible sur mobile — c'est là que la majorité de vos visiteurs le consulteront — et qu'il donne une façon simple de vous contacter.
 
-Si vous travaillez encore uniquement via le bouche-à-oreille et les petites annonces, un site ne remplace pas ce réseau : il vient s'ajouter, pour capter les clients qui vous cherchent sans vous connaître encore.
+Si vous travaillez encore uniquement via le bouche-à-oreille et les petites annonces, un site ne remplace pas ce réseau : il vient s'ajouter, pour capter les clients qui vous cherchent sans vous connaître encore. Une [création de site internet](/services/creation-site-internet/) bien pensée dès le départ évite d'avoir à tout refaire quelques années plus tard.

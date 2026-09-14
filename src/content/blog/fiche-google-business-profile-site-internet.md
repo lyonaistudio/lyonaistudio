@@ -30,4 +30,4 @@ Quelques réglages simples augmentent nettement sa performance : une catégorie 
 
 ## En résumé
 
-Une fiche Google Business Profile capte l'attention, un site internet la transforme en contact. Avoir seulement l'un des deux, c'est laisser une partie du chemin inachevé pour le client qui vous cherche.
+Une fiche Google Business Profile capte l'attention, un site internet la transforme en contact. Avoir seulement l'un des deux, c'est laisser une partie du chemin inachevé pour le client qui vous cherche. L'accompagnement en [référencement local](/services/referencement-local-seo/) couvre justement ce travail conjoint entre la fiche et le site, pour que les deux se renforcent au lieu d'exister séparément.

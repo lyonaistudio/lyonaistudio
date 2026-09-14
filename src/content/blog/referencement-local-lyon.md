@@ -30,4 +30,4 @@ Les avis Google jouent un rôle direct dans le classement local et dans la déci
 
 ## Et la publicité, alors ?
 
-La publicité (Google Ads, réseaux sociaux) peut accélérer les résultats, mais elle coûte à chaque clic et s'arrête dès qu'on arrête de payer. Le référencement local gratuit, lui, continue de travailler une fois mis en place. Le bon ordre, pour une petite structure avec un budget limité, est presque toujours de commencer par ces bases avant d'envisager de la publicité.
+La publicité (Google Ads, réseaux sociaux) peut accélérer les résultats, mais elle coûte à chaque clic et s'arrête dès qu'on arrête de payer. Le référencement local gratuit, lui, continue de travailler une fois mis en place. Le bon ordre, pour une petite structure avec un budget limité, est presque toujours de commencer par ces bases avant d'envisager de la publicité — c'est le principe derrière l'accompagnement en [référencement local](/services/referencement-local-seo/) : mettre en place ce qui dure, avant ce qui coûte à chaque clic.

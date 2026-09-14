@@ -1,12 +1,23 @@
 ---
 interface Props {
   label: string;
+  variant?: "default" | "accent";
   class?: string;
 }
-const { label, class: className = "" } = Astro.props;
+const { label, variant = "default", class: className = "" } = Astro.props;
+
+const variants = {
+  default: "border-white/15 bg-white/5 text-paper",
+  accent: "border-transparent bg-accent text-white",
+};
+
+const dotVariants = {
+  default: "bg-accent",
+  accent: "bg-white",
+};
 ---
 
-<p class={`inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-bold tracking-wide text-paper ${className}`}>
-  <span class="h-2 w-2 rounded-full bg-accent" aria-hidden="true"></span>
+<p class={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold tracking-wide ${variants[variant]} ${className}`}>
+  <span class={`h-2 w-2 rounded-full ${dotVariants[variant]}`} aria-hidden="true"></span>
   <span data-scramble>{label}</span>
 </p>
