@@ -166,12 +166,12 @@ function Icon(name: string) {
           {expertises.map((item) => (
             <a
               href={item.href}
-              class="reveal group flex min-h-[220px] flex-col items-center justify-center gap-6 rounded-3xl bg-white/[0.06] p-4 text-center backdrop-blur-md transition-colors hover:bg-white/[0.1]"
+              class="reveal group flex min-h-[120px] flex-col items-center justify-center gap-2 rounded-2xl bg-white/[0.06] p-3 text-center backdrop-blur-md transition-colors hover:bg-white/[0.1] sm:min-h-[220px] sm:gap-6 sm:rounded-3xl sm:p-4"
             >
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" class="text-accent transition-transform group-hover:scale-110">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" class="h-8 w-8 text-accent transition-transform group-hover:scale-110 sm:h-16 sm:w-16">
                 <path d={Icon(item.icon)} stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-              <span class="text-lg font-bold leading-snug text-paper">{item.title}</span>
+              <span class="text-xs font-bold leading-snug text-paper sm:text-lg">{item.title}</span>
             </a>
           ))}
         </div>

@@ -7,21 +7,18 @@ const projects = [
     tag: "E-commerce",
     image: "/realisations/maison-maona.jpg",
     alt: "Aperçu du site e-commerce réalisé pour Maison Maona, boutique de bijoux waterproof",
-    href: "https://maisonmaona.com",
   },
   {
     title: "Safety Gadgets",
     tag: "E-commerce",
     image: "/realisations/safety-gadgets.jpg",
     alt: "Aperçu du site e-commerce Safety Gadgets, traceurs GPS et alarmes personnelles",
-    href: "https://safetygadgets.fr",
   },
   {
     title: "Lyon AI Studio",
     tag: "Site vitrine",
     image: "/realisations/lyon-ai-studio.jpg",
     alt: "Aperçu du site vitrine de Lyon AI Studio",
-    href: "/",
   },
 ];
 ---
@@ -35,12 +32,7 @@ const projects = [
 
     <div class="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-3">
       {projects.map((project) => (
-        <a
-          href={project.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group block"
-        >
+        <div class="block">
           <span class="block overflow-hidden rounded-2xl border border-ink-line">
             <img
               src={project.image}
@@ -49,16 +41,16 @@ const projects = [
               height="1000"
               loading="lazy"
               decoding="async"
-              class="aspect-[8/5] w-full object-cover object-top grayscale transition-[filter,transform] duration-500 group-hover:grayscale-0 group-hover:scale-[1.03]"
+              class="aspect-[8/5] w-full object-cover object-top"
             />
           </span>
-          <span class="mt-5 block font-display text-xl font-bold text-paper transition-colors group-hover:text-paper">
+          <span class="mt-5 block font-display text-xl font-bold text-paper">
             {project.title}
           </span>
           <span class="mt-3 inline-block rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-paper-dim">
             {project.tag}
           </span>
-        </a>
+        </div>
       ))}
     </div>
   </div>
