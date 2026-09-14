@@ -1,0 +1,17 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<canvas class={`block h-full w-full ${className}`} data-hero-3d aria-hidden="true"></canvas>
+
+<script>
+  import { mountHero3DScene } from "../scripts/hero-3d-scene";
+
+  document.querySelectorAll<HTMLCanvasElement>("canvas[data-hero-3d]:not([data-hero-3d-mounted])").forEach((canvas) => {
+    canvas.dataset.hero3dMounted = "true";
+    mountHero3DScene(canvas);
+  });
+</script>

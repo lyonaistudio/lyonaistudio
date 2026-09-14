@@ -2,8 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import Realisations from "../components/Realisations.astro";
-import RibbonMesh from "../components/RibbonMesh.astro";
-import NetworkGraphic from "../components/NetworkGraphic.astro";
+import Hero3DScene from "../components/Hero3DScene.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import { getCollection } from "astro:content";
 import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
@@ -122,18 +121,9 @@ function Icon(name: string) {
 >
   <!-- HERO -->
   <section class="relative overflow-hidden border-b border-ink-line">
-    <div class="absolute inset-0">
-      <RibbonMesh />
+    <div class="pointer-events-none absolute inset-0">
+      <Hero3DScene />
     </div>
-    <img
-      src="/images/backgrounds/fond1.webp"
-      alt=""
-      aria-hidden="true"
-      width="500"
-      height="750"
-      class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.18] mix-blend-screen"
-    />
-    <NetworkGraphic />
     <div class="hero-scrim pointer-events-none absolute inset-0"></div>
 
     <div class="reveal relative mx-auto max-w-[1536px] px-10 py-24 sm:py-32 lg:px-20">
