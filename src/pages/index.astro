@@ -467,6 +467,20 @@ function Icon(name: string) {
               <label for="home-message" class="mb-2 block text-sm font-semibold text-paper-dim">Message *</label>
               <textarea id="home-message" name="Message" rows="4" required class="w-full rounded-2xl border border-white/20 bg-white/[0.06] px-5 py-4 text-paper outline-none focus:border-accent"></textarea>
             </div>
+            <div class="flex items-start gap-3">
+              <input
+                id="home-rgpd-consent"
+                name="Consentement RGPD"
+                type="checkbox"
+                required
+                value="J'accepte que mes informations soient utilisées pour être recontacté(e)"
+                class="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.06] text-accent focus:ring-2 focus:ring-accent"
+              />
+              <label for="home-rgpd-consent" class="text-sm leading-relaxed text-paper-dim">
+                J'accepte que mes informations soient utilisées pour être recontacté(e) — voir la
+                <a href="/mentions-legales/" class="text-accent underline underline-offset-2">politique de confidentialité</a>.
+              </label>
+            </div>
             <div class="pt-2 text-center">
               <button type="submit" class="rounded-full bg-accent/75 py-4 pl-9 pr-[90px] text-lg font-bold text-white transition-all hover:bg-accent">
                 Envoyer

@@ -25,6 +25,24 @@ function isLowPower() {
   return cores <= 4;
 }
 
+// CPU core count says nothing about GPU capability — a machine can have
+// 8 cores and still fall back to software WebGL rendering (SwiftShader,
+// llvmpipe, remote desktops, some VMs), which is dramatically slower for
+// anything shader-heavy. Detect that case explicitly so we don't ship a
+// full-complexity scene onto a renderer that can't handle it.
+function isSoftwareRenderer(): boolean {
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = (canvas.getContext("webgl2") || canvas.getContext("webgl")) as WebGLRenderingContext | null;
+    if (!gl) return true;
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : "";
+    return /swiftshader|llvmpipe|software|angle.*warp/i.test(renderer);
+  } catch {
+    return true;
+  }
+}
+
 // ---------- Procedural textures (no external assets) ----------
 
 function roundRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
@@ -255,8 +273,14 @@ function makeParticleLayer(count: number, spread: number, size: number, opacity:
 
 export function mountHero3DScene(canvas: HTMLCanvasElement) {
   const mobile = isMobile();
+  const softwareRenderer = isSoftwareRenderer();
   const lowPower = isLowPower();
-  const tier: "mobile" | "low" | "full" = mobile ? "mobile" : lowPower ? "low" : "full";
+  const tier: "mobile" | "low" | "full" = mobile ? "mobile" : lowPower || softwareRenderer ? "low" : "full";
+  // A software WebGL fallback (SwiftShader, llvmpipe, some VMs/remote desktops)
+  // measured 10-100x slower than real GPU rendering in practice — even the
+  // lightest tier keeps the main thread busy. Treat it like reduced-motion:
+  // render one static frame instead of fighting a renderer that can't keep up.
+  const STATIC_ONLY = REDUCED_MOTION || softwareRenderer;
 
   // Elegant fade-in — no white flash, no abrupt pop.
   canvas.style.opacity = "0";
@@ -269,7 +293,7 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
     antialias: tier === "full",
     powerPreference: "high-performance",
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, tier === "full" ? 2 : 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, tier === "full" ? 1.5 : 1));
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
@@ -387,7 +411,7 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
 
   // orbiting angular shards — "petites structures flottantes"
   const shards: { mesh: THREE.Mesh; radius: number; speed: number; offset: number; axis: THREE.Vector3; spin: number }[] = [];
-  const shardCount = tier === "mobile" ? 4 : tier === "low" ? 6 : 9;
+  const shardCount = tier === "mobile" ? 3 : tier === "low" ? 4 : 6;
   for (let i = 0; i < shardCount; i++) {
     const size = 0.045 + Math.random() * 0.05;
     const geometry = i % 2 === 0 ? new THREE.TetrahedronGeometry(size) : new THREE.OctahedronGeometry(size);
@@ -480,7 +504,7 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
 
   // ================= PARTICLES (far / mid / near) =================
   const sprite = makeSoftDotTexture();
-  const particleTier = { mobile: 220, low: 220, full: 340 }[tier];
+  const particleTier = { mobile: 130, low: 130, full: 220 }[tier];
   const particleLayerConfigs = [
     { ratio: 0.45, spread: 9, size: 0.028, opacity: 0.32, parallax: 0.08 },
     { ratio: 0.35, spread: 6, size: 0.045, opacity: 0.48, parallax: 0.22 },
@@ -510,7 +534,7 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
   const pointerTarget = new THREE.Vector2(0, 0);
   const pointerCurrent = new THREE.Vector2(0, 0);
   const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  if (supportsHover && !REDUCED_MOTION) {
+  if (supportsHover && !STATIC_ONLY) {
     window.addEventListener("pointermove", (e) => {
       pointerTarget.x = (e.clientX / window.innerWidth - 0.5) * 2;
       pointerTarget.y = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -519,18 +543,22 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
 
   // ================= RENDER LOOP =================
   const clock = new THREE.Clock();
+  const scratchVec = new THREE.Vector3();
   let running = true;
   let frameId = 0;
 
   document.addEventListener("visibilitychange", () => {
     running = !document.hidden;
-    if (running && !REDUCED_MOTION) frameId = requestAnimationFrame(tick);
+    if (running && !STATIC_ONLY) frameId = requestAnimationFrame(tick);
   });
+
+  let frameCount = 0;
 
   function tick() {
     if (!running) return;
     frameId = requestAnimationFrame(tick);
     const t = clock.getElapsedTime();
+    frameCount++;
 
     pointerCurrent.lerp(pointerTarget, 0.025);
 
@@ -554,16 +582,16 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
       const a = t * imp.speed + imp.offset;
       const r = imp.ring.userData.radius as number;
       const sq = imp.ring.userData.squash as number;
-      const local = new THREE.Vector3(Math.cos(a) * r, Math.sin(a) * r * sq, 0);
-      local.applyEuler(imp.ring.rotation);
-      imp.mesh.position.copy(local);
+      scratchVec.set(Math.cos(a) * r, Math.sin(a) * r * sq, 0);
+      scratchVec.applyEuler(imp.ring.rotation);
+      imp.mesh.position.copy(scratchVec);
     }
 
     for (const shard of shards) {
       const a = t * shard.speed + shard.offset;
-      const pos = new THREE.Vector3(Math.cos(a), Math.sin(a) * 0.6, Math.sin(a * 0.7)).multiplyScalar(shard.radius);
-      pos.applyAxisAngle(shard.axis, t * 0.08);
-      shard.mesh.position.copy(pos);
+      scratchVec.set(Math.cos(a), Math.sin(a) * 0.6, Math.sin(a * 0.7)).multiplyScalar(shard.radius);
+      scratchVec.applyAxisAngle(shard.axis, t * 0.08);
+      shard.mesh.position.copy(scratchVec);
       shard.mesh.rotation.x += shard.spin * 0.01;
       shard.mesh.rotation.y += shard.spin * 0.007;
     }
@@ -606,23 +634,27 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
       mat.uniforms.uEnvelope.value = env;
     }
 
-    for (const layer of layers) {
-      const px = pointerCurrent.x * layer.parallax;
-      const py = pointerCurrent.y * -layer.parallax * 0.7;
-      const posAttr = layer.points.geometry.getAttribute("position") as THREE.BufferAttribute;
-      const arr = posAttr.array as Float32Array;
-      for (let i = 0; i < arr.length / 3; i++) {
-        const bx = layer.basePositions[i * 3];
-        const by = layer.basePositions[i * 3 + 1];
-        const bz = layer.basePositions[i * 3 + 2];
-        const phaseX = layer.phases[i * 3];
-        const freq = layer.phases[i * 3 + 1];
-        const phaseZ = layer.phases[i * 3 + 2];
-        arr[i * 3] = bx + Math.sin(t * freq + phaseX) * 0.25 + px;
-        arr[i * 3 + 1] = by + Math.cos(t * freq * 0.8 + phaseZ) * 0.2 + py;
-        arr[i * 3 + 2] = bz + Math.sin(t * freq * 0.6 + phaseX) * 0.25;
+    // Particle drift is slow and continuous — updating every other frame is
+    // visually indistinguishable but halves this loop's CPU cost.
+    if (frameCount % 2 === 0) {
+      for (const layer of layers) {
+        const px = pointerCurrent.x * layer.parallax;
+        const py = pointerCurrent.y * -layer.parallax * 0.7;
+        const posAttr = layer.points.geometry.getAttribute("position") as THREE.BufferAttribute;
+        const arr = posAttr.array as Float32Array;
+        for (let i = 0; i < arr.length / 3; i++) {
+          const bx = layer.basePositions[i * 3];
+          const by = layer.basePositions[i * 3 + 1];
+          const bz = layer.basePositions[i * 3 + 2];
+          const phaseX = layer.phases[i * 3];
+          const freq = layer.phases[i * 3 + 1];
+          const phaseZ = layer.phases[i * 3 + 2];
+          arr[i * 3] = bx + Math.sin(t * freq + phaseX) * 0.25 + px;
+          arr[i * 3 + 1] = by + Math.cos(t * freq * 0.8 + phaseZ) * 0.2 + py;
+          arr[i * 3 + 2] = bz + Math.sin(t * freq * 0.6 + phaseX) * 0.25;
+        }
+        posAttr.needsUpdate = true;
       }
-      posAttr.needsUpdate = true;
     }
 
     // --- cinematic camera: slow multi-frequency drift + dampened parallax ---
@@ -638,8 +670,14 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
     renderer.render(scene, camera);
   }
 
-  if (REDUCED_MOTION) {
-    renderer.render(scene, camera);
+  if (STATIC_ONLY) {
+    // Render after layout has actually settled — at mount time the canvas'
+    // absolutely-positioned parent can still report a 0-size box, which would
+    // otherwise bake a permanently blank frame into this one-shot render.
+    requestAnimationFrame(() => {
+      resize();
+      renderer.render(scene, camera);
+    });
   } else {
     tick();
   }

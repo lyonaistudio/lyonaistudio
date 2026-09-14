@@ -24,10 +24,28 @@ Un site sans fiche Google à jour, à l'inverse, passe à côté d'une grande pa
 
 Le lien entre les deux doit être direct : le site en lien "visiter le site" sur la fiche Google, et la fiche Google évoquée ou intégrée sur le site (avis, lien vers l'itinéraire). Chaque avis laissé sur la fiche Google renforce aussi la crédibilité du site, et inversement — un site professionnel donne envie de laisser un avis positif après une bonne expérience.
 
+C'est un détail simple à mettre en place, mais souvent oublié : beaucoup de fiches Google pointent vers un ancien site, ou vers aucun site du tout, alors que le lien correct ne prend que quelques minutes à corriger dans les paramètres de la fiche.
+
 ## Ce qui fait la différence sur la fiche Google
 
 Quelques réglages simples augmentent nettement sa performance : une catégorie d'activité précise (pas juste "entreprise"), une description qui répond aux questions fréquentes, des photos récentes, et des réponses systématiques aux avis — y compris les moins bons. Ce sont des actions gratuites, qui prennent quelques minutes, et qui ont un effet direct sur le classement local.
 
+Les photos méritent une attention particulière : une fiche avec des visuels récents et variés (façade, réalisations, équipe) donne une impression bien plus engageante qu'une fiche sans image ou avec une seule photo datée de plusieurs années.
+
+## Répondre aux avis, même les mauvais
+
+Répondre à un avis positif prend quelques secondes et montre qu'il y a une vraie personne derrière l'entreprise. Répondre à un avis négatif est encore plus important : un client qui lit les avis avant de choisir regarde autant la réponse que la critique elle-même. Une réponse posée et factuelle rassure bien plus qu'une fiche qui ne compte que des avis positifs sans aucune réponse visible — ça donne l'impression d'une fiche jamais suivie.
+
+Ce même soin apporté aux avis doit se retrouver sur le site : rien ne sert d'afficher uniquement les meilleurs retours si la fiche Google, elle, montre une image différente. La cohérence entre les deux compte autant que leur contenu respectif.
+
+## Un exemple concret
+
+Prenons un artisan plombier à Lyon. Sa fiche Google Business Profile, bien remplie, le fait apparaître pour « plombier Lyon 7 » avec de bons avis. Un client la consulte, voit la note et les horaires, mais hésite encore : il clique alors sur le lien vers le site pour voir des photos de réalisations et vérifier que l'artisan intervient bien pour ce type de panne précis.
+
+Sans site, ce client aurait dû appeler pour poser ces questions — ou pire, serait passé au résultat suivant par simplicité. Avec un site qui répond déjà à ces questions, l'appel qu'il finit par passer est un appel qualifié, pas une simple prise de renseignements.
+
 ## En résumé
 
 Une fiche Google Business Profile capte l'attention, un site internet la transforme en contact. Avoir seulement l'un des deux, c'est laisser une partie du chemin inachevé pour le client qui vous cherche. L'accompagnement en [référencement local](/services/referencement-local-seo/) couvre justement ce travail conjoint entre la fiche et le site, pour que les deux se renforcent au lieu d'exister séparément.
+
+Si vous n'avez pas encore de site pour accueillir ces visiteurs, [la création d'un site internet sur-mesure](/services/creation-site-internet/) est la suite logique. Et pour approfondir les bases du référencement local au-delà de la fiche Google, [cet article](/blog/referencement-local-lyon/) détaille les autres leviers gratuits à connaître avant d'envisager de la publicité.

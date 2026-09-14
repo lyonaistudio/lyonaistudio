@@ -155,6 +155,21 @@ const schema = faqSchema(faqItems);
             ></textarea>
           </div>
 
+          <div class="flex items-start gap-3">
+            <input
+              id="rgpd-consent"
+              name="Consentement RGPD"
+              type="checkbox"
+              required
+              value="J'accepte que mes informations soient utilisées pour être recontacté(e)"
+              class="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.06] text-accent focus:ring-2 focus:ring-accent"
+            />
+            <label for="rgpd-consent" class="text-sm leading-relaxed text-paper-dim">
+              J'accepte que mes informations soient utilisées pour être recontacté(e) au sujet de ma demande — voir la
+              <a href="/mentions-legales/" class="text-accent underline underline-offset-2">politique de confidentialité</a>.
+            </label>
+          </div>
+
           <button
             id="contact-submit"
             type="submit"
