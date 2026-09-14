@@ -6,20 +6,20 @@ export const DPI = 300;
 export const mm = (v) => Math.round((v * DPI) / 25.4);
 
 export const COLOR = {
-  ink: "#121110",
-  inkSoft: "#1a1815",
-  inkLine: "#2b2721",
-  paper: "#f4f1ea",
-  paperDim: "#d9d4c8",
-  mist: "#93897a",
-  accent: "#e2672c",
-  accentSoft: "#f0a06f",
+  ink: "#0a0a0a",
+  inkSoft: "#161616",
+  inkLine: "#2b2b2b",
+  paper: "#ffffff",
+  paperDim: "#aaaaaa",
+  mist: "#777777",
+  accent: "#ff003d",
+  accentSoft: "#ff3860",
 };
 
 export const FONT = {
-  display: "Space Grotesk",
-  sans: "Inter",
-  mono: "JetBrains Mono",
+  display: "Rethink Sans",
+  sans: "Rethink Sans",
+  mono: "Rethink Sans",
 };
 
 export function esc(str) {
@@ -91,8 +91,6 @@ export async function qrDataUri(text, options = {}) {
 
 export async function renderAndCrop({ svg, bleedWmm, bleedHmm, trimWmm, trimHmm, bleedMm, outBleed, outTrim }) {
   mkdirSync("publicité", { recursive: true });
-  const bleedWpx = mm(bleedWmm);
-  const bleedHpx = mm(bleedHmm);
   const png = await sharp(Buffer.from(svg)).png().toBuffer();
 
   if (outBleed) {
