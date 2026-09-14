@@ -15,7 +15,7 @@ const faqItems = [
   {
     question: "De quoi parlent les articles du blog Lyon AI Studio ?",
     answer:
-      "De sites internet et d'automatisation IA pour les artisans, commerces et PME de la région lyonnaise — référencement local, fiche Google Business Profile, quand créer un site, comment un agent IA peut être utile au quotidien.",
+      "De sites internet et d'automatisation IA pour les artisans, commerces et PME, partout en France — référencement local, fiche Google Business Profile, quand créer un site, comment un agent IA peut être utile au quotidien.",
   },
   {
     question: "À quelle fréquence de nouveaux articles sont-ils publiés ?",
@@ -43,13 +43,14 @@ const schema = faqSchema(faqItems);
 
 <BaseLayout
   title="Actualités & conseils — Lyon AI Studio"
-  description="Conseils pratiques sur les sites internet et l'automatisation par IA pour les artisans, commerces et PME de Lyon."
+  description="Conseils pratiques sur les sites internet et l'automatisation par IA pour les artisans, commerces et PME, partout en France."
   path="/blog/"
   jsonLd={[schema]}
 >
   <Breadcrumb items={[{ name: "Actualités", url: "/blog/" }]} />
   <PageHero
     eyebrow="ACTUALITÉS"
+    eyebrowVariant="accent"
     title="Conseils pour les entreprises locales"
     description="Des articles pratiques sur le site internet et l'automatisation, sans jargon inutile."
   />

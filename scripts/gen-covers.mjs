@@ -3,10 +3,10 @@ import { mkdirSync } from "node:fs";
 
 const W = 1200;
 const H = 675;
-const INK = "#121110";
-const LINE = "#2b2721";
-const ACCENT = "#e2672c";
-const ACCENT_SOFT = "#f0a06f";
+const INK = "#0a0a0a";
+const LINE = "#2b2b2b";
+const ACCENT = "#ff003d";
+const ACCENT_SOFT = "#ff3860";
 
 mkdirSync("public/images/blog", { recursive: true });
 
