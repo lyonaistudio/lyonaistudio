@@ -15,6 +15,7 @@
 //      après avoir envoyé un message au bot une première fois)
 //   5b. (optionnel, WhatsApp) wrangler secret put WHATSAPP_PHONE (+33…)
 //       et wrangler secret put CALLMEBOT_APIKEY (clé reçue de CallMeBot)
+//   5c. (optionnel, Signal) wrangler secret put SIGNAL_PHONE et SIGNAL_APIKEY
 //   6. wrangler deploy
 //   7. Noter l'URL affichée (ex. contact-relay.<compte>.workers.dev),
 //      la mettre dans src/scripts/contact-form.ts à la place de l'appel
@@ -90,7 +91,11 @@ export default {
       // échouer la réponse — le Sheet (source de vérité) est déjà écrit.
       // allSettled : l'un des deux canaux en panne n'empêche pas l'autre.
       const text = formatLead(payload);
-      await Promise.allSettled([notifyTelegram(env, text), notifyWhatsApp(env, text)]);
+      await Promise.allSettled([
+        notifyTelegram(env, text),
+        notifyWhatsApp(env, text),
+        notifySignal(env, text),
+      ]);
 
       return new Response(null, { status: res.ok ? 204 : 502, headers: corsHeaders() });
     } catch {
@@ -107,7 +112,7 @@ function sanitizeCell(value) {
   return /^[=+\-@\t\r]/.test(str) ? `'${str}` : str;
 }
 
-// ---- Notifications Telegram + WhatsApp (best-effort, voir l'appel ci-dessus) ----
+// ---- Notifications Telegram + WhatsApp + Signal (best-effort, voir l'appel ci-dessus) ----
 
 function formatLead(payload) {
   const nom = [payload["Prénom"], payload["Nom"]].filter(Boolean).join(" ");
@@ -145,6 +150,20 @@ async function notifyWhatsApp(env, text) {
     text,
   });
   await fetch(`https://api.callmebot.com/whatsapp.php?${params}`);
+}
+
+// CallMeBot pour Signal (https://www.callmebot.com/blog/free-api-signal-send-messages/),
+// même principe : inactif tant que SIGNAL_PHONE et SIGNAL_APIKEY ne sont
+// pas définis (activation : envoyer le message d'autorisation en Signal au
+// +34 644 52 74 88).
+async function notifySignal(env, text) {
+  if (!env.SIGNAL_PHONE || !env.SIGNAL_APIKEY) return;
+  const params = new URLSearchParams({
+    phone: env.SIGNAL_PHONE,
+    apikey: env.SIGNAL_APIKEY,
+    text,
+  });
+  await fetch(`https://signal.callmebot.com/signal/send.php?${params}`);
 }
 
 function corsHeaders() {
