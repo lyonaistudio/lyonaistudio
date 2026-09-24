@@ -36,6 +36,7 @@ scripts/video-vo/voice/*.wav
 # local secret/credential notes (never commit real API keys)
 cle api/
 sheet\ /
+scripts/prospects/node_modules
 
 # Remotion video project: renders and large copied audio/image assets
 # (regenerate from scripts/video-vo/ sources via the README instructions)
@@ -43,3 +44,8 @@ scripts/video-remotion/out/
 scripts/video-remotion/public/*.wav
 scripts/video-remotion/public/maona.jpg
 scripts/video-remotion/.remotion/
+
+# local secrets / scratch / logs (never commit)
+cletelegram.txt
+scratchpad/
+commercial/prospects-cron.log

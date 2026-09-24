@@ -8,12 +8,15 @@
 
 import { chromium } from "playwright";
 import { writeFileSync, readFileSync } from "node:fs";
+import { loadServiceAccount, getAccessToken } from "./google-auth.mjs";
 
 const ROOT = "/home/thomasbatpro/lyon ia studio /";
 const GKEY = readFileSync(ROOT + "cle api/cleapigoogle.txt", "utf-8").trim();
 const OUT_DIR = ROOT + "commercial/";
 const CSV_PATH = OUT_DIR + "prospects-lyon-ai-studio.csv";
 const PDF_PATH = OUT_DIR + "prospects-lyon-ai-studio.pdf";
+const SHEET_ID = "1_pSfsW5Kdw1qU__TJ9CUlFQaetp6pfXFYODHEv5TKcA";
+const SHEET_TAB = "Feuille 1";
 
 // Les 32 métiers déjà utilisés dans le scénario Make "Integration HTTP" —
 // on les interroge tous à chaque run hebdomadaire pour un maximum de volume.
@@ -162,3 +165,37 @@ await page.pdf({ path: PDF_PATH, format: "A4", printBackground: true, margin: { 
 await browser.close();
 
 console.log("PDF écrit dans", PDF_PATH);
+
+// ---- Ecriture dans le Google Sheet (compte de service, pas de scénario Make) ----
+const sa = loadServiceAccount(ROOT + "cle api/lyon-ai-studio-prospection-9345a0c6de0b.json");
+const token = await getAccessToken(sa);
+
+const existingRes = await fetch(
+  `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!B:D`,
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+const existing = (await existingRes.json()).values ?? [];
+const existingKeys = new Set(existing.slice(1).map((r) => `${r[0] ?? ""}|${r[2] ?? ""}`));
+
+const todayIso = new Date().toLocaleDateString("fr-FR");
+const newRows = rows
+  .filter((r) => !existingKeys.has(`${r.nom}|${r.adresse}`))
+  .map((r) => [todayIso, r.nom, r.categorie, r.adresse, r.telephone, "nouveau"]);
+
+if (newRows.length > 0) {
+  const appendRes = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!A1:append?valueInputOption=USER_ENTERED`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ values: newRows }),
+    }
+  );
+  if (!appendRes.ok) {
+    console.error("Erreur écriture Sheet:", appendRes.status, await appendRes.text());
+  } else {
+    console.log(`${newRows.length} nouveaux prospects ajoutés au Sheet.`);
+  }
+} else {
+  console.log("Aucun nouveau prospect à ajouter au Sheet (déjà présents).");
+}

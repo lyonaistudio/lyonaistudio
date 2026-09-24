@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 import sitemap from '@astrojs/sitemap';
+import { EnumChangefreq } from 'sitemap';
 
 const LOW_PRIORITY_PATHS = ['/cgv/', '/mentions-legales/', '/404/'];
 const BLOG_POST_PREFIX = '/blog/';
@@ -24,7 +25,11 @@ export default defineConfig({
         const isBlogPost = path.startsWith(BLOG_POST_PREFIX) && path !== BLOG_POST_PREFIX;
 
         item.lastmod = new Date().toISOString();
-        item.changefreq = isLegal ? 'yearly' : isBlogPost ? 'monthly' : 'weekly';
+        item.changefreq = isLegal
+          ? EnumChangefreq.YEARLY
+          : isBlogPost
+            ? EnumChangefreq.MONTHLY
+            : EnumChangefreq.WEEKLY;
         item.priority = isHome ? 1.0 : isLegal ? 0.3 : 0.8;
 
         return item;

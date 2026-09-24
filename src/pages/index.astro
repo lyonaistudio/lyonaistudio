@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import Realisations from "../components/Realisations.astro";
@@ -6,6 +7,9 @@ import Hero3DScene from "../components/Hero3DScene.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import { getCollection } from "astro:content";
 import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
+import laptopMockup from "../assets/mockups/laptop-lyonaistudio.webp";
+import pc2Photo from "../assets/about/pc2.jpg";
+import lyon1Photo from "../assets/about/lyon1.jpg";
 
 const posts = (await getCollection("blog"))
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
@@ -136,12 +140,12 @@ function Icon(name: string) {
       </p>
       <p class="mt-4 flex items-center gap-2 text-sm font-bold text-paper">
         <span class="flex h-[19px] w-[19px] items-center justify-center rounded-full bg-green/15 text-[10px] text-green">✓</span>
-        Basé à Lyon · Réponse sous 48h · Sans engagement
+        Basé à Lyon · Réponse sous 48h · Sans engagement · Sites dès 1 200 €
       </p>
       <div class="mt-7">
         <a
           href="/contact/"
-          class="magnetic inline-flex items-center rounded-full bg-accent px-8 py-4 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_8px_25px_rgba(255,0,61,0.4)]"
+          class="magnetic inline-flex items-center rounded-full bg-accent-button px-8 py-4 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_8px_25px_rgba(255,0,61,0.4)]"
         >
           Parlez-moi de votre projet
         </a>
@@ -175,11 +179,11 @@ function Icon(name: string) {
       <div class="grid items-center gap-16 lg:grid-cols-2">
         <div class="reveal relative mx-auto max-w-xl">
           <div class="absolute inset-0 -z-10 scale-90 rounded-full bg-accent/25 blur-[100px]" aria-hidden="true"></div>
-          <img
-            src="/mockups/laptop-lyonaistudio.webp"
+          <Image
+            src={laptopMockup}
             alt="Ordinateur portable affichant le logo Lyon AI Studio"
-            width="1918"
-            height="1070"
+            widths={[400, 576, 900, 1200]}
+            sizes="(min-width: 1024px) 576px, 90vw"
             loading="lazy"
             decoding="async"
             class="w-full"
@@ -199,7 +203,7 @@ function Icon(name: string) {
           </p>
           <a
             href="/contact/"
-            class="magnetic mt-7 inline-flex items-center rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
+            class="magnetic mt-7 inline-flex items-center rounded-full bg-accent-button px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
           >
             Parlez-moi de votre projet
           </a>
@@ -252,7 +256,7 @@ function Icon(name: string) {
           <div class="mt-6 pt-2 text-center sm:mt-16 sm:text-left">
             <a
               href="/contact/"
-              class="magnetic inline-flex items-center rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
+              class="magnetic inline-flex items-center rounded-full bg-accent-button px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
             >
               Échanger sur votre projet
             </a>
@@ -278,11 +282,11 @@ function Icon(name: string) {
     <div class="mt-12 grid grid-cols-2 gap-4 sm:gap-8">
       <figure class="reveal group overflow-hidden rounded-3xl border border-ink-line bg-ink-soft">
         <span class="block overflow-hidden">
-          <img
-            src="/images/about/pc2.webp"
+          <Image
+            src={pc2Photo}
             alt="Un site internet sur-mesure, conçu et développé avec soin"
-            width="736"
-            height="736"
+            widths={[300, 450, 600, 800]}
+            sizes="(min-width: 1152px) 544px, 45vw"
             loading="lazy"
             decoding="async"
             class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -295,11 +299,11 @@ function Icon(name: string) {
 
       <figure class="reveal group overflow-hidden rounded-3xl border border-ink-line bg-ink-soft">
         <span class="block overflow-hidden">
-          <img
-            src="/images/about/lyon1.webp"
+          <Image
+            src={lyon1Photo}
             alt="Vue de Lyon, où Lyon AI Studio est basé"
-            width="1080"
-            height="1350"
+            widths={[300, 450, 600, 800]}
+            sizes="(min-width: 1152px) 544px, 45vw"
             loading="lazy"
             decoding="async"
             class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -335,7 +339,7 @@ function Icon(name: string) {
             { t: "Réalisation", d: "Le site ou l'automatisation est mis en place, testé, et vous êtes formé pour l'utiliser." },
           ].map((step, i) => (
             <li class="relative pl-[44px] sm:pl-[66px]">
-              <span class="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-accent font-display text-base font-bold text-white sm:h-[43px] sm:w-[43px] sm:text-lg">
+              <span class="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-accent-button font-display text-base font-bold text-white sm:h-[43px] sm:w-[43px] sm:text-lg">
                 {i + 1}
               </span>
               <h3 class="pt-1 text-base font-semibold sm:pt-2 sm:text-2xl">{step.t}</h3>
@@ -362,7 +366,7 @@ function Icon(name: string) {
       <p class="mt-12 text-center">
         <a
           href="/contact/"
-          class="magnetic inline-flex items-center rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
+          class="magnetic inline-flex items-center rounded-full bg-accent-button px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
         >
           Prendre contact
         </a>
@@ -421,7 +425,7 @@ function Icon(name: string) {
 
           <div class="mt-10 space-y-6">
             <div class="flex items-center gap-5">
-              <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+              <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-button text-white">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                   <path d="M4 4h16v12H8l-4 4V4z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -431,7 +435,7 @@ function Icon(name: string) {
               </a>
             </div>
             <div class="flex items-center gap-5">
-              <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+              <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-button text-white">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                   <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-13v5l3.5 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -482,7 +486,7 @@ function Icon(name: string) {
               </label>
             </div>
             <div class="pt-2 text-center">
-              <button type="submit" class="rounded-full bg-accent/75 py-4 pl-9 pr-[90px] text-lg font-bold text-white transition-all hover:bg-accent">
+              <button type="submit" class="rounded-full bg-accent/75 py-4 pl-9 pr-[90px] text-lg font-bold text-white transition-all hover:bg-accent-button">
                 Envoyer
               </button>
             </div>

@@ -1,30 +1,31 @@
-const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/gv5ror2kws485nk7je3a5amweqt2qxfx";
+// Worker Cloudflare qui écrit le lead dans le Google Sheet via un compte de
+// service (voir scripts/cloudflare-worker/) — remplace l'ancien webhook
+// Make.com, dont la connexion Google était cassée de façon permanente.
+const CONTACT_RELAY_URL = "https://contact-relay.lyonaistudio.workers.dev";
 
-// Make's formula syntax breaks on field names containing spaces, so the
-// keys sent to the automation webhook are simplified (Formspree still gets
-// the original accented/spaced field names, unaffected by this).
-const MAKE_KEY_ALIASES: Record<string, string> = {
+// Le worker attend des clés sans espace/accent ; Formspree reçoit lui les
+// noms de champs originaux (accentués/espacés), non affecté par ceci.
+const RELAY_KEY_ALIASES: Record<string, string> = {
   "Type d'entreprise": "TypeEntreprise",
   "Secteur d'activité": "SecteurActivite",
 };
 
-function notifyMake(form: HTMLFormElement) {
+function notifyRelay(form: HTMLFormElement) {
   const data = new FormData(form);
   const payload: Record<string, string> = {};
   for (const [key, value] of data.entries()) {
     if (key === "_gotcha" || typeof value !== "string") continue;
-    payload[MAKE_KEY_ALIASES[key] ?? key] = value;
+    payload[RELAY_KEY_ALIASES[key] ?? key] = value;
   }
-  fetch(MAKE_WEBHOOK_URL, {
+  fetch(CONTACT_RELAY_URL, {
     method: "POST",
     body: JSON.stringify(payload),
     headers: { "Content-Type": "application/json" },
     keepalive: true,
   }).catch((err) => {
-    // Best-effort: Formspree already has the submission, so a failure here
-    // doesn't lose the lead — but it's worth surfacing in the console for
-    // debugging rather than disappearing entirely.
-    console.error("notifyMake failed", err);
+    // Best-effort : Formspree a déjà la demande (email envoyé), donc une
+    // panne ici ne perd pas le lead — juste pas de trace dans le Sheet.
+    console.error("notifyRelay failed", err);
   });
 }
 
@@ -71,7 +72,7 @@ export function initContactForm() {
       });
 
       if (res.ok) {
-        notifyMake(form);
+        notifyRelay(form);
         form.classList.add("hidden");
         successBanner?.classList.remove("hidden");
       } else {

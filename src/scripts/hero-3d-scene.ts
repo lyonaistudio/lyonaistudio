@@ -57,13 +57,18 @@ function roundRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: n
 
 type PanelKind = "site" | "agent" | "automation" | "analytics" | "code" | "mobile";
 
-function makePanelTexture(kind: PanelKind, blurPx = 0): THREE.CanvasTexture {
+function makePanelTexture(kind: PanelKind, blurPx = 0, resScale = 1): THREE.CanvasTexture {
   const W = 512;
   const H = 320;
   const canvas = document.createElement("canvas");
-  canvas.width = W;
-  canvas.height = H;
+  // Drawing code below is written against the fixed 512x320 coordinate
+  // space regardless of resScale — a smaller physical canvas + a matching
+  // ctx.scale() cuts the actual pixel-fill cost (mobile's biggest lever,
+  // this runs once per panel at mount time) without touching any of it.
+  canvas.width = Math.round(W * resScale);
+  canvas.height = Math.round(H * resScale);
   const ctx = canvas.getContext("2d")!;
+  if (resScale !== 1) ctx.scale(resScale, resScale);
   if (blurPx > 0) ctx.filter = `blur(${blurPx}px)`;
 
   // card background
@@ -432,7 +437,8 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
 
   // ================= FLOATING INTERFACE PANELS =================
   const panelKinds: PanelKind[] = ["site", "agent", "automation", "analytics", "code", "mobile"];
-  const panelCount = tier === "mobile" ? 5 : tier === "low" ? 5 : 6;
+  const panelCount = tier === "mobile" ? 4 : tier === "low" ? 5 : 6;
+  const panelResScale = tier === "mobile" ? 0.5 : tier === "low" ? 0.75 : 1;
 
   type PanelMotion = "float" | "depth" | "lateral" | "microrotate" | "still";
   const motionCycle: PanelMotion[] = ["float", "depth", "lateral", "microrotate", "still", "float"];
@@ -461,7 +467,7 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
     const layout = panelLayout[i % panelLayout.length];
     const depthFactor = 1 - Math.abs(layout.pos[2]) / 3.2;
     const isFar = layout.pos[2] < -1.8;
-    const texture = makePanelTexture(kind, isFar ? 2.2 : 0);
+    const texture = makePanelTexture(kind, isFar ? 2.2 : 0, panelResScale);
     const mesh = new THREE.Mesh(
       new THREE.PlaneGeometry(1.15, 0.72),
       new THREE.MeshBasicMaterial({
@@ -504,7 +510,7 @@ export function mountHero3DScene(canvas: HTMLCanvasElement) {
 
   // ================= PARTICLES (far / mid / near) =================
   const sprite = makeSoftDotTexture();
-  const particleTier = { mobile: 130, low: 130, full: 220 }[tier];
+  const particleTier = { mobile: 90, low: 130, full: 220 }[tier];
   const particleLayerConfigs = [
     { ratio: 0.45, spread: 9, size: 0.028, opacity: 0.32, parallax: 0.08 },
     { ratio: 0.35, spread: 6, size: 0.045, opacity: 0.48, parallax: 0.22 },

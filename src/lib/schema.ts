@@ -16,9 +16,11 @@ export function localBusinessSchema() {
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
+    // Basé à Lyon (adresse ci-dessus) mais l'activité couvre toute la France
+    // à distance — areaServed doit refléter ça, pas seulement la ville.
     areaServed: {
-      "@type": "City",
-      name: "Lyon",
+      "@type": "Country",
+      name: "France",
     },
     openingHoursSpecification: SITE.hoursSchema,
     sameAs: SITE.sameAs,

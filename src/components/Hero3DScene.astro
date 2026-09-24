@@ -10,8 +10,49 @@ const { class: className = "" } = Astro.props;
 <script>
   import { mountHero3DScene } from "../scripts/hero-3d-scene";
 
-  document.querySelectorAll<HTMLCanvasElement>("canvas[data-hero-3d]:not([data-hero-3d-mounted])").forEach((canvas) => {
-    canvas.dataset.hero3dMounted = "true";
-    mountHero3DScene(canvas);
+  // astro:page-load fires on the very first load AND after every client-side
+  // transition. Without it, the scene mounts once and never comes back when
+  // navigating away and returning to this page (the canvas is a fresh DOM
+  // node each time, but a plain top-level script only ever runs once under
+  // the ClientRouter). We also tear down the previous instance first so
+  // repeated visits don't stack up render loops / pointermove listeners.
+  let cleanup: (() => void) | null = null;
+  let idleHandle: number | null = null;
+
+  function mount() {
+    cleanup?.();
+    cleanup = null;
+    const canvas = document.querySelector<HTMLCanvasElement>("canvas[data-hero-3d]");
+    if (canvas) cleanup = mountHero3DScene(canvas);
+  }
+
+  function scheduleMount() {
+    // Building the scene (geometries, 2D-canvas panel textures, particle
+    // buffers) is a genuinely heavy synchronous chunk of work. Running it
+    // the instant the page swaps in competes with the rest of the page's
+    // own script/layout work for the main thread — on a throttled mobile
+    // CPU that alone was responsible for several seconds of blocking time.
+    // Deferring it to an idle slot lets everything else (nav, text, images)
+    // settle first, so the scene never blocks the page becoming usable.
+    const win = window as Window & { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number };
+    if (win.requestIdleCallback) {
+      idleHandle = win.requestIdleCallback(mount, { timeout: 1500 });
+    } else {
+      idleHandle = window.setTimeout(mount, 200);
+    }
+  }
+
+  function cancelScheduledMount() {
+    if (idleHandle === null) return;
+    const win = window as Window & { cancelIdleCallback?: (handle: number) => void };
+    (win.cancelIdleCallback ?? window.clearTimeout)(idleHandle);
+    idleHandle = null;
+  }
+
+  document.addEventListener("astro:page-load", scheduleMount);
+  document.addEventListener("astro:before-swap", () => {
+    cancelScheduledMount();
+    cleanup?.();
+    cleanup = null;
   });
 </script>

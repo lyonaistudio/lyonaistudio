@@ -15,10 +15,16 @@
   --color-ink-line: rgba(255, 255, 255, 0.1);
   --color-paper: #ffffff;
   --color-paper-dim: #aaaaaa;
-  --color-mist: #777777;
+  --color-mist: #808080; /* was #777777 (4.42:1 on ink, just under WCAG AA) */
   --color-accent: #ff003d;
   --color-accent-soft: #ff3860;
   --color-accent-dim: #7d001e;
+  /* Same red, darkened just enough that white text on a solid fill reaches
+     WCAG AA (4.5:1) — #ff003d only gives 3.95:1 with white text. Kept as a
+     separate token instead of changing --color-accent because the base red
+     is also used as TEXT on the ink background, where it already passes AA
+     (5.01:1) and darkening it there would fail it instead (4.17:1). */
+  --color-accent-button: #e6003a;
   --color-yellow: #ff003d;
   --color-yellow-ink: #ff003d;
   --color-green: #23d160;
@@ -101,8 +107,12 @@ body {
   }
 }
 
+/* No `display` here on purpose: this file's rules sit outside Tailwind's
+   cascade layers, so any display value set here would always win over a
+   Tailwind utility (hidden, lg:inline-flex, ...) regardless of specificity —
+   which previously made the header's "hidden lg:inline-flex" CTA visible on
+   mobile. Each .magnetic element sets its own display via Tailwind classes. */
 .magnetic {
-  display: inline-block;
   will-change: transform;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
