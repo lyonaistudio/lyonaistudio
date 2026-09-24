@@ -1,6 +1,7 @@
 name = "contact-relay"
 main = "contact-relay.js"
 compatibility_date = "2026-01-01"
+compatibility_flags = ["nodejs_compat"]
 
 [vars]
 LEADS_SHEET_ID = "1EgGxixHbRDv7se5-L7jYR6lbSlsS3MvwylMG3HdhCtU"

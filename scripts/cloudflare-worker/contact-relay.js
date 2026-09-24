@@ -16,6 +16,8 @@
 //   5b. (optionnel, WhatsApp) wrangler secret put WHATSAPP_PHONE (+33…)
 //       et wrangler secret put CALLMEBOT_APIKEY (clé reçue de CallMeBot)
 //   5c. (optionnel, Signal) wrangler secret put SIGNAL_PHONE et SIGNAL_APIKEY
+//   5d. (optionnel, accusé de réception au client) wrangler secret put
+//       GMAIL_USER et GMAIL_APP_PASSWORD (mot de passe d'application Google)
 //   6. wrangler deploy
 //   7. Noter l'URL affichée (ex. contact-relay.<compte>.workers.dev),
 //      la mettre dans src/scripts/contact-form.ts à la place de l'appel
@@ -23,6 +25,8 @@
 //   8. Partager le Google Sheet "Mes demandes de renseignement" en Éditeur
 //      avec claude-sheets@lyon-ai-studio-prospection.iam.gserviceaccount.com
 //      (déjà fait au moment de l'écriture de ce script).
+
+import { WorkerMailer } from "worker-mailer";
 
 const ALLOWED_ORIGIN = "https://lyonaistudio.fr";
 const SHEET_TAB = "Feuille 1";
@@ -95,6 +99,7 @@ export default {
         notifyTelegram(env, text),
         notifyWhatsApp(env, text),
         notifySignal(env, text),
+        sendAutoReply(env, payload["Email"]),
       ]);
 
       return new Response(null, { status: res.ok ? 204 : 502, headers: corsHeaders() });
@@ -164,6 +169,46 @@ async function notifySignal(env, text) {
     text,
   });
   await fetch(`https://signal.callmebot.com/signal/send.php?${params}`);
+}
+
+// ---- Accusé de réception envoyé au client, depuis le Gmail du studio ----
+// SMTP Gmail + mot de passe d'application (gratuit, 500 envois/jour, les
+// réponses du client arrivent directement dans la boîte Gmail). Inactif tant
+// que GMAIL_USER et GMAIL_APP_PASSWORD ne sont pas définis.
+// Texte volontairement fixe, sans rien recopier du formulaire : le Worker ne
+// peut pas servir à envoyer un contenu choisi par un tiers.
+
+const EMAIL_RE = /^[^\s@<>"]{1,64}@[^\s@<>"]{1,190}\.[a-z]{2,}$/i;
+
+const AUTO_REPLY_TEXT = `Bonjour,
+
+Merci pour votre message ! Nous avons bien reçu votre demande et nous revenons vers vous sous 24 à 48 h ouvrées.
+
+À très vite,
+Lyon AI Studio
+https://lyonaistudio.fr`;
+
+async function sendAutoReply(env, email) {
+  if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return;
+  if (!email || !EMAIL_RE.test(email)) return;
+
+  const mailer = await WorkerMailer.connect({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    credentials: { username: env.GMAIL_USER, password: env.GMAIL_APP_PASSWORD },
+    authType: "plain",
+  });
+  try {
+    await mailer.send({
+      from: { name: "Lyon AI Studio", email: env.GMAIL_USER },
+      to: { email },
+      subject: "Votre demande a bien été reçue — Lyon AI Studio",
+      text: AUTO_REPLY_TEXT,
+    });
+  } finally {
+    await mailer.close();
+  }
 }
 
 function corsHeaders() {
