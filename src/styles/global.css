@@ -50,6 +50,13 @@ body {
   color: #fff;
 }
 
+/* La liste déroulante native hérite du texte blanc du <select> mais garde un
+   fond clair sur certains systèmes (ChromeOS, Windows) : options illisibles. */
+select option {
+  background-color: var(--color-ink-soft);
+  color: var(--color-paper);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
