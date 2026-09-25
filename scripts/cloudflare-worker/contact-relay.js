@@ -62,9 +62,9 @@ export default {
 
       const now = new Date();
       const date =
-        now.toLocaleDateString("fr-FR") +
+        now.toLocaleDateString("fr-FR", { timeZone: "Europe/Paris" }) +
         " " +
-        now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+        now.toLocaleTimeString("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" });
 
       const row = [
         date,
