@@ -36,7 +36,7 @@ Ce constat vaut particulièrement pour le [référencement local](/services/refe
 
 ## Par où commencer quand on n'a jamais eu de site
 
-Il n'est pas nécessaire d'avoir un projet parfaitement défini avant de se lancer. La plupart des artisans qui me contactent n'ont pas de cahier des charges — seulement une activité qu'ils voudraient mieux représenter en ligne. La première étape consiste simplement à décrire ce que vous faites, vos zones d'intervention, et ce qui vous distingue des autres — le reste (structure, textes, design) se construit à partir de ça, pas l'inverse.
+Il n'est pas nécessaire d'avoir un projet parfaitement défini avant de se lancer. La plupart des artisans qui nous contactent n'ont pas de cahier des charges — seulement une activité qu'ils voudraient mieux représenter en ligne. La première étape consiste simplement à décrire ce que vous faites, vos zones d'intervention, et ce qui vous distingue des autres — le reste (structure, textes, design) se construit à partir de ça, pas l'inverse.
 
 ## Ce que ça ne veut pas dire
 

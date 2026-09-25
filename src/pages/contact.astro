@@ -11,17 +11,17 @@ const faqItems = [
   {
     question: "Sous quel délai Lyon AI Studio répond-il à une demande de contact ?",
     answer:
-      "Chaque message envoyé via ce formulaire reçoit une réponse personnelle sous 48h ouvrées, généralement plus rapidement. Aucun standard automatisé — c'est moi qui lis et réponds à chaque demande.",
+      "Chaque message envoyé via ce formulaire reçoit une réponse personnelle sous 48h ouvrées, généralement plus rapidement. Aucun standard automatisé — c'est nous qui lisons et répondons à chaque demande.",
   },
   {
     question: "Dois-je préciser un budget avant de vous contacter ?",
     answer:
-      "Non, ce n'est pas nécessaire. Décrivez simplement votre besoin et votre activité — je vous propose ensuite une estimation adaptée après avoir compris le projet, pas un tarif générique déconnecté de votre situation réelle.",
+      "Non, ce n'est pas nécessaire. Décrivez simplement votre besoin et votre activité — nous vous proposons ensuite une estimation adaptée après avoir compris le projet, pas un tarif générique déconnecté de votre situation réelle.",
   },
   {
     question: "Puis-je vous contacter par téléphone plutôt que par formulaire ?",
     answer:
-      "Oui, mes coordonnées sont indiquées sur cette page. Le formulaire reste le moyen le plus rapide pour décrire un besoin en détail, mais un échange téléphonique est possible dès que le projet est cerné.",
+      "Oui, nos coordonnées sont indiquées sur cette page. Le formulaire reste le moyen le plus rapide pour décrire un besoin en détail, mais un échange téléphonique est possible dès que le projet est cerné.",
   },
   {
     question: "Que se passe-t-il après l'envoi du formulaire de contact ?",
@@ -31,7 +31,7 @@ const faqItems = [
   {
     question: "Intervenez-vous pour des entreprises situées hors de Lyon ?",
     answer:
-      "L'activité est basée à Lyon, mais l'ensemble du travail se fait à distance : je travaille avec des clients partout en France, pas seulement dans la région lyonnaise.",
+      "L'activité est basée à Lyon, mais l'ensemble du travail se fait à distance : nous travaillons avec des clients partout en France, pas seulement dans la région lyonnaise.",
   },
 ];
 const schema = faqSchema(faqItems);
@@ -47,7 +47,7 @@ const schema = faqSchema(faqItems);
   <PageHero
     eyebrow="CONTACT"
     title="Parlons de votre projet"
-    description="Décrivez votre besoin, je vous réponds personnellement — sans prix imposé avant d'avoir échangé."
+    description="Décrivez votre besoin, nous vous répondons personnellement — sans prix imposé avant d'avoir échangé."
   />
 
   <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
@@ -55,13 +55,13 @@ const schema = faqSchema(faqItems);
       <div>
         <div id="success-banner" class="mb-8 hidden rounded-2xl border border-accent bg-ink-soft p-6" role="status" aria-live="polite">
           <p class="font-display font-semibold text-accent">Message envoyé.</p>
-          <p class="mt-1 text-sm text-paper-dim">Merci, je reviens vers vous rapidement.</p>
+          <p class="mt-1 text-sm text-paper-dim">Merci, nous revenons vers vous rapidement.</p>
         </div>
 
         <div id="error-banner" class="mb-8 hidden rounded-3xl bg-ink-soft p-6" role="alert" aria-live="polite">
           <p class="font-display font-semibold text-paper">Envoi impossible pour le moment.</p>
           <p class="mt-1 text-sm text-paper-dim">
-            Réessayez, ou écrivez-moi directement à
+            Réessayez, ou écrivez-nous directement à
             <a href={`mailto:${SITE.email}`} class="text-accent transition-colors hover:text-accent-soft">{SITE.email}</a>.
           </p>
         </div>
@@ -211,8 +211,8 @@ const schema = faqSchema(faqItems);
         <div class="rounded-3xl bg-ink-soft/60 p-6">
           <Eyebrow label="RÉPONSE PERSONNELLE" />
           <p class="mt-4 text-sm text-paper-dim">
-            Chaque message est lu et traité personnellement par Thomas — pas d'équipe commerciale,
-            pas de standardiste. Vous échangez directement avec la personne qui réalisera le
+            Chaque message est lu et traité personnellement par l'équipe — pas de commercial,
+            pas de standardiste. Vous échangez directement avec ceux qui réaliseront le
             projet.
           </p>
         </div>

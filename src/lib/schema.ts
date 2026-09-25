@@ -73,8 +73,8 @@ export function articleSchema(options: {
     image: `${SITE.url}${options.image}`,
     datePublished: options.publishDate.toISOString(),
     author: {
-      "@type": "Person",
-      name: "Thomas Batisse",
+      "@type": "Organization",
+      name: SITE.name,
       url: `${SITE.url}/a-propos/`,
     },
     publisher: {
