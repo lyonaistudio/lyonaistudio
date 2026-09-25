@@ -180,13 +180,89 @@ async function notifySignal(env, text) {
 
 const EMAIL_RE = /^[^\s@<>"]{1,64}@[^\s@<>"]{1,190}\.[a-z]{2,}$/i;
 
+const AUTO_REPLY_SUBJECT = "Votre demande a bien été reçue — Lyon AI Studio";
+
 const AUTO_REPLY_TEXT = `Bonjour,
 
-Merci pour votre message ! Nous avons bien reçu votre demande et nous revenons vers vous sous 24 à 48 h ouvrées.
+Nous vous remercions pour votre message et l'intérêt que vous portez à Lyon AI Studio.
 
-À très vite,
-Lyon AI Studio
-https://lyonaistudio.fr`;
+Votre demande a bien été enregistrée. Elle sera lue personnellement et vous recevrez une réponse par email sous 48 heures ouvrées.
+
+LES PROCHAINES ÉTAPES
+1. Prise de contact — nous étudions votre demande et revenons vers vous.
+2. Échange — un point ensemble pour bien comprendre votre activité et votre besoin.
+3. Proposition — une solution et un devis détaillés, sans engagement.
+4. Réalisation — mise en place, formation et 30 jours de suivi inclus.
+
+Vous souhaitez compléter votre demande ? Il vous suffit de répondre directement à cet email.
+
+Bien cordialement,
+
+Thomas Batisse
+Lyon AI Studio — Création de sites web & agents IA
+lyonaistudio@gmail.com
+https://lyonaistudio.fr
+Du lundi au vendredi, de 9h à 18h
+
+---
+Ce message vous est envoyé automatiquement suite à votre demande sur lyonaistudio.fr.`;
+
+const STEPS = [
+  ["Prise de contact", "Nous étudions votre demande et revenons vers vous."],
+  ["Échange", "Un point ensemble pour bien comprendre votre activité et votre besoin."],
+  ["Proposition", "Une solution et un devis détaillés, sans engagement."],
+  ["Réalisation", "Mise en place, formation et 30 jours de suivi inclus."],
+];
+
+const AUTO_REPLY_HTML = `<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${AUTO_REPLY_SUBJECT}</title></head>
+<body style="margin:0;padding:0;background:#f4f4f5;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:32px 12px;">
+<tr><td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
+  <tr><td style="background:#0a0a0a;padding:24px 32px;">
+    <span style="font-size:20px;font-weight:bold;color:#ffffff;letter-spacing:.3px;">Lyon AI Studio</span><br>
+    <span style="font-size:13px;color:#aaaaaa;">Création de sites web &amp; agents IA</span>
+  </td></tr>
+  <tr><td style="height:4px;background:#e6003a;line-height:4px;font-size:0;">&nbsp;</td></tr>
+  <tr><td style="padding:32px 32px 8px;font-size:15px;line-height:1.6;">
+    <p style="margin:0 0 16px;">Bonjour,</p>
+    <p style="margin:0 0 16px;">Nous vous remercions pour votre message et l'intérêt que vous portez à Lyon AI Studio.</p>
+    <p style="margin:0 0 24px;">Votre demande a bien été enregistrée. Elle sera lue personnellement et vous recevrez une réponse par email <strong>sous 48&nbsp;heures ouvrées</strong>.</p>
+  </td></tr>
+  <tr><td style="padding:0 32px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fafafa;border:1px solid #e5e7eb;border-radius:8px;">
+      <tr><td style="padding:20px 20px 4px;font-size:12px;font-weight:bold;letter-spacing:1px;color:#e6003a;text-transform:uppercase;">Les prochaines étapes</td></tr>
+      ${STEPS.map(([title, desc], i) => `<tr><td style="padding:10px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+          <td valign="top" style="width:28px;"><span style="display:inline-block;width:22px;height:22px;line-height:22px;border-radius:11px;background:#0a0a0a;color:#ffffff;font-size:12px;font-weight:bold;text-align:center;">${i + 1}</span></td>
+          <td style="font-size:14px;line-height:1.5;"><strong>${title}</strong><br><span style="color:#4b5563;">${desc}</span></td>
+        </tr></table>
+      </td></tr>`).join("")}
+      <tr><td style="height:10px;line-height:10px;font-size:0;">&nbsp;</td></tr>
+    </table>
+  </td></tr>
+  <tr><td style="padding:24px 32px 8px;font-size:15px;line-height:1.6;">
+    <p style="margin:0 0 24px;">Vous souhaitez compléter votre demande&nbsp;? Il vous suffit de répondre directement à cet email.</p>
+    <p style="margin:0 0 4px;">Bien cordialement,</p>
+  </td></tr>
+  <tr><td style="padding:8px 32px 32px;">
+    <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+      <td style="border-left:3px solid #e6003a;padding-left:14px;font-size:14px;line-height:1.6;">
+        <strong style="font-size:15px;">Thomas Batisse</strong><br>
+        <span style="color:#4b5563;">Fondateur — Lyon AI Studio</span><br>
+        <a href="mailto:lyonaistudio@gmail.com" style="color:#e6003a;text-decoration:none;">lyonaistudio@gmail.com</a><br>
+        <a href="https://lyonaistudio.fr" style="color:#e6003a;text-decoration:none;">lyonaistudio.fr</a><br>
+        <span style="color:#6b7280;font-size:13px;">Du lundi au vendredi, de 9h à 18h</span>
+      </td>
+    </tr></table>
+  </td></tr>
+  <tr><td style="background:#f9fafb;border-top:1px solid #e5e7eb;padding:16px 32px;font-size:12px;line-height:1.5;color:#9ca3af;">
+    Ce message vous est envoyé automatiquement suite à votre demande sur lyonaistudio.fr.
+  </td></tr>
+</table>
+</td></tr></table>
+</body></html>`;
 
 async function sendAutoReply(env, email) {
   if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return;
@@ -203,8 +279,9 @@ async function sendAutoReply(env, email) {
     await mailer.send({
       from: { name: "Lyon AI Studio", email: env.GMAIL_USER },
       to: { email },
-      subject: "Votre demande a bien été reçue — Lyon AI Studio",
+      subject: AUTO_REPLY_SUBJECT,
       text: AUTO_REPLY_TEXT,
+      html: AUTO_REPLY_HTML,
     });
   } finally {
     await mailer.close();
