@@ -1,4 +1,4 @@
-// Recherche hebdomadaire de prospects (entreprises lyonnaises sans site pro)
+// Recherche quotidienne de prospects (entreprises lyonnaises sans site pro)
 // + génération d'un PDF prêt à envoyer au commercial. Ne dépend d'aucune
 // connexion OAuth (contrairement au scénario Make) — juste la clé API
 // Google Places, déjà en place et fonctionnelle.
@@ -7,7 +7,8 @@
 // Sortie : commercial/prospects-lyon-ai-studio.pdf (+ .csv en support)
 
 import { chromium } from "playwright";
-import { writeFileSync, readFileSync } from "node:fs";
+import { writeFileSync, readFileSync, existsSync, readdirSync } from "node:fs";
+import { homedir } from "node:os";
 import { loadServiceAccount, getAccessToken } from "./google-auth.mjs";
 
 const ROOT = "/home/thomasbatpro/lyon ia studio /";
@@ -158,7 +159,23 @@ const html = `
 const tmpHtml = "/tmp/prospects-render.html";
 writeFileSync(tmpHtml, html, "utf-8");
 
-const browser = await chromium.launch();
+// Le cache ~/.cache/ms-playwright peut contenir une révision de navigateur
+// différente de celle attendue par ce paquet playwright (cache partagé avec
+// d'autres outils, nettoyages disque) : on retombe alors sur celle présente.
+function findCachedHeadlessShell() {
+  const cache = `${homedir()}/.cache/ms-playwright`;
+  if (!existsSync(cache)) return undefined;
+  const dirs = readdirSync(cache).filter((d) => d.startsWith("chromium_headless_shell-")).sort().reverse();
+  for (const d of dirs) {
+    const bin = `${cache}/${d}/chrome-headless-shell-linux64/chrome-headless-shell`;
+    if (existsSync(bin)) return bin;
+  }
+  return undefined;
+}
+const defaultPath = chromium.executablePath();
+const browser = await chromium.launch(
+  existsSync(defaultPath) ? {} : { executablePath: findCachedHeadlessShell() }
+);
 const page = await browser.newPage();
 await page.goto(`file://${tmpHtml}`, { waitUntil: "networkidle" });
 await page.pdf({ path: PDF_PATH, format: "A4", printBackground: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });

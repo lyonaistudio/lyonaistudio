@@ -1,0 +1,9 @@
+{
+  "name": "prospects",
+  "private": true,
+  "type": "module",
+  "description": "Recherche quotidienne de prospects (Google Places -> Sheet \"new prospects\" + PDF/CSV)",
+  "dependencies": {
+    "playwright": "^1.62.1"
+  }
+}
