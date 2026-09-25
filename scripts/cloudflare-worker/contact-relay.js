@@ -198,7 +198,7 @@ Vous souhaitez compléter votre demande ? Il vous suffit de répondre directemen
 
 Bien cordialement,
 
-Thomas Batisse
+L'équipe Lyon AI Studio
 HVTB Company
 Lyon AI Studio — Création de sites web & agents IA
 lyonaistudio@gmail.com
@@ -250,7 +250,7 @@ const AUTO_REPLY_HTML = `<!doctype html>
   <tr><td style="padding:8px 32px 32px;">
     <table role="presentation" cellpadding="0" cellspacing="0"><tr>
       <td style="border-left:3px solid #e6003a;padding-left:14px;font-size:14px;line-height:1.6;">
-        <strong style="font-size:15px;">Thomas Batisse</strong><br>
+        <strong style="font-size:15px;">L'équipe Lyon AI Studio</strong><br>
         <span style="color:#4b5563;">HVTB Company</span><br>
         <a href="mailto:lyonaistudio@gmail.com" style="color:#e6003a;text-decoration:none;">lyonaistudio@gmail.com</a><br>
         <a href="https://lyonaistudio.fr" style="color:#e6003a;text-decoration:none;">lyonaistudio.fr</a><br>
