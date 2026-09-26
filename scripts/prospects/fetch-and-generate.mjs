@@ -15,7 +15,8 @@ import { findHiddenSites } from "./verify-site.mjs";
 const ROOT = "/home/thomasbatpro/lyon ia studio /";
 const GKEY = readFileSync(ROOT + "cle api/cleapigoogle.txt", "utf-8").trim();
 const OUT_DIR = ROOT + "commercial/";
-const REGION_SUFFIX = process.argv.includes("--region=suisse") ? "-suisse" : "";
+const REGION_ARG = process.argv.find((a) => a.startsWith("--region="))?.split("=")[1] ?? "france";
+const REGION_SUFFIX = REGION_ARG === "france" ? "" : `-${REGION_ARG}`;
 const CSV_PATH = OUT_DIR + `prospects-lyon-ai-studio${REGION_SUFFIX}.csv`;
 const PDF_PATH = OUT_DIR + `prospects-lyon-ai-studio${REGION_SUFFIX}.pdf`;
 const SHEET_ID = "1_pSfsW5Kdw1qU__TJ9CUlFQaetp6pfXFYODHEv5TKcA";
@@ -71,9 +72,48 @@ const REGIONS = {
     tlds: ["ch", "com"],
     textColor: { red: 0, green: 0, blue: 0 },
   },
+  espagne: {
+    label: "Espagne",
+    suffix: "-espagne",
+    // Grandes villes ; Madrid et Barcelone découpées par quartier pour ne pas
+    // plafonner à 20 résultats par recherche.
+    zones: [
+      "Madrid Centro", "Madrid Salamanca", "Madrid Chamberi", "Madrid Retiro", "Madrid Tetuan",
+      "Barcelona Eixample", "Barcelona Gracia", "Barcelona Sants", "Barcelona Sant Marti",
+      "Valencia", "Sevilla", "Zaragoza", "Malaga", "Bilbao", "Alicante", "Murcia",
+      "Palma de Mallorca", "Granada", "Cordoba", "Valladolid", "Vigo", "A Coruna",
+      "San Sebastian", "Pamplona",
+    ],
+    sheetTab: "ESPAGNE",
+    regionCode: "ES",
+    languageCode: "es",
+    inArea: (address) => /\b\d{5}\b/.test(address) && !/France|Portugal|Andorra|M[ée]xico|CDMX|Argentina|Colombia|Chile|Per[úu]\b|Venezuela|Ecuador|Guatemala|Puerto Rico|United States|USA\b/i.test(address),
+    tlds: ["es", "com"],
+    textColor: { red: 0, green: 0, blue: 0 },
+    // Recherche en espagnol ; la catégorie écrite dans le Sheet reste en français.
+    queryTerm: {
+      "coiffeur": "peluqueria", "barbier": "barberia", "plombier": "fontanero", "chauffagiste": "calefaccion instalador",
+      "boulangerie": "panaderia", "restaurant": "restaurante", "pizzeria": "pizzeria", "salon de the": "cafeteria",
+      "fleuriste": "floristeria", "electricien": "electricista", "opticien": "optica", "boucherie": "carniceria",
+      "patisserie": "pasteleria", "menuisier": "carpinteria", "peintre en batiment": "pintor de casas",
+      "couvreur": "tejados reparacion", "carreleur": "alicatador", "macon": "albanil", "plaquiste": "pladur instalador",
+      "paysagiste": "jardineria paisajismo", "vitrier": "cristaleria", "serrurier": "cerrajero",
+      "garage automobile": "taller mecanico", "carrosserie": "chapa y pintura", "auto-ecole": "autoescuela",
+      "institut de beaute": "centro de estetica", "salon de tatouage": "estudio de tatuajes", "onglerie": "salon de unas",
+      "cordonnerie": "zapateria reparacion", "retoucherie": "arreglos de ropa", "pressing": "tintoreria",
+      "traiteur": "catering", "fromagerie": "queseria", "epicerie fine": "tienda gourmet", "cave a vin": "vinoteca",
+      "animalerie": "tienda de animales", "toiletteur": "peluqueria canina", "bijouterie": "joyeria",
+      "horlogerie": "relojeria", "librairie": "libreria", "magasin de sport": "tienda de deportes",
+      "reparation telephone": "reparacion de moviles", "demenageur": "mudanzas", "photographe": "fotografo",
+      "cabinet dentaire": "clinica dental", "osteopathe": "osteopata", "podologue": "podologo",
+      "kinesitherapeute": "fisioterapeuta", "cabinet d architecte": "estudio de arquitectura",
+      "agence immobiliere": "inmobiliaria", "avocat": "abogado", "coach sportif": "entrenador personal",
+      "institut de bien-etre": "centro de masajes", "nettoyage entreprise": "empresa de limpieza",
+    },
+  },
 };
 const R = REGIONS[REGION];
-if (!R) throw new Error(`Région inconnue : ${REGION} (france | suisse)`);
+if (!R) throw new Error(`Région inconnue : ${REGION} (${Object.keys(REGIONS).join(" | ")})`);
 const ZONES = R.zones;
 const SHEET_TAB = R.sheetTab;
 
@@ -102,6 +142,10 @@ const NOT_A_REAL_SITE = {
   "lafourchette": "TheFork", "business.site": "ancien site Google (fermé)",
   "g.page": "fiche Google", "google.com": "fiche Google",
 };
+Object.assign(NOT_A_REAL_SITE, {
+  "eltenedor": "TheFork", "glovoapp": "Glovo", "just-eat": "Just Eat", "justeat": "Just Eat",
+  "paginasamarillas": "Páginas Amarillas", "doctoralia": "Doctoralia", "top-doctors": "Top Doctors",
+});
 const platformOf = (url) => Object.entries(NOT_A_REAL_SITE).find(([d]) => url.toLowerCase().includes(d))?.[1];
 
 async function searchPlaces(query) {
@@ -112,7 +156,7 @@ async function searchPlaces(query) {
       "X-Goog-Api-Key": GKEY,
       "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber,places.businessStatus",
     },
-    body: JSON.stringify({ textQuery: query, regionCode: R.regionCode, languageCode: "fr" }),
+    body: JSON.stringify({ textQuery: query, regionCode: R.regionCode, languageCode: R.languageCode ?? "fr" }),
   });
   if (!res.ok) {
     console.error(`Erreur recherche "${query}":`, res.status, await res.text());
@@ -127,7 +171,7 @@ const seen = new Set();
 const rows = [];
 
 for (const { metier, zone } of todo) {
-  const places = await searchPlaces(`${metier} ${zone}`);
+  const places = await searchPlaces(`${R.queryTerm?.[metier] ?? metier} ${zone}`);
   for (const p of places) {
     const name = p.displayName?.text ?? "";
     const address = p.formattedAddress ?? "";
