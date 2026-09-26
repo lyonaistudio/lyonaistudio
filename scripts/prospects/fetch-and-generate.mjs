@@ -34,6 +34,19 @@ const METIERS = [
   "nettoyage entreprise",
 ];
 
+// Grandes familles de niches (colonne "Famille" du Sheet), pour filtrer large.
+const FAMILLES = {
+  "Beauté & bien-être": ["coiffeur", "barbier", "institut de beaute", "salon de tatouage", "onglerie", "institut de bien-etre"],
+  "Bâtiment & travaux": ["plombier", "chauffagiste", "electricien", "menuisier", "peintre en batiment", "couvreur", "carreleur", "macon", "plaquiste", "paysagiste", "vitrier", "serrurier"],
+  "Alimentation & restauration": ["boulangerie", "restaurant", "pizzeria", "salon de the", "boucherie", "patisserie", "traiteur", "fromagerie", "epicerie fine", "cave a vin"],
+  "Santé": ["cabinet dentaire", "osteopathe", "podologue", "kinesitherapeute", "opticien"],
+  "Auto & transport": ["garage automobile", "carrosserie", "auto-ecole", "demenageur"],
+  "Commerce": ["fleuriste", "animalerie", "bijouterie", "horlogerie", "librairie", "magasin de sport"],
+  "Services": ["cordonnerie", "retoucherie", "pressing", "toiletteur", "reparation telephone", "photographe", "nettoyage entreprise", "coach sportif"],
+  "Professions libérales & immobilier": ["cabinet d architecte", "agence immobiliere", "avocat"],
+};
+const familleOf = (metier) => Object.entries(FAMILLES).find(([, ms]) => ms.includes(metier))?.[0] ?? "Autre";
+
 // `--region=suisse` : même recherche en Suisse romande, ajoutée au même Sheet
 // (onglet SUISSE) (fichiers PDF/CSV et curseur de rotation séparés).
 const REGION = process.argv.find((a) => a.startsWith("--region="))?.split("=")[1] ?? "france";
@@ -319,7 +332,7 @@ const existingKeys = new Set(existing.slice(1).map((r) => `${r[0] ?? ""}|${r[2] 
 const todayIso = new Date().toLocaleDateString("fr-FR");
 const newRows = rows
   .filter((r) => !existingKeys.has(`${r.nom}|${r.adresse}`))
-  .map((r) => [todayIso, r.nom, r.categorie, r.adresse, r.telephone, "nouveau", "", r.note]);
+  .map((r) => [todayIso, r.nom, r.categorie, r.adresse, r.telephone, "nouveau", "", r.note, familleOf(r.categorie)]);
 
 if (newRows.length > 0) {
   const appendRes = await fetch(
@@ -357,7 +370,7 @@ async function colorAppendedRows(token, updatedRange, color) {
     method: "POST",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify({ requests: [{ repeatCell: {
-      range: { sheetId, startRowIndex: Number(m[1]) - 1, endRowIndex: Number(m[2]), startColumnIndex: 0, endColumnIndex: 8 },
+      range: { sheetId, startRowIndex: Number(m[1]) - 1, endRowIndex: Number(m[2]), startColumnIndex: 0, endColumnIndex: 9 },
       cell: { userEnteredFormat: { textFormat: { foregroundColor: color } } },
       fields: "userEnteredFormat.textFormat.foregroundColor",
     } }] }),
@@ -375,7 +388,7 @@ async function extendBasicFilter(token) {
   )).json();
   const sh = meta.sheets.find((x) => x.properties.title === SHEET_TAB);
   const filter = sh.basicFilter ?? {};
-  filter.range = { sheetId: sh.properties.sheetId, startRowIndex: 0, endRowIndex: sh.properties.gridProperties.rowCount, startColumnIndex: 0, endColumnIndex: 8 };
+  filter.range = { sheetId: sh.properties.sheetId, startRowIndex: 0, endRowIndex: sh.properties.gridProperties.rowCount, startColumnIndex: 0, endColumnIndex: 9 };
   const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
