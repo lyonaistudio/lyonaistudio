@@ -17,7 +17,7 @@ function slugWords(name) {
     .filter(Boolean);
 }
 
-function candidateDomains(name) {
+function candidateDomains(name, tlds) {
   const words = slugWords(name.split(/[-–|,(]/)[0]); // avant un éventuel "- Lyon 3e | ..."
   const meaningful = words.filter((w) => !GENERIC.has(w));
   const bases = new Set();
@@ -29,7 +29,7 @@ function candidateDomains(name) {
   const out = [];
   for (const b of bases) {
     if (b.length < 4 || b.length > 40) continue;
-    for (const tld of ["fr", "com"]) out.push(`${b}.${tld}`);
+    for (const tld of tlds) out.push(`${b}.${tld}`);
   }
   return out;
 }
@@ -52,7 +52,8 @@ function matchesBusiness(html, { telephone, adresse }) {
   const digits = html.replace(/\D/g, "");
   const tel = (telephone ?? "").replace(/\D/g, "").slice(-9);
   if (tel.length === 9 && digits.includes(tel)) return true;
-  const cp = adresse?.match(/\b69\d{3}\b/)?.[0];
+  // Code postal : 5 chiffres (France) ou 4 chiffres (Suisse).
+  const cp = adresse?.match(/\b\d{4,5}\b(?=\s+\D)/)?.[0];
   const street = adresse?.split(",")[0]?.replace(/^\d+\s*(bis|ter)?\s*/i, "").trim().toLowerCase();
   const text = html.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const streetN = street?.normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -60,8 +61,8 @@ function matchesBusiness(html, { telephone, adresse }) {
 }
 
 // Renvoie l'URL du site trouvé, ou null si aucun site ne correspond au prospect.
-export async function findHiddenSite(prospect) {
-  for (const domain of candidateDomains(prospect.nom)) {
+export async function findHiddenSite(prospect, tlds = ["fr", "com"]) {
+  for (const domain of candidateDomains(prospect.nom, tlds)) {
     if (!(await resolves(domain))) continue;
     for (const url of [`https://${domain}`, `https://www.${domain}`, `http://${domain}`]) {
       const html = await fetchText(url);
@@ -72,13 +73,13 @@ export async function findHiddenSite(prospect) {
 }
 
 // Vérifie une liste en parallèle limité ; renvoie un Set des index avec site.
-export async function findHiddenSites(prospects, concurrency = 12) {
+export async function findHiddenSites(prospects, { tlds, concurrency = 12 } = {}) {
   const found = new Map();
   let i = 0;
   async function worker() {
     while (i < prospects.length) {
       const idx = i++;
-      const url = await findHiddenSite(prospects[idx]);
+      const url = await findHiddenSite(prospects[idx], tlds);
       if (url) found.set(idx, url);
     }
   }

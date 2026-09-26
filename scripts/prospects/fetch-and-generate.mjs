@@ -15,10 +15,10 @@ import { findHiddenSites } from "./verify-site.mjs";
 const ROOT = "/home/thomasbatpro/lyon ia studio /";
 const GKEY = readFileSync(ROOT + "cle api/cleapigoogle.txt", "utf-8").trim();
 const OUT_DIR = ROOT + "commercial/";
-const CSV_PATH = OUT_DIR + "prospects-lyon-ai-studio.csv";
-const PDF_PATH = OUT_DIR + "prospects-lyon-ai-studio.pdf";
+const REGION_SUFFIX = process.argv.includes("--region=suisse") ? "-suisse" : "";
+const CSV_PATH = OUT_DIR + `prospects-lyon-ai-studio${REGION_SUFFIX}.csv`;
+const PDF_PATH = OUT_DIR + `prospects-lyon-ai-studio${REGION_SUFFIX}.pdf`;
 const SHEET_ID = "1_pSfsW5Kdw1qU__TJ9CUlFQaetp6pfXFYODHEv5TKcA";
-const SHEET_TAB = "Feuille 1";
 
 const METIERS = [
   "coiffeur", "barbier", "plombier", "chauffagiste", "boulangerie", "restaurant", "pizzeria",
@@ -33,15 +33,51 @@ const METIERS = [
   "nettoyage entreprise",
 ];
 
-// Lyon intra-muros par arrondissement + communes de la Métropole : une même
-// recherche "plombier Lyon" ne renvoie que 20 résultats (toujours les mêmes),
-// alors que "plombier Lyon 7e" ou "plombier Villeurbanne" en fait remonter d'autres.
-const ZONES = [
-  "Lyon 1er", "Lyon 2e", "Lyon 3e", "Lyon 4e", "Lyon 5e", "Lyon 6e", "Lyon 7e", "Lyon 8e", "Lyon 9e",
-  "Villeurbanne", "Venissieux", "Caluire-et-Cuire", "Bron", "Vaulx-en-Velin", "Saint-Priest",
-  "Oullins", "Tassin-la-Demi-Lune", "Ecully", "Rillieux-la-Pape", "Decines-Charpieu", "Meyzieu",
-  "Sainte-Foy-les-Lyon", "Saint-Fons", "Champagne-au-Mont-d-Or",
-];
+// `--region=suisse` : même recherche en Suisse romande, ajoutée au même Sheet
+// en police bleue (fichiers PDF/CSV et curseur de rotation séparés).
+const REGION = process.argv.find((a) => a.startsWith("--region="))?.split("=")[1] ?? "france";
+const REGIONS = {
+  france: {
+    label: "Lyon",
+    suffix: "",
+    // Lyon intra-muros par arrondissement + communes de la Métropole : une même
+    // recherche "plombier Lyon" ne renvoie que 20 résultats (toujours les mêmes),
+    // alors que "plombier Lyon 7e" ou "plombier Villeurbanne" en fait remonter d'autres.
+    zones: [
+      "Lyon 1er", "Lyon 2e", "Lyon 3e", "Lyon 4e", "Lyon 5e", "Lyon 6e", "Lyon 7e", "Lyon 8e", "Lyon 9e",
+      "Villeurbanne", "Venissieux", "Caluire-et-Cuire", "Bron", "Vaulx-en-Velin", "Saint-Priest",
+      "Oullins", "Tassin-la-Demi-Lune", "Ecully", "Rillieux-la-Pape", "Decines-Charpieu", "Meyzieu",
+      "Sainte-Foy-les-Lyon", "Saint-Fons", "Champagne-au-Mont-d-Or",
+    ],
+    sheetTab: "FRANCE",
+    regionCode: "FR",
+    // Code postal du Rhône : Google élargit parfois la zone (Isère, Mâcon…).
+    inArea: (address) => /\b69\d{3}\b/.test(address),
+    tlds: ["fr", "com"],
+    // Noir explicite : sinon des lignes ajoutées sous des lignes suisses
+    // risqueraient d'hériter du bleu.
+    textColor: { red: 0, green: 0, blue: 0 },
+  },
+  suisse: {
+    label: "Suisse romande",
+    suffix: "-suisse",
+    zones: [
+      "Geneve", "Carouge GE", "Vernier", "Lancy", "Meyrin", "Lausanne", "Renens VD", "Morges",
+      "Nyon", "Vevey", "Montreux", "Yverdon-les-Bains", "Fribourg", "Bulle", "Neuchatel",
+      "La Chaux-de-Fonds", "Sion", "Sierre", "Martigny", "Monthey", "Delemont",
+    ],
+    sheetTab: "SUISSE",
+    regionCode: "CH",
+    // Avec regionCode CH, Google omet le pays : NPA suisse à 4 chiffres, pas d'adresse française.
+    inArea: (address) => /\b[1-9]\d{3}\s+\p{L}/u.test(address) && !/France|\b\d{5}\b/.test(address),
+    tlds: ["ch", "com"],
+    textColor: { red: 0.08, green: 0.4, blue: 0.85 }, // bleu
+  },
+};
+const R = REGIONS[REGION];
+if (!R) throw new Error(`Région inconnue : ${REGION} (france | suisse)`);
+const ZONES = R.zones;
+const SHEET_TAB = R.sheetTab;
 
 // Rotation : chaque lot = BATCH_SIZE couples (métier, zone) pris à la suite
 // dans la grille complète, en reprenant là où le run précédent s'est arrêté
@@ -49,7 +85,7 @@ const ZONES = [
 // d'avant (32), mais chaque jour explore des combinaisons nouvelles au lieu de
 // répéter les mêmes 32 recherches. `--lots=N` pour en faire plusieurs d'un coup.
 const BATCH_SIZE = 32;
-const CURSOR_PATH = new URL("./cursor.json", import.meta.url);
+const CURSOR_PATH = new URL(`./cursor${R.suffix}.json`, import.meta.url);
 const COMBOS = ZONES.flatMap((zone) => METIERS.map((metier) => ({ metier, zone })));
 const lots = Number(process.argv.find((a) => a.startsWith("--lots="))?.split("=")[1] ?? 1);
 let cursor = 0;
@@ -78,7 +114,7 @@ async function searchPlaces(query) {
       "X-Goog-Api-Key": GKEY,
       "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber,places.businessStatus",
     },
-    body: JSON.stringify({ textQuery: query }),
+    body: JSON.stringify({ textQuery: query, regionCode: R.regionCode, languageCode: "fr" }),
   });
   if (!res.ok) {
     console.error(`Erreur recherche "${query}":`, res.status, await res.text());
@@ -101,7 +137,7 @@ for (const { metier, zone } of todo) {
     if (seen.has(key)) continue;
     seen.add(key);
 
-    if (!/\b69\d{3}\b/.test(address)) continue; // hors Rhône (Google élargit parfois la zone)
+    if (!R.inArea(address)) continue; // hors zone (Google élargit parfois la recherche)
     if (p.businessStatus && p.businessStatus !== "OPERATIONAL") continue; // fermé (temporairement ou définitivement)
 
     const site = p.websiteUri ?? "";
@@ -119,7 +155,7 @@ for (const { metier, zone } of todo) {
 }
 
 console.log(`${rows.length} prospects sans site selon Google, vérification des sites non déclarés...`);
-const hidden = await findHiddenSites(rows);
+const hidden = await findHiddenSites(rows, { tlds: R.tlds });
 for (const idx of [...hidden.keys()].sort((a, b) => b - a)) rows.splice(idx, 1);
 console.log(`${hidden.size} avaient en fait un site (écartés) → ${rows.length} prospects vraiment sans site.`);
 
@@ -192,7 +228,7 @@ const html = `
     <div class="stats">
       <div><div class="stat-num">${rows.length}</div><div class="stat-label">Prospects</div></div>
       <div><div class="stat-num">${Object.keys(byCategory).length}</div><div class="stat-label">Métiers</div></div>
-      <div><div class="stat-num">Lyon</div><div class="stat-label">Zone</div></div>
+      <div><div class="stat-num">${esc(R.label)}</div><div class="stat-label">Zone</div></div>
     </div>
   </div>
   <div class="content">${sections}</div>
@@ -255,9 +291,32 @@ if (newRows.length > 0) {
     console.error("Erreur écriture Sheet:", appendRes.status, await appendRes.text());
   } else {
     console.log(`${newRows.length} nouveaux prospects ajoutés au Sheet.`);
+    if (R.textColor) await colorAppendedRows(token, (await appendRes.json()).updates?.updatedRange, R.textColor);
   }
 } else {
   console.log("Aucun nouveau prospect à ajouter au Sheet (déjà présents).");
 }
 
 writeFileSync(CURSOR_PATH, JSON.stringify({ cursor: nextCursor, updated: new Date().toISOString() }) + "\n");
+
+// Met en couleur (police) les lignes que l'append vient d'écrire, ex. la Suisse
+// en bleu pour la distinguer de la France dans le même onglet.
+async function colorAppendedRows(token, updatedRange, color) {
+  const m = updatedRange?.match(/!A(\d+):[A-Z]+(\d+)$/);
+  if (!m) return console.error("Plage ajoutée introuvable, pas de mise en couleur :", updatedRange);
+  const meta = await (await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets.properties`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  )).json();
+  const sheetId = meta.sheets.find((sh) => sh.properties.title === SHEET_TAB).properties.sheetId;
+  const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ requests: [{ repeatCell: {
+      range: { sheetId, startRowIndex: Number(m[1]) - 1, endRowIndex: Number(m[2]), startColumnIndex: 0, endColumnIndex: 8 },
+      cell: { userEnteredFormat: { textFormat: { foregroundColor: color } } },
+      fields: "userEnteredFormat.textFormat.foregroundColor",
+    } }] }),
+  });
+  if (!res.ok) console.error("Erreur mise en couleur:", res.status, await res.text());
+}
