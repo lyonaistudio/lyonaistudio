@@ -101,6 +101,7 @@ for (const { metier, zone } of todo) {
     if (seen.has(key)) continue;
     seen.add(key);
 
+    if (!/\b69\d{3}\b/.test(address)) continue; // hors Rhône (Google élargit parfois la zone)
     if (p.businessStatus && p.businessStatus !== "OPERATIONAL") continue; // fermé (temporairement ou définitivement)
 
     const site = p.websiteUri ?? "";
