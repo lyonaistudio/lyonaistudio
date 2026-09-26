@@ -87,7 +87,7 @@ const REGIONS = {
     sheetTab: "ESPAGNE",
     regionCode: "ES",
     languageCode: "es",
-    inArea: (address) => /\b\d{5}\b/.test(address) && !/France|Portugal|Andorra|M[ée]xico|CDMX|Argentina|Colombia|Chile|Per[úu]\b|Venezuela|Ecuador|Guatemala|Puerto Rico|United States|USA\b/i.test(address),
+    inArea: (address) => /\b\d{5}\b/.test(address) && !/(France|Portugal|Andorra|M[ée]xico|CDMX|Argentina|Colombia|Chile|Per[úu]|Venezuela|Ecuador|Guatemala|Puerto Rico|United States|USA)\s*$/i.test(address), // pays en fin d'adresse (pas un nom de rue)
     tlds: ["es", "com"],
     textColor: { red: 0, green: 0, blue: 0 },
     // Recherche en espagnol ; la catégorie écrite dans le Sheet reste en français.
