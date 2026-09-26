@@ -11,6 +11,7 @@ import { writeFileSync, readFileSync, existsSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { loadServiceAccount, getAccessToken } from "./google-auth.mjs";
 import { findHiddenSites } from "./verify-site.mjs";
+import { prospectRow, COL } from "./sheet-layout.mjs";
 
 const ROOT = "/home/thomasbatpro/lyon ia studio /";
 const GKEY = readFileSync(ROOT + "cle api/cleapigoogle.txt", "utf-8").trim();
@@ -68,7 +69,6 @@ const REGIONS = {
     // Code postal du Rhône : Google élargit parfois la zone (Isère, Mâcon…).
     inArea: (address) => /\b69\d{3}\b/.test(address),
     tlds: ["fr", "com"],
-    textColor: { red: 0, green: 0, blue: 0 },
   },
   suisse: {
     label: "Suisse romande",
@@ -83,7 +83,6 @@ const REGIONS = {
     // Avec regionCode CH, Google omet le pays : NPA suisse à 4 chiffres, pas d'adresse française.
     inArea: (address) => /\b[1-9]\d{3}\s+\p{L}/u.test(address) && !/France|\b\d{5}\b/.test(address),
     tlds: ["ch", "com"],
-    textColor: { red: 0, green: 0, blue: 0 },
   },
   espagne: {
     label: "Espagne",
@@ -102,7 +101,6 @@ const REGIONS = {
     languageCode: "es",
     inArea: (address) => /\b\d{5}\b/.test(address) && !/(France|Portugal|Andorra|M[ée]xico|CDMX|Argentina|Colombia|Chile|Per[úu]|Venezuela|Ecuador|Guatemala|Puerto Rico|United States|USA)\s*$/i.test(address), // pays en fin d'adresse (pas un nom de rue)
     tlds: ["es", "com"],
-    textColor: { red: 0, green: 0, blue: 0 },
     // Recherche en espagnol ; la catégorie écrite dans le Sheet reste en français.
     queryTerm: {
       "coiffeur": "peluqueria", "barbier": "barberia", "plombier": "fontanero", "chauffagiste": "calefaccion instalador",
@@ -167,7 +165,7 @@ async function searchPlaces(query) {
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": GKEY,
-      "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber,places.businessStatus",
+      "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber,places.businessStatus,places.rating,places.userRatingCount,places.googleMapsUri,places.regularOpeningHours.weekdayDescriptions",
     },
     body: JSON.stringify({ textQuery: query, regionCode: R.regionCode, languageCode: R.languageCode ?? "fr" }),
   });
@@ -206,6 +204,10 @@ for (const { metier, zone } of todo) {
       adresse: address,
       telephone: p.nationalPhoneNumber ?? "—",
       note: platform ? `${platform} uniquement` : "Aucun site",
+      rating: p.rating,
+      avis: p.userRatingCount ?? (p.rating ? 0 : undefined),
+      mapsUrl: p.googleMapsUri,
+      horaires: p.regularOpeningHours?.weekdayDescriptions?.join("\n"),
     });
   }
 }
@@ -323,20 +325,22 @@ const sa = loadServiceAccount(ROOT + "cle api/lyon-ai-studio-prospection-9345a0c
 const token = await getAccessToken(sa);
 
 const existingRes = await fetch(
-  `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!B:D`,
+  `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!B:E`,
   { headers: { Authorization: `Bearer ${token}` } }
 );
 const existing = (await existingRes.json()).values ?? [];
-const existingKeys = new Set(existing.slice(1).map((r) => `${r[0] ?? ""}|${r[2] ?? ""}`));
+const existingKeys = new Set(existing.slice(1).map((r) => `${r[0] ?? ""}|${r[3] ?? ""}`)); // Entreprise|Adresse
 
 const todayIso = new Date().toLocaleDateString("fr-FR");
-const newRows = rows
-  .filter((r) => !existingKeys.has(`${r.nom}|${r.adresse}`))
-  .map((r) => [todayIso, r.nom, r.categorie, r.adresse, r.telephone, "nouveau", "", r.note, familleOf(r.categorie)]);
+const fresh = rows.filter((r) => !existingKeys.has(`${r.nom}|${r.adresse}`));
+const newRows = fresh.map((r) => prospectRow({
+  date: todayIso, nom: r.nom, famille: familleOf(r.categorie), categorie: r.categorie, adresse: r.adresse,
+  telephone: r.telephone, presence: r.note, note: r.rating, avis: r.avis, mapsUrl: r.mapsUrl,
+}));
 
 if (newRows.length > 0) {
   const appendRes = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!A1:append?valueInputOption=RAW`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!A1:append?valueInputOption=USER_ENTERED`, // dates + lien de fiche ; textes neutralisés par prospectRow
     {
       method: "POST",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
@@ -347,8 +351,7 @@ if (newRows.length > 0) {
     console.error("Erreur écriture Sheet:", appendRes.status, await appendRes.text());
   } else {
     console.log(`${newRows.length} nouveaux prospects ajoutés au Sheet.`);
-    if (R.textColor) await colorAppendedRows(token, (await appendRes.json()).updates?.updatedRange, R.textColor);
-    await extendBasicFilter(token);
+    await addOpeningHoursNotes(token, (await appendRes.json()).updates?.updatedRange, fresh);
   }
 } else {
   console.log("Aucun nouveau prospect à ajouter au Sheet (déjà présents).");
@@ -356,11 +359,11 @@ if (newRows.length > 0) {
 
 writeFileSync(CURSOR_PATH, JSON.stringify({ cursor: nextCursor, updated: new Date().toISOString() }) + "\n");
 
-// Met en couleur (police) les lignes que l'append vient d'écrire — noir
-// explicite, pour ne jamais hériter d'une mise en forme laissée dans l'onglet.
-async function colorAppendedRows(token, updatedRange, color) {
-  const m = updatedRange?.match(/!A(\d+):[A-Z]+(\d+)$/);
-  if (!m) return console.error("Plage ajoutée introuvable, pas de mise en couleur :", updatedRange);
+// Horaires d'ouverture en note (survol) sur la cellule Téléphone : le
+// commercial voit quand appeler sans alourdir le tableau.
+async function addOpeningHoursNotes(token, updatedRange, prospects) {
+  const start = Number(updatedRange?.match(/!A(\d+):/)?.[1]);
+  if (!start) return console.error("Plage ajoutée introuvable, pas d'horaires :", updatedRange);
   const meta = await (await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets.properties`,
     { headers: { Authorization: `Bearer ${token}` } }
@@ -369,30 +372,11 @@ async function colorAppendedRows(token, updatedRange, color) {
   const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ requests: [{ repeatCell: {
-      range: { sheetId, startRowIndex: Number(m[1]) - 1, endRowIndex: Number(m[2]), startColumnIndex: 0, endColumnIndex: 9 },
-      cell: { userEnteredFormat: { textFormat: { foregroundColor: color } } },
-      fields: "userEnteredFormat.textFormat.foregroundColor",
+    body: JSON.stringify({ requests: [{ updateCells: {
+      range: { sheetId, startRowIndex: start - 1, endRowIndex: start - 1 + prospects.length, startColumnIndex: COL["Téléphone"], endColumnIndex: COL["Téléphone"] + 1 },
+      rows: prospects.map((p) => ({ values: [{ note: p.horaires ? `Horaires :\n${p.horaires}` : "" }] })),
+      fields: "note",
     } }] }),
   });
-  if (!res.ok) console.error("Erreur mise en couleur:", res.status, await res.text());
-}
-
-// Le filtre de l'onglet (menu sur "Categorie" pour choisir une niche) a une
-// plage figée : on la réétend jusqu'à la dernière ligne après chaque ajout, en
-// gardant les critères éventuellement cochés.
-async function extendBasicFilter(token) {
-  const meta = await (await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets(properties(sheetId,title,gridProperties.rowCount),basicFilter)`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  )).json();
-  const sh = meta.sheets.find((x) => x.properties.title === SHEET_TAB);
-  const filter = sh.basicFilter ?? {};
-  filter.range = { sheetId: sh.properties.sheetId, startRowIndex: 0, endRowIndex: sh.properties.gridProperties.rowCount, startColumnIndex: 0, endColumnIndex: 9 };
-  const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ requests: [{ setBasicFilter: { filter } }] }),
-  });
-  if (!res.ok) console.error("Erreur extension du filtre:", res.status, await res.text());
+  if (!res.ok) console.error("Erreur horaires:", res.status, await res.text());
 }
