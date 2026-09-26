@@ -10,6 +10,7 @@ import { chromium } from "playwright";
 import { writeFileSync, readFileSync, existsSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { loadServiceAccount, getAccessToken } from "./google-auth.mjs";
+import { findHiddenSites } from "./verify-site.mjs";
 
 const ROOT = "/home/thomasbatpro/lyon ia studio /";
 const GKEY = readFileSync(ROOT + "cle api/cleapigoogle.txt", "utf-8").trim();
@@ -56,7 +57,18 @@ try { cursor = JSON.parse(readFileSync(CURSOR_PATH, "utf-8")).cursor ?? 0; } cat
 const todo = Array.from({ length: BATCH_SIZE * lots }, (_, i) => COMBOS[(cursor + i) % COMBOS.length]);
 const nextCursor = (cursor + todo.length) % COMBOS.length;
 
-const SOCIAL_ONLY = ["facebook.com", "instagram.com", "linktr.ee", "linkedin.com", "planity.com", "treatwell"];
+// Liens qui ne sont pas un site à eux : réseaux sociaux, plateformes de
+// réservation/livraison et annuaires. Un prospect qui n'a que ça reste un prospect.
+const NOT_A_REAL_SITE = {
+  "facebook.com": "Facebook", "instagram.com": "Instagram", "tiktok.com": "TikTok",
+  "linktr.ee": "Linktree", "linkedin.com": "LinkedIn", "wa.me": "WhatsApp",
+  "planity.com": "Planity", "treatwell": "Treatwell", "doctolib.fr": "Doctolib",
+  "kiute.com": "Kiute", "booksy.com": "Booksy", "pagesjaunes.fr": "PagesJaunes",
+  "ubereats.com": "Uber Eats", "deliveroo.fr": "Deliveroo", "thefork": "TheFork",
+  "lafourchette": "TheFork", "business.site": "ancien site Google (fermé)",
+  "g.page": "fiche Google", "google.com": "fiche Google",
+};
+const platformOf = (url) => Object.entries(NOT_A_REAL_SITE).find(([d]) => url.toLowerCase().includes(d))?.[1];
 
 async function searchPlaces(query) {
   const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
@@ -64,7 +76,7 @@ async function searchPlaces(query) {
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": GKEY,
-      "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber",
+      "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber,places.businessStatus",
     },
     body: JSON.stringify({ textQuery: query }),
   });
@@ -89,21 +101,26 @@ for (const { metier, zone } of todo) {
     if (seen.has(key)) continue;
     seen.add(key);
 
+    if (p.businessStatus && p.businessStatus !== "OPERATIONAL") continue; // fermé (temporairement ou définitivement)
+
     const site = p.websiteUri ?? "";
-    const hasRealSite = site && !SOCIAL_ONLY.some((s) => site.toLowerCase().includes(s));
-    if (hasRealSite) continue; // on ne garde que ceux SANS vrai site pro
+    const platform = site ? platformOf(site) : undefined;
+    if (site && !platform) continue; // on ne garde que ceux SANS vrai site pro
 
     rows.push({
       categorie: `${metier} ${zone}`,
       nom: name,
       adresse: address,
       telephone: p.nationalPhoneNumber ?? "—",
-      note: site ? "Page Facebook/Instagram uniquement" : "Aucun site",
+      note: platform ? `${platform} uniquement` : "Aucun site",
     });
   }
 }
 
-console.log(`${rows.length} prospects sans vrai site trouvés.`);
+console.log(`${rows.length} prospects sans site selon Google, vérification des sites non déclarés...`);
+const hidden = await findHiddenSites(rows);
+for (const idx of [...hidden.keys()].sort((a, b) => b - a)) rows.splice(idx, 1);
+console.log(`${hidden.size} avaient en fait un site (écartés) → ${rows.length} prospects vraiment sans site.`);
 
 const csvLines = ["Categorie;Nom;Adresse;Telephone;Note"];
 for (const r of rows) csvLines.push(`${r.categorie};${r.nom};${r.adresse};${r.telephone};${r.note}`);
@@ -222,7 +239,7 @@ const existingKeys = new Set(existing.slice(1).map((r) => `${r[0] ?? ""}|${r[2] 
 const todayIso = new Date().toLocaleDateString("fr-FR");
 const newRows = rows
   .filter((r) => !existingKeys.has(`${r.nom}|${r.adresse}`))
-  .map((r) => [todayIso, r.nom, r.categorie, r.adresse, r.telephone, "nouveau"]);
+  .map((r) => [todayIso, r.nom, r.categorie, r.adresse, r.telephone, "nouveau", "", r.note]);
 
 if (newRows.length > 0) {
   const appendRes = await fetch(
