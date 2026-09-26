@@ -19,17 +19,42 @@ const PDF_PATH = OUT_DIR + "prospects-lyon-ai-studio.pdf";
 const SHEET_ID = "1_pSfsW5Kdw1qU__TJ9CUlFQaetp6pfXFYODHEv5TKcA";
 const SHEET_TAB = "Feuille 1";
 
-// Les 32 métiers déjà utilisés dans le scénario Make "Integration HTTP" —
-// on les interroge tous à chaque run hebdomadaire pour un maximum de volume.
 const METIERS = [
-  "coiffeur", "plombier", "boulangerie", "restaurant", "fleuriste", "electricien",
-  "opticien", "boucherie", "patisserie", "menuisier", "peintre en batiment",
-  "serrurier", "garage automobile", "institut de beaute", "salon de tatouage",
-  "cordonnerie", "pressing", "traiteur", "fromagerie", "cave a vin", "animalerie",
-  "bijouterie", "horlogerie", "librairie", "magasin de sport", "cabinet dentaire",
-  "cabinet d architecte", "agence immobiliere", "avocat", "kinesitherapeute",
-  "coach sportif", "institut de bien-etre",
+  "coiffeur", "barbier", "plombier", "chauffagiste", "boulangerie", "restaurant", "pizzeria",
+  "salon de the", "fleuriste", "electricien", "opticien", "boucherie", "patisserie", "menuisier",
+  "peintre en batiment", "couvreur", "carreleur", "macon", "plaquiste", "paysagiste", "vitrier",
+  "serrurier", "garage automobile", "carrosserie", "auto-ecole", "institut de beaute",
+  "salon de tatouage", "onglerie", "cordonnerie", "retoucherie", "pressing", "traiteur",
+  "fromagerie", "epicerie fine", "cave a vin", "animalerie", "toiletteur", "bijouterie",
+  "horlogerie", "librairie", "magasin de sport", "reparation telephone", "demenageur",
+  "photographe", "cabinet dentaire", "osteopathe", "podologue", "kinesitherapeute",
+  "cabinet d architecte", "agence immobiliere", "avocat", "coach sportif", "institut de bien-etre",
+  "nettoyage entreprise",
 ];
+
+// Lyon intra-muros par arrondissement + communes de la Métropole : une même
+// recherche "plombier Lyon" ne renvoie que 20 résultats (toujours les mêmes),
+// alors que "plombier Lyon 7e" ou "plombier Villeurbanne" en fait remonter d'autres.
+const ZONES = [
+  "Lyon 1er", "Lyon 2e", "Lyon 3e", "Lyon 4e", "Lyon 5e", "Lyon 6e", "Lyon 7e", "Lyon 8e", "Lyon 9e",
+  "Villeurbanne", "Venissieux", "Caluire-et-Cuire", "Bron", "Vaulx-en-Velin", "Saint-Priest",
+  "Oullins", "Tassin-la-Demi-Lune", "Ecully", "Rillieux-la-Pape", "Decines-Charpieu", "Meyzieu",
+  "Sainte-Foy-les-Lyon", "Saint-Fons", "Champagne-au-Mont-d-Or",
+];
+
+// Rotation : chaque lot = BATCH_SIZE couples (métier, zone) pris à la suite
+// dans la grille complète, en reprenant là où le run précédent s'est arrêté
+// (curseur sur disque). Le volume de requêtes Google par jour reste celui
+// d'avant (32), mais chaque jour explore des combinaisons nouvelles au lieu de
+// répéter les mêmes 32 recherches. `--lots=N` pour en faire plusieurs d'un coup.
+const BATCH_SIZE = 32;
+const CURSOR_PATH = new URL("./cursor.json", import.meta.url);
+const COMBOS = ZONES.flatMap((zone) => METIERS.map((metier) => ({ metier, zone })));
+const lots = Number(process.argv.find((a) => a.startsWith("--lots="))?.split("=")[1] ?? 1);
+let cursor = 0;
+try { cursor = JSON.parse(readFileSync(CURSOR_PATH, "utf-8")).cursor ?? 0; } catch {}
+const todo = Array.from({ length: BATCH_SIZE * lots }, (_, i) => COMBOS[(cursor + i) % COMBOS.length]);
+const nextCursor = (cursor + todo.length) % COMBOS.length;
 
 const SOCIAL_ONLY = ["facebook.com", "instagram.com", "linktr.ee", "linkedin.com", "planity.com", "treatwell"];
 
@@ -41,7 +66,7 @@ async function searchPlaces(query) {
       "X-Goog-Api-Key": GKEY,
       "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber",
     },
-    body: JSON.stringify({ textQuery: `${query} Lyon` }),
+    body: JSON.stringify({ textQuery: query }),
   });
   if (!res.ok) {
     console.error(`Erreur recherche "${query}":`, res.status, await res.text());
@@ -51,12 +76,12 @@ async function searchPlaces(query) {
   return data.places ?? [];
 }
 
-console.log(`Recherche sur ${METIERS.length} métiers...`);
+console.log(`Recherche : ${todo.length} combinaisons métier × zone (position ${cursor}/${COMBOS.length})...`);
 const seen = new Set();
 const rows = [];
 
-for (const metier of METIERS) {
-  const places = await searchPlaces(metier);
+for (const { metier, zone } of todo) {
+  const places = await searchPlaces(`${metier} ${zone}`);
   for (const p of places) {
     const name = p.displayName?.text ?? "";
     const address = p.formattedAddress ?? "";
@@ -69,7 +94,7 @@ for (const metier of METIERS) {
     if (hasRealSite) continue; // on ne garde que ceux SANS vrai site pro
 
     rows.push({
-      categorie: `${metier} Lyon`,
+      categorie: `${metier} ${zone}`,
       nom: name,
       adresse: address,
       telephone: p.nationalPhoneNumber ?? "—",
@@ -201,7 +226,7 @@ const newRows = rows
 
 if (newRows.length > 0) {
   const appendRes = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!A1:append?valueInputOption=USER_ENTERED`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!A1:append?valueInputOption=RAW`,
     {
       method: "POST",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
@@ -216,3 +241,5 @@ if (newRows.length > 0) {
 } else {
   console.log("Aucun nouveau prospect à ajouter au Sheet (déjà présents).");
 }
+
+writeFileSync(CURSOR_PATH, JSON.stringify({ cursor: nextCursor, updated: new Date().toISOString() }) + "\n");
