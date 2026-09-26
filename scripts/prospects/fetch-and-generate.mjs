@@ -54,8 +54,6 @@ const REGIONS = {
     // Code postal du Rhône : Google élargit parfois la zone (Isère, Mâcon…).
     inArea: (address) => /\b69\d{3}\b/.test(address),
     tlds: ["fr", "com"],
-    // Noir explicite : sinon des lignes ajoutées sous des lignes suisses
-    // risqueraient d'hériter du bleu.
     textColor: { red: 0, green: 0, blue: 0 },
   },
   suisse: {
@@ -299,8 +297,8 @@ if (newRows.length > 0) {
 
 writeFileSync(CURSOR_PATH, JSON.stringify({ cursor: nextCursor, updated: new Date().toISOString() }) + "\n");
 
-// Met en couleur (police) les lignes que l'append vient d'écrire, ex. la Suisse
-// en bleu pour la distinguer de la France dans le même onglet.
+// Met en couleur (police) les lignes que l'append vient d'écrire — noir
+// explicite, pour ne jamais hériter d'une mise en forme laissée dans l'onglet.
 async function colorAppendedRows(token, updatedRange, color) {
   const m = updatedRange?.match(/!A(\d+):[A-Z]+(\d+)$/);
   if (!m) return console.error("Plage ajoutée introuvable, pas de mise en couleur :", updatedRange);
