@@ -187,7 +187,8 @@ for (const { metier, zone } of todo) {
     if (site && !platform) continue; // on ne garde que ceux SANS vrai site pro
 
     rows.push({
-      categorie: `${metier} ${zone}`,
+      categorie: metier, // la niche seule (filtrable) ; la ville est dans l'adresse
+      zone,
       nom: name,
       adresse: address,
       telephone: p.nationalPhoneNumber ?? "—",
@@ -334,6 +335,7 @@ if (newRows.length > 0) {
   } else {
     console.log(`${newRows.length} nouveaux prospects ajoutés au Sheet.`);
     if (R.textColor) await colorAppendedRows(token, (await appendRes.json()).updates?.updatedRange, R.textColor);
+    await extendBasicFilter(token);
   }
 } else {
   console.log("Aucun nouveau prospect à ajouter au Sheet (déjà présents).");
@@ -361,4 +363,23 @@ async function colorAppendedRows(token, updatedRange, color) {
     } }] }),
   });
   if (!res.ok) console.error("Erreur mise en couleur:", res.status, await res.text());
+}
+
+// Le filtre de l'onglet (menu sur "Categorie" pour choisir une niche) a une
+// plage figée : on la réétend jusqu'à la dernière ligne après chaque ajout, en
+// gardant les critères éventuellement cochés.
+async function extendBasicFilter(token) {
+  const meta = await (await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets(properties(sheetId,title,gridProperties.rowCount),basicFilter)`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  )).json();
+  const sh = meta.sheets.find((x) => x.properties.title === SHEET_TAB);
+  const filter = sh.basicFilter ?? {};
+  filter.range = { sheetId: sh.properties.sheetId, startRowIndex: 0, endRowIndex: sh.properties.gridProperties.rowCount, startColumnIndex: 0, endColumnIndex: 8 };
+  const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ requests: [{ setBasicFilter: { filter } }] }),
+  });
+  if (!res.ok) console.error("Erreur extension du filtre:", res.status, await res.text());
 }
