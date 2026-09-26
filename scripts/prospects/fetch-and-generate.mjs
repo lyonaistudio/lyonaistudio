@@ -34,7 +34,7 @@ const METIERS = [
 ];
 
 // `--region=suisse` : même recherche en Suisse romande, ajoutée au même Sheet
-// en police bleue (fichiers PDF/CSV et curseur de rotation séparés).
+// (onglet SUISSE) (fichiers PDF/CSV et curseur de rotation séparés).
 const REGION = process.argv.find((a) => a.startsWith("--region="))?.split("=")[1] ?? "france";
 const REGIONS = {
   france: {
@@ -71,7 +71,7 @@ const REGIONS = {
     // Avec regionCode CH, Google omet le pays : NPA suisse à 4 chiffres, pas d'adresse française.
     inArea: (address) => /\b[1-9]\d{3}\s+\p{L}/u.test(address) && !/France|\b\d{5}\b/.test(address),
     tlds: ["ch", "com"],
-    textColor: { red: 0.08, green: 0.4, blue: 0.85 }, // bleu
+    textColor: { red: 0, green: 0, blue: 0 },
   },
 };
 const R = REGIONS[REGION];
