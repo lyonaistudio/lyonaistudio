@@ -159,8 +159,19 @@ Object.assign(NOT_A_REAL_SITE, {
 });
 const platformOf = (url) => Object.entries(NOT_A_REAL_SITE).find(([d]) => url.toLowerCase().includes(d))?.[1];
 
+// Au démarrage de la machine (rattrapage du run de 8h), le réseau n'est pas
+// toujours prêt : quelques nouvelles tentatives espacées avant d'abandonner.
+async function fetchWithRetry(url, init, tries = 5) {
+  for (let n = 1; ; n++) {
+    try { return await fetch(url, init); } catch (e) {
+      if (n >= tries) throw e;
+      await new Promise((r) => setTimeout(r, 15_000 * n));
+    }
+  }
+}
+
 async function searchPlaces(query) {
-  const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
+  const res = await fetchWithRetry("https://places.googleapis.com/v1/places:searchText", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -221,7 +232,47 @@ const csvLines = ["Categorie;Nom;Adresse;Telephone;Note"];
 for (const r of rows) csvLines.push(`${r.categorie};${r.nom};${r.adresse};${r.telephone};${r.note}`);
 writeFileSync(CSV_PATH, csvLines.join("\n"), "utf-8");
 
-// ---- PDF ----
+// ---- Ecriture dans le Google Sheet (compte de service, pas de scénario Make) ----
+const sa = loadServiceAccount(ROOT + "cle api/lyon-ai-studio-prospection-9345a0c6de0b.json");
+const token = await getAccessToken(sa);
+
+const existingRes = await fetch(
+  `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!B:E`,
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+const existing = (await existingRes.json()).values ?? [];
+const existingKeys = new Set(existing.slice(1).map((r) => `${r[0] ?? ""}|${r[3] ?? ""}`)); // Entreprise|Adresse
+
+const todayIso = new Date().toLocaleDateString("fr-FR");
+const fresh = rows.filter((r) => !existingKeys.has(`${r.nom}|${r.adresse}`));
+const newRows = fresh.map((r) => prospectRow({
+  date: todayIso, nom: r.nom, famille: familleOf(r.categorie), categorie: r.categorie, adresse: r.adresse,
+  telephone: r.telephone, presence: r.note, note: r.rating, avis: r.avis, mapsUrl: r.mapsUrl,
+}));
+
+if (newRows.length > 0) {
+  const appendRes = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!A1:append?valueInputOption=USER_ENTERED`, // dates + lien de fiche ; textes neutralisés par prospectRow
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ values: newRows }),
+    }
+  );
+  if (!appendRes.ok) {
+    console.error("Erreur écriture Sheet:", appendRes.status, await appendRes.text());
+  } else {
+    console.log(`${newRows.length} nouveaux prospects ajoutés au Sheet.`);
+    await addOpeningHoursNotes(token, (await appendRes.json()).updates?.updatedRange, fresh);
+  }
+} else {
+  console.log("Aucun nouveau prospect à ajouter au Sheet (déjà présents).");
+}
+
+
+// ---- PDF ---- (facultatif : écrit APRÈS le Sheet, et un échec ici — navigateur
+// absent, clé Intenso débranchée… — ne doit jamais faire perdre les prospects)
+try {
 const INK = "#121110", PAPER = "#f4f1ea", PAPER_DIM = "#d9d4c8", MIST = "#93897a", ACCENT = "#e2672c", INK_LINE = "#2b2721", INK_SOFT = "#1a1815";
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const today = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
@@ -319,42 +370,8 @@ await page.pdf({ path: PDF_PATH, format: "A4", printBackground: true, margin: { 
 await browser.close();
 
 console.log("PDF écrit dans", PDF_PATH);
-
-// ---- Ecriture dans le Google Sheet (compte de service, pas de scénario Make) ----
-const sa = loadServiceAccount(ROOT + "cle api/lyon-ai-studio-prospection-9345a0c6de0b.json");
-const token = await getAccessToken(sa);
-
-const existingRes = await fetch(
-  `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!B:E`,
-  { headers: { Authorization: `Bearer ${token}` } }
-);
-const existing = (await existingRes.json()).values ?? [];
-const existingKeys = new Set(existing.slice(1).map((r) => `${r[0] ?? ""}|${r[3] ?? ""}`)); // Entreprise|Adresse
-
-const todayIso = new Date().toLocaleDateString("fr-FR");
-const fresh = rows.filter((r) => !existingKeys.has(`${r.nom}|${r.adresse}`));
-const newRows = fresh.map((r) => prospectRow({
-  date: todayIso, nom: r.nom, famille: familleOf(r.categorie), categorie: r.categorie, adresse: r.adresse,
-  telephone: r.telephone, presence: r.note, note: r.rating, avis: r.avis, mapsUrl: r.mapsUrl,
-}));
-
-if (newRows.length > 0) {
-  const appendRes = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}!A1:append?valueInputOption=USER_ENTERED`, // dates + lien de fiche ; textes neutralisés par prospectRow
-    {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ values: newRows }),
-    }
-  );
-  if (!appendRes.ok) {
-    console.error("Erreur écriture Sheet:", appendRes.status, await appendRes.text());
-  } else {
-    console.log(`${newRows.length} nouveaux prospects ajoutés au Sheet.`);
-    await addOpeningHoursNotes(token, (await appendRes.json()).updates?.updatedRange, fresh);
-  }
-} else {
-  console.log("Aucun nouveau prospect à ajouter au Sheet (déjà présents).");
+} catch (e) {
+  console.error("PDF non généré (le Sheet est déjà à jour) :", e.message.split("\n")[0]);
 }
 
 writeFileSync(CURSOR_PATH, JSON.stringify({ cursor: nextCursor, updated: new Date().toISOString() }) + "\n");

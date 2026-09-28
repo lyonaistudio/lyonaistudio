@@ -79,7 +79,12 @@ export async function findHiddenSites(prospects, { tlds, concurrency = 12 } = {}
   async function worker() {
     while (i < prospects.length) {
       const idx = i++;
-      const url = await findHiddenSite(prospects[idx], tlds);
+      // Plafond par prospect : un site qui ne répond jamais ne doit pas bloquer
+      // tout le run (timer "ref" → le process reste vivant jusqu'au verdict).
+      const url = await Promise.race([
+        findHiddenSite(prospects[idx], tlds).catch(() => null),
+        new Promise((r) => setTimeout(() => r(null), 30_000)),
+      ]);
       if (url) found.set(idx, url);
     }
   }
