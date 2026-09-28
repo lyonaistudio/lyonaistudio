@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
-import { SITE } from "../lib/site";
+import { SITE, LEGAL } from "../lib/site";
 ---
 
 <BaseLayout
@@ -16,9 +16,10 @@ import { SITE } from "../lib/site";
   <section class="prose-article prose prose-invert mx-auto max-w-3xl px-6 py-16 sm:py-20">
     <p class="text-sm text-mist">
       Les présentes conditions générales de vente (CGV) s'appliquent à toute prestation réalisée
-      par {SITE.name} (HVTB Company, SAS, SIRET : [SIRET EN ATTENTE]),
-      ci-après « le Prestataire », au bénéfice de tout client professionnel ou particulier,
-      ci-après « le Client ».
+      par {SITE.name} ({LEGAL.denomination}, {LEGAL.forme}{LEGAL.siret ? `, SIRET ${LEGAL.siret}` : ""}{LEGAL.siege ? `, dont le siège est situé ${LEGAL.siege}` : ""}),
+      ci-après « le Prestataire », au bénéfice de tout client agissant à des fins professionnelles
+      (entreprise, commerçant, artisan, profession libérale, association), ci-après « le Client ».
+      Les prestations ne sont pas proposées aux consommateurs particuliers.
     </p>
 
     <h2>1. Objet</h2>
@@ -39,7 +40,7 @@ import { SITE } from "../lib/site";
 
     <h2>3. Tarifs et modalités de paiement</h2>
     <p>
-      Les tarifs sont indiqués sur le devis, en euros. Sauf mention contraire, un acompte de 30 %
+      Les tarifs sont indiqués sur le devis, en euros hors taxes ; la TVA est ajoutée au taux en vigueur le cas échéant. Sauf mention contraire, un acompte de 30 %
       est demandé à la commande, le solde étant dû à la livraison de la Prestation. Le paiement
       s'effectue par virement bancaire, sauf autre modalité convenue entre les parties.
     </p>

@@ -14,9 +14,10 @@ interface Props {
   path: string;
   jsonLd?: Record<string, unknown>[];
   ogImage?: string;
+  noindex?: boolean;
 }
 
-const { title, description, path, jsonLd = [], ogImage = "/og-image.png" } = Astro.props;
+const { title, description, path, jsonLd = [], ogImage = "/og-image.png", noindex = false } = Astro.props;
 
 const canonicalUrl = new URL(path, SITE.url).toString();
 const ogImageUrl = new URL(ogImage, SITE.url).toString();
@@ -30,7 +31,7 @@ const schemas = [localBusinessSchema(), ...jsonLd];
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
     <meta name="google-site-verification" content="RJh2J0-G9U2o5x3-7oWpmXflYzQ5nET27iS-vyNowJU" />
 
     <!--
@@ -42,7 +43,7 @@ const schemas = [localBusinessSchema(), ...jsonLd];
     -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; media-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://formspree.io https://contact-relay.lyonaistudio.workers.dev; frame-src https://www.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; media-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://formspree.io https://contact-relay.lyonaistudio.workers.dev; frame-src 'none'; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
     />
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
     <meta name="theme-color" content="#0a0a0a" />

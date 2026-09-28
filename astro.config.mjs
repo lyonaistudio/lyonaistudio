@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 import sitemap from '@astrojs/sitemap';
+import typographieFr from './src/integrations/typographie-fr.mjs';
 import { EnumChangefreq } from 'sitemap';
 
 const LOW_PRIORITY_PATHS = ['/cgv/', '/mentions-legales/', '/404/'];
@@ -17,6 +18,7 @@ export default defineConfig({
   },
 
   integrations: [
+    typographieFr(),
     sitemap({
       serialize(item) {
         const path = new URL(item.url).pathname;

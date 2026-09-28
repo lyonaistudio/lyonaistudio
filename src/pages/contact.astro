@@ -19,9 +19,9 @@ const faqItems = [
       "Non, ce n'est pas nécessaire. Décrivez simplement votre besoin et votre activité — nous vous proposons ensuite une estimation adaptée après avoir compris le projet, pas un tarif générique déconnecté de votre situation réelle.",
   },
   {
-    question: "Puis-je vous contacter par téléphone plutôt que par formulaire ?",
+    question: "Puis-je vous parler de vive voix plutôt que par écrit ?",
     answer:
-      "Oui, nos coordonnées sont indiquées sur cette page. Le formulaire reste le moyen le plus rapide pour décrire un besoin en détail, mais un échange téléphonique est possible dès que le projet est cerné.",
+      "Oui. Indiquez simplement dans votre message que vous préférez un appel, avec votre numéro et le créneau qui vous arrange : nous vous rappelons. Le formulaire reste le moyen le plus rapide de nous décrire votre besoin en détail.",
   },
   {
     question: "Que se passe-t-il après l'envoi du formulaire de contact ?",
@@ -38,8 +38,8 @@ const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
-  title="Contact — Lyon AI Studio"
-  description="Contactez Lyon AI Studio pour un projet de site internet ou d'automatisation IA. Réponse personnelle sous quelques jours."
+  title="Contact — Création de site internet à Lyon | Lyon AI Studio"
+  description="Contactez Lyon AI Studio pour un projet de site internet ou d'automatisation à Lyon. Devis gratuit et sans engagement, réponse personnelle sous 48 h ouvrées."
   path="/contact/"
   jsonLd={[schema]}
 >
@@ -162,10 +162,10 @@ const schema = faqSchema(faqItems);
               type="checkbox"
               required
               value="J'accepte que mes informations soient utilisées pour être recontacté(e)"
-              class="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.06] text-accent focus:ring-2 focus:ring-accent"
+              class="mt-0.5 h-6 w-6 shrink-0 cursor-pointer rounded border-white/20 bg-white/[0.06] text-accent focus:ring-2 focus:ring-accent"
             />
             <label for="rgpd-consent" class="text-sm leading-relaxed text-paper-dim">
-              J'accepte que mes informations soient utilisées pour être recontacté(e) au sujet de ma demande — voir la
+              J'accepte que mes informations soient utilisées pour être recontacté(e) au sujet de ma demande — voir la{" "}
               <a href="/mentions-legales/" class="text-accent underline underline-offset-2">politique de confidentialité</a>.
             </label>
           </div>
@@ -175,7 +175,7 @@ const schema = faqSchema(faqItems);
             type="submit"
             class="rounded-full bg-accent-button px-6 py-3 text-sm font-bold text-white shadow-[0_16px_32px_-14px_rgba(255,0,61,0.55)] transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_20px_40px_-14px_rgba(255,0,61,0.65)] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
           >
-            Envoyer la demande
+            Envoyer ma demande
           </button>
         </form>
       </div>
@@ -194,17 +194,13 @@ const schema = faqSchema(faqItems);
 
         <div class="rounded-3xl bg-ink-soft p-6">
           <Eyebrow label="ZONE D'INTERVENTION" />
-          <div class="mt-4 aspect-video w-full overflow-hidden rounded-2xl grayscale">
-            <iframe
-              title="Carte — Lyon, France"
-              src="https://www.google.com/maps?q=Lyon,France&output=embed"
-              class="h-full w-full"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
-          <p class="mt-2 text-xs text-mist">
-            Activité basée à Lyon, sans accueil physique — carte à titre indicatif.
+          <p class="mt-4 text-sm leading-relaxed text-paper-dim">
+            <strong class="text-paper">Lyon et toute la Métropole</strong> : Villeurbanne, Vénissieux,
+            Caluire-et-Cuire, Bron, Vaulx-en-Velin, Saint-Priest, Oullins, Écully, Tassin-la-Demi-Lune…
+          </p>
+          <p class="mt-2 text-sm leading-relaxed text-paper-dim">
+            Les échanges se font en visio, par email ou par téléphone (nous vous rappelons), pour des
+            clients à Lyon comme partout en France. Pas d'accueil du public dans nos locaux.
           </p>
         </div>
 
@@ -233,5 +229,5 @@ const schema = faqSchema(faqItems);
 
 <script>
   import { initContactForm } from "../scripts/contact-form";
-  document.addEventListener("astro:page-load", initContactForm);
+  document.addEventListener("astro:page-load", () => initContactForm());
 </script>

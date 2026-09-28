@@ -8,7 +8,10 @@ const { class: className = "" } = Astro.props;
 <canvas class={`block h-full w-full ${className}`} data-hero-3d aria-hidden="true"></canvas>
 
 <script>
-  import { mountHero3DScene } from "../scripts/hero-3d-scene";
+  // Sur petit écran, la scène 3D (Three.js, ~540 Ko de JS) coûtait plusieurs
+  // secondes de blocage pour un effet à peine visible : on ne la charge
+  // (import dynamique) ni ne la monte en dessous de 640 px.
+  const MIN_WIDTH = 640;
 
   // astro:page-load fires on the very first load AND after every client-side
   // transition. Without it, the scene mounts once and never comes back when
@@ -19,11 +22,13 @@ const { class: className = "" } = Astro.props;
   let cleanup: (() => void) | null = null;
   let idleHandle: number | null = null;
 
-  function mount() {
+  async function mount() {
     cleanup?.();
     cleanup = null;
     const canvas = document.querySelector<HTMLCanvasElement>("canvas[data-hero-3d]");
-    if (canvas) cleanup = mountHero3DScene(canvas);
+    if (!canvas || window.innerWidth < MIN_WIDTH) return;
+    const { mountHero3DScene } = await import("../scripts/hero-3d-scene");
+    if (canvas.isConnected) cleanup = mountHero3DScene(canvas);
   }
 
   function scheduleMount() {

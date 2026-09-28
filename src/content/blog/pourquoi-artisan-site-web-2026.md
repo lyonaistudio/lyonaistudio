@@ -3,7 +3,7 @@ title: "Pourquoi un artisan a besoin d'un site web en 2026"
 description: "Sans site internet, un artisan reste invisible pour une grande partie de ses clients potentiels. Voici ce qu'un site change concrètement au quotidien."
 publishDate: 2026-06-02
 image: "/images/blog/cover-artisan.webp"
-imageAlt: "Illustration abstraite représentant un réseau de points connectés, sur fond graphite"
+imageAlt: ""
 ---
 
 Un plombier, un électricien ou un artisan du bâtiment qui n'a pas de site internet en 2026 ne perd pas seulement des clients potentiels — il perd la possibilité même d'être considéré. Avant de décrocher le téléphone, la plupart des gens tapent une recherche du type « électricien Lyon » et regardent les deux ou trois premiers résultats. Si vous n'y êtes pas, vous n'existez tout simplement pas dans leur choix.

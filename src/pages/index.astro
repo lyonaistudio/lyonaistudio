@@ -38,12 +38,12 @@ const valueCards = [
   {
     icon: "search",
     title: "Optimisé dès le départ",
-    text: "Référencement local, vitesse de chargement, responsive : tout est pensé dès la conception.",
+    text: "Référencement local, vitesse de chargement, lisibilité sur téléphone : tout est pensé dès la conception.",
   },
   {
     icon: "bulb",
     title: "Pensé pour vous",
-    text: "Pas de template générique. Chaque site est conçu autour de votre activité et de vos objectifs.",
+    text: "Pas de modèle tout fait. Chaque site est conçu autour de votre activité et de vos objectifs.",
   },
   {
     icon: "chart",
@@ -59,7 +59,7 @@ const smallCards = [
   },
   {
     title: "Du sur-mesure, pas du générique",
-    text: "Pas de solution standardisée : votre site est pensé pour votre activité, pas pour un template.",
+    text: "Pas de solution standardisée : votre site est pensé pour votre activité, pas recopié d'un modèle tout fait.",
   },
   {
     title: "Vous parlez directement à ceux qui font",
@@ -75,7 +75,7 @@ const faqItems = [
   {
     question: "Combien coûte un site internet ou une automatisation ?",
     answer:
-      "Chaque projet est différent, donc chaque prix l'est aussi. Plutôt que d'afficher un tarif générique qui ne correspondrait à rien de concret, nous préférons d'abord comprendre votre besoin avant de vous proposer un montant clair et sans surprise.",
+      "Un site internet démarre à partir de 1 200 € ; le montant exact dépend du nombre de pages, des contenus à produire et des fonctionnalités. Une automatisation est chiffrée selon les tâches à prendre en charge. Dans tous les cas, vous recevez un devis détaillé, gratuit et sans engagement avant de démarrer : pas de mauvaise surprise.",
   },
   {
     question: "Combien de temps faut-il pour créer un site internet ?",
@@ -120,7 +120,7 @@ function Icon(name: string) {
 
 <BaseLayout
   title="Lyon AI Studio — Sites internet et automatisation IA à Lyon"
-  description="Création de sites internet et mise en place d'agents IA pour automatiser les tâches répétitives des artisans, commerces et PME, partout en France."
+  description="Création de sites internet et automatisation des tâches répétitives pour les artisans, commerces et PME à Lyon et dans le Rhône. Devis gratuit, réponse sous 48 h."
   path="/"
 >
   <!-- HERO -->
@@ -131,23 +131,24 @@ function Icon(name: string) {
     <div class="hero-scrim pointer-events-none absolute inset-0"></div>
 
     <div class="reveal relative mx-auto max-w-[1536px] px-10 py-24 sm:py-32 lg:px-20">
-      <h1 class="max-w-5xl font-display text-[2.75rem] font-bold leading-[1.05] text-paper sm:text-[3.75rem] sm:leading-[1.05] lg:text-[4.25rem]">
-        Un site qui vous représente. Des outils qui travaillent à votre place.
+      <h1 class="max-w-5xl font-display text-[2.25rem] font-bold leading-[1.1] text-paper sm:text-[3.75rem] sm:leading-[1.05] lg:text-[4.25rem]">
+        Des sites qui amènent des clients. Des outils qui vous font gagner du temps.
       </h1>
       <p class="mt-5 max-w-xl text-xl font-medium leading-snug text-paper-dim">
-        Création de sites internet et automatisation par IA pour les artisans, commerces et PME,
-        partout en France. Moins de temps sur l'administratif, plus de temps sur votre métier.
+        Création de sites internet et automatisation des tâches répétitives (devis, relances,
+        rendez-vous) pour les artisans, commerces et PME de Lyon et de sa région. Moins de temps sur
+        l'administratif, plus de temps sur votre métier.
       </p>
       <p class="mt-4 flex items-center gap-2 text-sm font-bold text-paper">
         <span class="flex h-[19px] w-[19px] items-center justify-center rounded-full bg-green/15 text-[10px] text-green">✓</span>
-        Basé à Lyon · Réponse sous 48h · Sans engagement · Sites dès 1 200 €
+        Basés à Lyon · Réponse sous 48 h · Devis gratuit · Sites dès 1 200 €
       </p>
       <div class="mt-7">
         <a
           href="/contact/"
           class="magnetic inline-flex items-center rounded-full bg-accent-button px-8 py-4 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_8px_25px_rgba(255,0,61,0.4)]"
         >
-          Parlez-nous de votre projet
+          Demander un devis gratuit
         </a>
       </div>
 
@@ -205,7 +206,7 @@ function Icon(name: string) {
             href="/contact/"
             class="magnetic mt-7 inline-flex items-center rounded-full bg-accent-button px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
           >
-            Parlez-nous de votre projet
+            Parler de votre projet
           </a>
         </div>
       </div>
@@ -229,7 +230,7 @@ function Icon(name: string) {
           <h2 class="font-display text-3xl font-bold text-paper sm:text-4xl">
             Le sur-mesure au service de votre image
           </h2>
-          <div class="mt-6 grid grid-cols-2 gap-4 sm:mt-16 sm:grid-cols-1 sm:gap-16">
+          <div class="mt-6 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 sm:mt-16 sm:grid-cols-1 sm:gap-16">
             {valueCards.slice(0, 2).map((card) => (
               <div class="rounded-3xl bg-white px-5 pb-6 pt-5 sm:px-12 sm:pb-12 sm:pt-8">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" class="h-10 w-10 text-accent sm:h-16 sm:w-16">
@@ -242,7 +243,7 @@ function Icon(name: string) {
           </div>
         </div>
         <div class="reveal lg:mt-[4.5rem]">
-          <div class="grid grid-cols-2 gap-4 sm:grid-cols-1 sm:gap-16">
+          <div class="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 sm:grid-cols-1 sm:gap-16">
             {valueCards.slice(2, 4).map((card) => (
               <div class="rounded-3xl bg-white px-5 pb-6 pt-5 sm:px-12 sm:pb-12 sm:pt-8">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" class="h-10 w-10 text-accent sm:h-16 sm:w-16">
@@ -258,7 +259,7 @@ function Icon(name: string) {
               href="/contact/"
               class="magnetic inline-flex items-center rounded-full bg-accent-button px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
             >
-              Échanger sur votre projet
+              Demander un devis gratuit
             </a>
           </div>
         </div>
@@ -331,9 +332,9 @@ function Icon(name: string) {
             validation en interne à attendre — c'est nous qui nous occupons de tout, de bout en bout.
           </p>
         </div>
-        <ol class="reveal grid grid-cols-2 gap-6 sm:gap-10">
+        <ol class="reveal grid grid-cols-1 gap-6 min-[480px]:grid-cols-2 sm:gap-10">
           {[
-            { t: "Prise de contact", d: "Vous décrivez votre besoin via le formulaire, par email ou par téléphone." },
+            { t: "Prise de contact", d: "Vous décrivez votre besoin via le formulaire ou par email. Vous préférez en parler ? Nous vous rappelons." },
             { t: "Échange sur le besoin", d: "On discute de votre activité, de vos contraintes, et de ce qui aurait vraiment un impact." },
             { t: "Proposition adaptée", d: "Vous recevez une proposition claire, sans jargon technique ni engagement caché." },
             { t: "Réalisation", d: "Le site ou l'automatisation est mis en place, testé, et vous êtes formé pour l'utiliser." },
@@ -352,7 +353,7 @@ function Icon(name: string) {
       <h2 class="reveal mt-24 text-center font-display text-3xl font-bold sm:text-4xl">
         Pourquoi travailler avec <span class="text-accent">Lyon AI Studio</span> ?
       </h2>
-      <div class="reveal mt-12 grid grid-cols-2 gap-3 sm:gap-6">
+      <div class="reveal mt-12 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-6">
         {smallCards.map((card) => (
           <div class="relative rounded-3xl bg-white py-5 pl-[54px] pr-4 sm:py-[50px] sm:pl-[96px] sm:pr-[30px]">
             <span class="absolute left-4 top-6 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full bg-accent/15 text-sm text-accent sm:left-8 sm:top-1/2 sm:h-[34px] sm:w-[34px] sm:text-base" aria-hidden="true">
@@ -368,7 +369,7 @@ function Icon(name: string) {
           href="/contact/"
           class="magnetic inline-flex items-center rounded-full bg-accent-button px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
         >
-          Prendre contact
+          Poser une question
         </a>
       </p>
     </div>
@@ -455,17 +456,34 @@ function Icon(name: string) {
         </div>
 
         <div class="reveal">
-          <form action={FORMSPREE_ENDPOINT} method="POST" class="space-y-4">
+          <div id="home-success-banner" class="mb-6 hidden rounded-2xl border border-accent bg-ink-soft p-6" role="status" aria-live="polite">
+            <p class="font-display font-semibold text-accent">Message envoyé.</p>
+            <p class="mt-1 text-sm text-paper-dim">Merci, nous revenons vers vous sous 48 h ouvrées. Vous allez recevoir un email de confirmation.</p>
+          </div>
+          <div id="home-error-banner" class="mb-6 hidden rounded-2xl bg-ink-soft p-6" role="alert" aria-live="polite">
+            <p class="font-display font-semibold text-paper">Envoi impossible pour le moment.</p>
+            <p class="mt-1 text-sm text-paper-dim">
+              Réessayez, ou écrivez-nous directement à
+              <a href={`mailto:${SITE.email}`} class="text-accent transition-colors hover:text-accent-soft">{SITE.email}</a>.
+            </p>
+          </div>
+          <form id="home-contact-form" action={FORMSPREE_ENDPOINT} method="POST" class="space-y-4">
             <input type="hidden" name="_subject" value="Nouvelle demande — Lyon AI Studio (accueil)" />
             <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
 
-            <div>
-              <label for="home-nom" class="mb-2 block text-sm font-semibold text-paper-dim">Nom *</label>
-              <input id="home-nom" name="Nom" type="text" required class="h-[60px] w-full rounded-2xl border border-white/20 bg-white/[0.06] px-5 text-paper outline-none focus:border-accent" />
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="home-prenom" class="mb-2 block text-sm font-semibold text-paper-dim">Prénom *</label>
+                <input id="home-prenom" name="Prénom" type="text" required autocomplete="given-name" class="h-[60px] w-full rounded-2xl border border-white/20 bg-white/[0.06] px-5 text-paper outline-none focus:border-accent" />
+              </div>
+              <div>
+                <label for="home-nom" class="mb-2 block text-sm font-semibold text-paper-dim">Nom *</label>
+                <input id="home-nom" name="Nom" type="text" required autocomplete="family-name" class="h-[60px] w-full rounded-2xl border border-white/20 bg-white/[0.06] px-5 text-paper outline-none focus:border-accent" />
+              </div>
             </div>
             <div>
               <label for="home-email" class="mb-2 block text-sm font-semibold text-paper-dim">E-mail *</label>
-              <input id="home-email" name="Email" type="email" required class="h-[60px] w-full rounded-2xl border border-white/20 bg-white/[0.06] px-5 text-paper outline-none focus:border-accent" />
+              <input id="home-email" name="Email" type="email" required autocomplete="email" class="h-[60px] w-full rounded-2xl border border-white/20 bg-white/[0.06] px-5 text-paper outline-none focus:border-accent" />
             </div>
             <div>
               <label for="home-message" class="mb-2 block text-sm font-semibold text-paper-dim">Message *</label>
@@ -478,16 +496,16 @@ function Icon(name: string) {
                 type="checkbox"
                 required
                 value="J'accepte que mes informations soient utilisées pour être recontacté(e)"
-                class="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.06] text-accent focus:ring-2 focus:ring-accent"
+                class="mt-0.5 h-6 w-6 shrink-0 cursor-pointer rounded border-white/20 bg-white/[0.06] text-accent focus:ring-2 focus:ring-accent"
               />
               <label for="home-rgpd-consent" class="text-sm leading-relaxed text-paper-dim">
-                J'accepte que mes informations soient utilisées pour être recontacté(e) — voir la
+                J'accepte que mes informations soient utilisées pour être recontacté(e) — voir la{" "}
                 <a href="/mentions-legales/" class="text-accent underline underline-offset-2">politique de confidentialité</a>.
               </label>
             </div>
             <div class="pt-2 text-center">
-              <button type="submit" class="rounded-full bg-accent/75 py-4 pl-9 pr-[90px] text-lg font-bold text-white transition-all hover:bg-accent-button">
-                Envoyer
+              <button id="home-contact-submit" type="submit" class="min-h-[52px] rounded-full bg-accent-button px-10 py-4 text-lg font-bold text-white transition-all hover:bg-accent-soft disabled:opacity-60">
+                Envoyer ma demande
               </button>
             </div>
           </form>
@@ -496,3 +514,8 @@ function Icon(name: string) {
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  import { initContactForm } from "../scripts/contact-form";
+  document.addEventListener("astro:page-load", () => initContactForm("home-"));
+</script>

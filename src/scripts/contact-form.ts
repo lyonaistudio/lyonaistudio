@@ -33,18 +33,22 @@ function notifyRelay(form: HTMLFormElement) {
 // common. This costs nothing (no external service, no user friction) and
 // catches the least sophisticated traffic on top of the honeypot field.
 const MIN_FILL_TIME_MS = 2500;
-let formRenderedAt = 0;
 
-export function initContactForm() {
-  const form = document.getElementById("contact-form") as HTMLFormElement | null;
-  const successBanner = document.getElementById("success-banner");
-  const errorBanner = document.getElementById("error-banner");
-  const submitBtn = document.getElementById("contact-submit") as HTMLButtonElement | null;
+// `prefix` permet d'avoir plusieurs formulaires sur le site (page Contact :
+// "", accueil : "home-") avec exactement le même comportement : envoi AJAX à
+// Formspree, bannière sur place, puis Worker (Sheet + Telegram + accusé de
+// réception). Ids attendus : {prefix}contact-form, {prefix}success-banner,
+// {prefix}error-banner, {prefix}contact-submit.
+export function initContactForm(prefix = "") {
+  const form = document.getElementById(`${prefix}contact-form`) as HTMLFormElement | null;
+  const successBanner = document.getElementById(`${prefix}success-banner`);
+  const errorBanner = document.getElementById(`${prefix}error-banner`);
+  const submitBtn = document.getElementById(`${prefix}contact-submit`) as HTMLButtonElement | null;
   if (!form || form.dataset.init) return;
   form.dataset.init = "true";
-  formRenderedAt = Date.now();
+  const formRenderedAt = Date.now();
 
-  const submitLabel = submitBtn?.textContent ?? "Envoyer la demande";
+  const submitLabel = submitBtn?.textContent ?? "Envoyer ma demande";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();

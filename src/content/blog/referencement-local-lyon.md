@@ -3,7 +3,7 @@ title: "Référencement local à Lyon : les bases avant de payer pour de la publ
 description: "Avant d'investir dans des publicités en ligne, plusieurs éléments gratuits de référencement local permettent déjà d'être mieux visible sur Google à Lyon."
 publishDate: 2026-07-05
 image: "/images/blog/cover-site-web.webp"
-imageAlt: "Illustration abstraite représentant un réseau de points connectés, sur fond graphite"
+imageAlt: ""
 ---
 
 Beaucoup de petites entreprises pensent qu'il faut payer pour apparaître sur Google. C'est vrai pour les premiers résultats sponsorisés, mais une bonne partie de la visibilité locale se joue avant ça, sur des éléments gratuits qui prennent du temps à mettre en place mais qui durent dans la durée.

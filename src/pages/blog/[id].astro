@@ -147,7 +147,7 @@ const jsonLd = faqItems.length > 0 ? [schema, faqSchema(faqItems)] : [schema];
 ---
 
 <BaseLayout
-  title={`${post.data.title} — Lyon AI Studio`}
+  title={post.data.title.length <= 42 ? `${post.data.title} — Lyon AI Studio` : post.data.title}
   description={post.data.description}
   path={`/blog/${post.id}/`}
   jsonLd={jsonLd}

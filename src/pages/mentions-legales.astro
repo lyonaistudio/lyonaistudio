@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
-import { SITE } from "../lib/site";
+import { SITE, LEGAL } from "../lib/site";
 ---
 
 <BaseLayout
@@ -16,18 +16,22 @@ import { SITE } from "../lib/site";
   <section class="prose-article prose prose-invert mx-auto max-w-3xl px-6 py-16 sm:py-20">
     <h2>Éditeur du site</h2>
     <p>
-      Le site {SITE.name} est édité par HVTB Company, société par actions simplifiée (SAS) basée à {SITE.city}, France.
+      Le site {SITE.name} est édité par {LEGAL.denomination}, {LEGAL.forme}, basée à {SITE.city}, France.
     </p>
     <ul>
-      <li>Dénomination sociale : HVTB Company</li>
-      <li>Forme juridique : société par actions simplifiée (SAS)</li>
+      <li>Dénomination sociale : {LEGAL.denomination}</li>
+      <li>Forme juridique : {LEGAL.forme}</li>
+      {LEGAL.capital && <li>Capital social : {LEGAL.capital}</li>}
+      {LEGAL.siege && <li>Siège social : {LEGAL.siege}</li>}
+      {LEGAL.siret && <li>SIRET : {LEGAL.siret}</li>}
+      {LEGAL.rcs && <li>Immatriculation : {LEGAL.rcs}</li>}
+      {LEGAL.tva && <li>N° de TVA intracommunautaire : {LEGAL.tva}</li>}
       <li>Nom commercial : {SITE.name}</li>
-      <li>SIRET : [SIRET EN ATTENTE]</li>
       <li>Email : <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
       <li>Activité exercée à distance, sans établissement recevant du public.</li>
     </ul>
     <p>
-      Directeur de la publication : le président de HVTB Company.
+      Directeur de la publication : {LEGAL.directeurPublication ? `${LEGAL.directeurPublication}, président de ${LEGAL.denomination}` : `le président de ${LEGAL.denomination}`}.
     </p>
 
     <h2>Hébergement</h2>
@@ -40,45 +44,62 @@ import { SITE } from "../lib/site";
     <h2>Propriété intellectuelle</h2>
     <p>
       L'ensemble des contenus présents sur ce site (textes, structure, identité visuelle) est la
-      propriété de {SITE.name}, sauf mention contraire. Toute reproduction ou représentation, totale ou
-      partielle, sans autorisation préalable, est interdite.
+      propriété de {LEGAL.denomination}, sauf mention contraire. Toute reproduction ou représentation,
+      totale ou partielle, sans autorisation préalable, est interdite.
     </p>
 
-    <h2>Formulaire de contact et traitement des données</h2>
+    <h2>Politique de confidentialité</h2>
+    <h3>Responsable du traitement</h3>
     <p>
-      Le formulaire de contact de ce site utilise le service tiers Formspree (Formspree, Inc.) pour
-      l'envoi des messages par email. Les données saisies dans le formulaire (nom, prénom, email, type
-      d'entreprise, secteur d'activité, message) sont transmises à Formspree puis à l'adresse email de
-      {SITE.name} dans le seul but de répondre à votre demande.
-    </p>
-    <p>
-      Ces mêmes données sont également transmises, en parallèle, à un outil d'automatisation
-      professionnel tiers qui permet d'envoyer un accusé de réception automatique à votre adresse
-      email, de notifier {SITE.name} de votre demande, et d'en conserver un suivi interne (dans un
-      tableur privé) afin de pouvoir vous recontacter si besoin.
-    </p>
-    <p>
-      Ces données ne sont ni revendues, ni utilisées à des fins commerciales autres que le traitement de
-      votre demande. Elles sont conservées le temps nécessaire à l'échange, puis supprimées ou
-      archivées de façon raisonnable.
-    </p>
-    <p>
-      Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit
-      d'accès, de rectification, de suppression et d'opposition concernant vos données personnelles.
-      Pour exercer ces droits, contactez-nous à l'adresse <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      {LEGAL.denomination} ({SITE.name}), joignable à <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
     </p>
 
-    <h2>Cookies et services tiers</h2>
+    <h3>Données collectées et finalité</h3>
     <p>
-      Ce site utilise Google Analytics pour mesurer l'audience de façon anonyme (pages visitées,
-      provenance des visiteurs). Ce service n'est activé qu'après votre consentement explicite, donné
-      via le bandeau affiché lors de votre première visite. Vous pouvez refuser ou modifier votre choix
-      à tout moment en effaçant les données de navigation de ce site dans votre navigateur. Les données
-      collectées ne sont ni revendues, ni croisées avec d'autres sources.
+      Les formulaires de contact recueillent vos prénom, nom, adresse email, type d'entreprise, secteur
+      d'activité et message. Ils servent uniquement à répondre à votre demande, à vous envoyer un
+      accusé de réception et à assurer le suivi de l'échange. Base légale : les mesures
+      précontractuelles prises à votre demande (art. 6.1.b du RGPD), avec votre accord coché dans le
+      formulaire. Ces données ne sont ni revendues, ni utilisées à d'autres fins.
     </p>
+
+    <h3>Destinataires et sous-traitants</h3>
+    <p>Vos données ne sont accessibles qu'à l'équipe de {SITE.name} et aux prestataires techniques suivants :</p>
+    <ul>
+      <li><strong>Formspree, Inc.</strong> (États-Unis) — réception du formulaire et envoi du message par email ;</li>
+      <li><strong>Cloudflare, Inc.</strong> (États-Unis) — relais technique qui enregistre la demande et déclenche les notifications ;</li>
+      <li><strong>Google</strong> (Google Sheets, Gmail) — tableau de suivi privé des demandes et envoi de l'accusé de réception ;</li>
+      <li><strong>Telegram</strong> — notification interne de la nouvelle demande à l'équipe.</li>
+    </ul>
     <p>
-      La page Contact intègre une carte Google Maps, qui peut déposer des cookies techniques propres à
-      Google lors de son affichage, conformément à la politique de confidentialité de Google.
+      Certains de ces prestataires peuvent traiter des données hors de l'Union européenne. Ces
+      transferts sont encadrés par les garanties prévues par le RGPD (décision d'adéquation
+      « Data Privacy Framework » ou clauses contractuelles types de la Commission européenne).
+    </p>
+
+    <h3>Durée de conservation</h3>
+    <p>
+      Les demandes sont conservées 3 ans à compter du dernier échange, puis supprimées. Si un contrat
+      est conclu, les données nécessaires sont conservées pendant la durée légale applicable aux
+      documents commerciaux et comptables.
+    </p>
+
+    <h3>Vos droits</h3>
+    <p>
+      Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et
+      de portabilité sur vos données. Pour les exercer, écrivez à
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a> : nous répondons sous un mois. Vous pouvez aussi
+      introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>).
+    </p>
+
+    <h2>Cookies et mesure d'audience</h2>
+    <p>
+      Ce site utilise Google Analytics pour mesurer l'audience de façon anonymisée (pages visitées,
+      provenance des visiteurs). Ce service n'est activé qu'après votre accord, donné via le bandeau
+      affiché lors de votre première visite ; sans accord, aucun cookie de mesure n'est déposé. Vous
+      pouvez modifier ou retirer votre choix à tout moment avec le lien « Gérer les cookies » en bas de
+      chaque page. Le choix est mémorisé 13 mois au maximum. Les données collectées ne sont ni revendues,
+      ni croisées avec d'autres sources.
     </p>
 
     <h2>Responsabilité</h2>

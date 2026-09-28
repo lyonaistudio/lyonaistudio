@@ -16,12 +16,15 @@ export function localBusinessSchema() {
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
-    // Basé à Lyon (adresse ci-dessus) mais l'activité couvre toute la France
-    // à distance — areaServed doit refléter ça, pas seulement la ville.
-    areaServed: {
-      "@type": "Country",
-      name: "France",
-    },
+    // Cible prioritaire : Lyon et sa Métropole (référencement local), tout en
+    // couvrant la France entière à distance.
+    areaServed: [
+      ...["Lyon", "Villeurbanne", "Vénissieux", "Caluire-et-Cuire", "Bron", "Vaulx-en-Velin", "Saint-Priest", "Oullins", "Écully", "Tassin-la-Demi-Lune"]
+        .map((name) => ({ "@type": "City", name })),
+      { "@type": "Country", name: "France" },
+    ],
+    logo: `${SITE.url}/logo-1200.png`,
+    image: `${SITE.url}/og-image.png`,
     openingHoursSpecification: SITE.hoursSchema,
     sameAs: SITE.sameAs,
   };

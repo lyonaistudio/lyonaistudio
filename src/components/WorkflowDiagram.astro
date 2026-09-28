@@ -3,8 +3,42 @@
 // un agent IA, plutôt qu'une simple liste à puces.
 ---
 
-<div class="reveal w-full overflow-x-auto">
-  <svg viewBox="0 0 900 420" class="mx-auto h-auto w-full min-w-[640px] max-w-3xl" role="img" aria-labelledby="workflow-title">
+<div class="reveal w-full">
+  <!-- Mobile : même schéma en vertical (entrées en haut, sorties en bas), sans défilement horizontal. -->
+  <svg viewBox="0 0 360 560" class="mx-auto h-auto w-full max-w-sm sm:hidden" role="img" aria-labelledby="workflow-title-m">
+    <title id="workflow-title-m">Schéma : messages, emails et rendez-vous entrants traités par un agent IA, qui déclenche automatiquement une réponse, une prise de rendez-vous ou une relance.</title>
+    <g stroke="var(--color-accent)" stroke-width="1.5" fill="none" opacity="0.55">
+      <path class="flow-line" d="M60,82 C60,160 170,170 175,222" />
+      <path class="flow-line" d="M180,82 C180,150 180,180 180,220" />
+      <path class="flow-line" d="M300,82 C300,160 190,170 185,222" />
+      <path class="flow-line" d="M175,338 C170,390 60,400 60,478" />
+      <path class="flow-line" d="M180,340 C180,380 180,410 180,478" />
+      <path class="flow-line" d="M185,338 C190,390 300,400 300,478" />
+    </g>
+    <g font-family="Inter, sans-serif" font-size="13" fill="var(--color-paper-dim)">
+      <rect x="8" y="30" width="104" height="52" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="60" y="53" text-anchor="middle">Message</text><text x="60" y="70" text-anchor="middle">client</text>
+      <rect x="128" y="30" width="104" height="52" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="180" y="61" text-anchor="middle">Email</text>
+      <rect x="248" y="30" width="104" height="52" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="300" y="53" text-anchor="middle">Demande</text><text x="300" y="70" text-anchor="middle">de RDV</text>
+    </g>
+    <g>
+      <circle cx="180" cy="280" r="58" fill="var(--color-ink)" stroke="var(--color-accent)" stroke-width="2" />
+      <text x="180" y="274" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" letter-spacing="1" fill="var(--color-accent)">AGENT</text>
+      <text x="180" y="294" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" letter-spacing="1" fill="var(--color-accent)">IA</text>
+    </g>
+    <g font-family="Inter, sans-serif" font-size="13" fill="var(--color-paper-dim)">
+      <rect x="8" y="478" width="104" height="52" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="60" y="501" text-anchor="middle">Réponse</text><text x="60" y="518" text-anchor="middle">envoyée</text>
+      <rect x="128" y="478" width="104" height="52" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="180" y="501" text-anchor="middle">RDV</text><text x="180" y="518" text-anchor="middle">programmé</text>
+      <rect x="248" y="478" width="104" height="52" rx="6" fill="var(--color-ink-soft)" stroke="var(--color-ink-line)" />
+      <text x="300" y="501" text-anchor="middle">Client</text><text x="300" y="518" text-anchor="middle">relancé</text>
+    </g>
+  </svg>
+
+  <svg viewBox="0 0 900 420" class="mx-auto hidden h-auto w-full max-w-3xl sm:block" role="img" aria-labelledby="workflow-title">
     <title id="workflow-title">Schéma : messages, emails et rendez-vous entrants traités par un agent IA, qui déclenche automatiquement une réponse, une prise de rendez-vous ou une relance.</title>
 
     <!-- Lignes de flux -->
