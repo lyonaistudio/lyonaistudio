@@ -1,13 +1,16 @@
 ---
-import { Image } from "astro:assets";
+import { Image, Picture, getImage } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import Realisations from "../components/Realisations.astro";
-import Hero3DScene from "../components/Hero3DScene.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import { getCollection } from "astro:content";
 import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
 import laptopMockup from "../assets/mockups/laptop-lyonaistudio.webp";
+import heroBackground from "../assets/hero/fond-site-ai.jpeg";
+
+// Même image, pleine résolution, pour la couche animée de la sphère.
+const heroSphere = await getImage({ src: heroBackground, width: 1672, format: "webp", quality: 90 });
 import pc2Photo from "../assets/about/pc2.jpg";
 import lyon1Photo from "../assets/about/lyon1.jpg";
 
@@ -125,31 +128,53 @@ function Icon(name: string) {
 >
   <!-- HERO -->
   <section class="relative overflow-hidden border-b border-ink-line">
-    <div class="pointer-events-none absolute inset-0">
-      <Hero3DScene />
-    </div>
-    <div class="hero-scrim pointer-events-none absolute inset-0"></div>
+    <div class="reveal relative mx-auto max-w-[1536px] px-6 pb-24 pt-14 sm:px-10 sm:pt-20 lg:px-20 lg:pt-24">
+      <div class="grid items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-6">
+        <div class="relative z-10">
+          <h1 class="font-display text-[2.25rem] font-bold leading-[1.1] text-paper sm:text-[3.25rem] sm:leading-[1.05] xl:text-[3.75rem]">
+            Des sites qui amènent des clients. Des outils qui vous font gagner du temps.
+          </h1>
+          <p class="mt-5 max-w-xl text-lg font-medium leading-snug text-paper-dim sm:text-xl">
+            Création de sites internet et automatisation des tâches répétitives (devis, relances,
+            rendez-vous) pour les artisans, commerces et PME de Lyon et de sa région. Moins de temps sur
+            l'administratif, plus de temps sur votre métier.
+          </p>
+          <p class="mt-4 flex items-start gap-2 text-sm font-bold text-paper">
+            <span class="mt-px flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-full bg-green/15 text-[10px] text-green">✓</span>
+            Basés à Lyon · Réponse sous 48 h · Devis gratuit · Sites dès 1 200 €
+          </p>
+          <div class="mt-7">
+            <a
+              href="/contact/"
+              class="magnetic inline-flex items-center rounded-full bg-accent-button px-8 py-4 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_8px_25px_rgba(255,0,61,0.4)]"
+            >
+              Demander un devis gratuit
+            </a>
+          </div>
+        </div>
 
-    <div class="reveal relative mx-auto max-w-[1536px] px-10 py-24 sm:py-32 lg:px-20">
-      <h1 class="max-w-5xl font-display text-[2.25rem] font-bold leading-[1.1] text-paper sm:text-[3.75rem] sm:leading-[1.05] lg:text-[4.25rem]">
-        Des sites qui amènent des clients. Des outils qui vous font gagner du temps.
-      </h1>
-      <p class="mt-5 max-w-xl text-xl font-medium leading-snug text-paper-dim">
-        Création de sites internet et automatisation des tâches répétitives (devis, relances,
-        rendez-vous) pour les artisans, commerces et PME de Lyon et de sa région. Moins de temps sur
-        l'administratif, plus de temps sur votre métier.
-      </p>
-      <p class="mt-4 flex items-center gap-2 text-sm font-bold text-paper">
-        <span class="flex h-[19px] w-[19px] items-center justify-center rounded-full bg-green/15 text-[10px] text-green">✓</span>
-        Basés à Lyon · Réponse sous 48 h · Devis gratuit · Sites dès 1 200 €
-      </p>
-      <div class="mt-7">
-        <a
-          href="/contact/"
-          class="magnetic inline-flex items-center rounded-full bg-accent-button px-8 py-4 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft hover:shadow-[0_8px_25px_rgba(255,0,61,0.4)]"
-        >
-          Demander un devis gratuit
-        </a>
+        <!-- Visuel : les écrans avec le rendu d'un site. Affiché à sa taille
+             naturelle (jamais agrandi au-delà de 1672 px), sans voile ; seuls
+             les bords se fondent dans le noir de la page. -->
+        <div class="hero-visual relative -mx-6 sm:-mx-10 lg:-mr-20 lg:ml-0">
+          <Picture
+            src={heroBackground}
+            alt="Ordinateur portable affichant un site internet, entouré d'écrans d'automatisation"
+            widths={[640, 960, 1280, 1672]}
+            sizes="(min-width: 1024px) 58vw, 100vw"
+            formats={["avif", "webp"]}
+            quality={90}
+            loading="eager"
+            fetchpriority="high"
+            class="block h-auto w-full"
+          />
+          <!-- La sphère de l'image, reprise en surimpression (découpe ronde aux
+               bords fondus) et animée très lentement : légère rotation aller-
+               retour + cœur lumineux qui « respire ». Figée si l'utilisateur a
+               demandé moins d'animations. -->
+          <div class="hero-sphere" style={`background-image:url(${heroSphere.src})`} aria-hidden="true"></div>
+          <div class="hero-sphere-glow" aria-hidden="true"></div>
+        </div>
       </div>
 
       <!-- EXPERTISES -->

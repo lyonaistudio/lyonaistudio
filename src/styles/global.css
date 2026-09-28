@@ -99,19 +99,67 @@ select option {
 
 /* Assombrit le fond animé sous le texte du hero, sans le masquer entièrement
    sur le reste de la section. */
-.hero-scrim {
-  background: linear-gradient(
-    90deg,
-    var(--color-ink) 0%,
-    color-mix(in srgb, var(--color-ink) 78%, transparent) 45%,
-    color-mix(in srgb, var(--color-ink) 20%, transparent) 100%
-  );
+/* Visuel de l'accueil : l'image reste nette et sans voile ; seuls ses bords
+   se fondent dans le noir de la page (masque, pas de filtre sur l'image). */
+.hero-visual img {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 82%, transparent 100%);
 }
 
-@media (max-width: 1023px) {
-  .hero-scrim {
-    background: color-mix(in srgb, var(--color-ink) 72%, transparent);
+@media (min-width: 1024px) {
+  .hero-visual img {
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0%, #000 16%, #000 100%),
+      linear-gradient(180deg, transparent 0%, #000 10%, #000 85%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(90deg, transparent 0%, #000 16%, #000 100%),
+      linear-gradient(180deg, transparent 0%, #000 10%, #000 85%, transparent 100%);
+    mask-composite: intersect;
   }
+}
+
+/* Sphère animée : superposée pixel pour pixel à celle de l'image.
+   Cœur de la sphère à 81,88 % × 28,06 % de l'image (1672 × 941) ; la
+   couche fait 26 % de la largeur (carré), d'où les valeurs ci-dessous. */
+.hero-sphere {
+  position: absolute;
+  left: 68.88%;
+  top: 4.96%;
+  width: 26%;
+  height: 46.2%;
+  background-size: 384.62% 216.45%;
+  background-position: 93.08% 9.22%;
+  background-repeat: no-repeat;
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 0%, #000 58%, transparent 82%);
+  mask-image: radial-gradient(circle closest-side, #000 0%, #000 58%, transparent 82%);
+  transform-origin: 50% 50%;
+  animation: hero-sphere-drift 18s ease-in-out infinite;
+  will-change: transform;
+  pointer-events: none;
+}
+.hero-sphere-glow {
+  position: absolute;
+  left: 77.88%;
+  top: 20.96%;
+  width: 8%;
+  height: 14.21%;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(255, 90, 120, 0.9) 0%, rgba(255, 0, 61, 0.35) 35%, transparent 100%);
+  mix-blend-mode: screen;
+  animation: hero-sphere-pulse 5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes hero-sphere-drift {
+  0%, 100% { transform: rotate(-4deg) scale(1); }
+  50% { transform: rotate(4deg) scale(1.025); }
+}
+@keyframes hero-sphere-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.9); }
+  50% { opacity: 0.75; transform: scale(1.15); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-sphere, .hero-sphere-glow { animation: none; }
 }
 
 /* No `display` here on purpose: this file's rules sit outside Tailwind's
