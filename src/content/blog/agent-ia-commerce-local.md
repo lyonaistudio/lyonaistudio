@@ -1,9 +1,10 @@
 ---
 title: "Ce qu'un agent IA peut faire pour un commerce local"
-description: "Répondre aux clients, prendre des rendez-vous, relancer un panier abandonné : concrètement, un agent IA peut prendre en charge plusieurs tâches répétitives d'un commerce local."
+description: "Répondre aux clients, prendre des rendez-vous, relancer un devis ou un panier abandonné : exemples concrets de ce qu'un agent IA peut prendre en charge dans un commerce ou une TPE."
 publishDate: 2026-06-18
+updatedDate: 2026-09-30
 image: "/images/blog/cover-agent-ia.webp"
-imageAlt: ""
+imageAlt: "Illustration d'un agent IA qui automatise les tâches répétitives d'un commerce"
 ---
 
 « Agent IA » reste un terme flou pour beaucoup de commerçants. Concrètement, il s'agit d'un programme qui peut lire un message, comprendre une demande, et agir en conséquence — répondre, transmettre une information, déclencher une action — sans intervention humaine à chaque étape. Voici ce que ça change une fois mis en place sur des tâches réelles.
@@ -22,7 +23,7 @@ Un commerce reçoit souvent un mélange de demandes clients, de factures fournis
 
 ## Relancer sans y penser
 
-Un client qui a demandé un devis et n'a jamais répondu, un rendez-vous annuel qui approche, un client qui n'est pas revenu depuis plusieurs mois : ce sont des relances qui rapportent, mais qu'on oublie de faire faute de temps. Une automatisation peut les envoyer au bon moment, avec un message personnalisé, sans y penser.
+Un client qui a demandé un devis et n'a jamais répondu, un rendez-vous annuel qui approche, un client qui n'est pas revenu depuis plusieurs mois : ce sont des relances qui rapportent, mais qu'on oublie de faire faute de temps. Une automatisation peut les envoyer au bon moment, avec un message personnalisé, sans y penser. Le détail de cette mise en place est expliqué dans [ce guide sur l'automatisation des devis et des relances](/blog/automatiser-devis-relances-tpe/).
 
 ## Comment ça se met en place, concrètement
 

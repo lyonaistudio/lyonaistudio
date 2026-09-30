@@ -1,9 +1,10 @@
 ---
-title: "Référencement local à Lyon : les bases avant de payer pour de la publicité"
-description: "Avant d'investir dans des publicités en ligne, plusieurs éléments gratuits de référencement local permettent déjà d'être mieux visible sur Google à Lyon."
+title: "Référencement local : les bases gratuites avant de payer pour de la publicité"
+description: "Fiche Google, cohérence NAP, avis clients, vitesse du site : les leviers gratuits de référencement local pour être mieux visible sur Google dans votre ville, avant d'investir dans la publicité."
 publishDate: 2026-07-05
+updatedDate: 2026-09-30
 image: "/images/blog/cover-site-web.webp"
-imageAlt: ""
+imageAlt: "Site internet affiché sur un écran d'ordinateur, illustrant le référencement local sur Google"
 ---
 
 Beaucoup de petites entreprises pensent qu'il faut payer pour apparaître sur Google. C'est vrai pour les premiers résultats sponsorisés, mais une bonne partie de la visibilité locale se joue avant ça, sur des éléments gratuits qui prennent du temps à mettre en place mais qui durent dans la durée.
@@ -30,6 +31,14 @@ Un site lent ou mal structuré peut annuler l'effet de tous les autres efforts :
 
 Les avis Google jouent un rôle direct dans le classement local et dans la décision d'un client qui hésite entre plusieurs prestataires. Demander simplement à vos clients satisfaits de laisser un avis, après une intervention réussie, reste l'une des actions les plus rentables et les plus négligées.
 
+Le plus efficace est de rendre la demande facile : un lien direct vers le formulaire d'avis, envoyé par SMS ou par email juste après la prestation, obtient bien plus de réponses qu'une demande orale vite oubliée. Cette relance peut d'ailleurs être [automatisée](/blog/automatiser-devis-relances-tpe/), pour ne plus dépendre de votre mémoire en fin de journée.
+
+## Une page par service et par zone d'intervention
+
+Si vous intervenez dans plusieurs villes ou proposez plusieurs services, une seule page d'accueil ne suffit pas à tout couvrir. Une page dédiée à chaque service principal, qui précise clairement les zones où vous intervenez, aide Google à vous associer aux bonnes recherches (« couvreur Nantes », « électricien Bordeaux Rive droite »…).
+
+Attention toutefois aux pages copiées-collées où seul le nom de la ville change : Google les repère et les ignore. Chaque page doit apporter un contenu réellement utile — réalisations dans le secteur, délais d'intervention, particularités locales.
+
 ## Les liens depuis d'autres sites
 
 Être mentionné sur des annuaires locaux, des sites partenaires ou un profil LinkedIn actif renforce la crédibilité de votre site aux yeux de Google. Ce ne sont pas des actions ponctuelles : c'est un travail progressif qui s'accumule avec le temps.
@@ -50,4 +59,4 @@ La fiche Google Business Profile donne des statistiques simples mais utiles : no
 
 La publicité (Google Ads, réseaux sociaux) peut accélérer les résultats, mais elle coûte à chaque clic et s'arrête dès qu'on arrête de payer. Le référencement local gratuit, lui, continue de travailler une fois mis en place. Le bon ordre, pour une petite structure avec un budget limité, est presque toujours de commencer par ces bases avant d'envisager de la publicité — c'est le principe derrière l'accompagnement en [référencement local](/services/referencement-local-seo/) : mettre en place ce qui dure, avant ce qui coûte à chaque clic.
 
-Pour aller plus loin sur le lien entre la fiche Google et le site, [cet article détaille comment les faire travailler ensemble](/blog/fiche-google-business-profile-site-internet/). Et pour un avis sur votre situation précise, la page [contact](/contact/) reste le point de départ le plus simple.
+Pour aller plus loin sur le lien entre la fiche Google et le site, [cet article détaille comment les faire travailler ensemble](/blog/fiche-google-business-profile-site-internet/). Pour vérifier que votre site a les bonnes pages pour transformer ces visites en demandes, voici [les pages indispensables d'un site vitrine](/blog/site-vitrine-pages-indispensables/). Et pour un avis sur votre situation précise, la page [contact](/contact/) reste le point de départ le plus simple.

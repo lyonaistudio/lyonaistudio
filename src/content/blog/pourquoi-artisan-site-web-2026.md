@@ -1,12 +1,13 @@
 ---
 title: "Pourquoi un artisan a besoin d'un site web en 2026"
-description: "Sans site internet, un artisan reste invisible pour une grande partie de ses clients potentiels. Voici ce qu'un site change concrètement au quotidien."
+description: "Sans site internet, un artisan reste invisible pour une grande partie de ses clients potentiels. Crédibilité, visibilité sur Google, gain de temps : ce qu'un site change concrètement au quotidien."
 publishDate: 2026-06-02
+updatedDate: 2026-09-30
 image: "/images/blog/cover-artisan.webp"
-imageAlt: ""
+imageAlt: "Artisan au travail, illustrant l'intérêt d'un site internet pour les artisans"
 ---
 
-Un plombier, un électricien ou un artisan du bâtiment qui n'a pas de site internet en 2026 ne perd pas seulement des clients potentiels — il perd la possibilité même d'être considéré. Avant de décrocher le téléphone, la plupart des gens tapent une recherche du type « électricien Lyon » et regardent les deux ou trois premiers résultats. Si vous n'y êtes pas, vous n'existez tout simplement pas dans leur choix.
+Un plombier, un électricien ou un artisan du bâtiment qui n'a pas de site internet en 2026 ne perd pas seulement des clients potentiels — il perd la possibilité même d'être considéré. Avant de décrocher le téléphone, la plupart des gens tapent une recherche du type « électricien + nom de leur ville » et regardent les deux ou trois premiers résultats. Si vous n'y êtes pas, vous n'existez tout simplement pas dans leur choix.
 
 ## Une carte de visite disponible 24h/24
 
@@ -34,6 +35,10 @@ Il n'y a pas de facture qui arrive quand on n'a pas de site internet — c'est j
 
 Ce constat vaut particulièrement pour le [référencement local](/services/referencement-local-seo/) : une bonne partie des recherches se fait depuis un téléphone, à proximité immédiate, au moment précis où un client a besoin d'une intervention. Sans présence en ligne à ce moment-là, l'opportunité passe directement au résultat suivant.
 
+## Les demandes arrivent aussi quand vous êtes sur un chantier
+
+Un artisan passe l'essentiel de sa journée sur le terrain, pas devant un ordinateur. Un site avec un formulaire de contact bien pensé (type de travaux, adresse, délai souhaité, photos) récupère des demandes complètes pendant que vous travaillez, plutôt que des appels manqués qu'il faudra rappeler le soir. Combiné à une [automatisation des devis et relances](/blog/automatiser-devis-relances-tpe/), c'est autant de temps administratif en moins.
+
 ## Par où commencer quand on n'a jamais eu de site
 
 Il n'est pas nécessaire d'avoir un projet parfaitement défini avant de se lancer. La plupart des artisans qui nous contactent n'ont pas de cahier des charges — seulement une activité qu'ils voudraient mieux représenter en ligne. La première étape consiste simplement à décrire ce que vous faites, vos zones d'intervention, et ce qui vous distingue des autres — le reste (structure, textes, design) se construit à partir de ça, pas l'inverse.
@@ -42,6 +47,6 @@ Il n'est pas nécessaire d'avoir un projet parfaitement défini avant de se lanc
 
 Un site internet n'a pas besoin d'être compliqué ni de coûter une fortune pour être efficace. L'essentiel : qu'il soit clair, qu'il inspire confiance, qu'il soit lisible sur mobile — c'est là que la majorité de vos visiteurs le consulteront — et qu'il donne une façon simple de vous contacter.
 
-Si vous travaillez encore uniquement via le bouche-à-oreille et les petites annonces, un site ne remplace pas ce réseau : il vient s'ajouter, pour capter les clients qui vous cherchent sans vous connaître encore. Une [création de site internet](/services/creation-site-internet/) bien pensée dès le départ évite d'avoir à tout refaire quelques années plus tard.
+Si vous travaillez encore uniquement via le bouche-à-oreille et les petites annonces, un site ne remplace pas ce réseau : il vient s'ajouter, pour capter les clients qui vous cherchent sans vous connaître encore. Une [création de site internet](/services/creation-site-internet/) bien pensée dès le départ évite d'avoir à tout refaire quelques années plus tard — et [ces pages indispensables](/blog/site-vitrine-pages-indispensables/) sont un bon point de départ pour savoir quoi y mettre.
 
-Pour aller plus loin sur la partie visibilité une fois le site en ligne, [les bases du référencement local à Lyon](/blog/referencement-local-lyon/) détaillent ce qui fait la différence avant même d'envisager de la publicité. Et si vous voulez simplement échanger sur votre situation, la page [contact](/contact/) reste le moyen le plus direct de commencer.
+Pour aller plus loin sur la partie visibilité une fois le site en ligne, [les bases du référencement local](/blog/referencement-local-lyon/) détaillent ce qui fait la différence avant même d'envisager de la publicité. Et si vous voulez simplement échanger sur votre situation, la page [contact](/contact/) reste le moyen le plus direct de commencer.

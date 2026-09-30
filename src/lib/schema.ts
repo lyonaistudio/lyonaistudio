@@ -66,6 +66,7 @@ export function articleSchema(options: {
   description: string;
   slug: string;
   publishDate: Date;
+  updatedDate?: Date;
   image: string;
 }) {
   return {
@@ -75,6 +76,7 @@ export function articleSchema(options: {
     description: options.description,
     image: `${SITE.url}${options.image}`,
     datePublished: options.publishDate.toISOString(),
+    dateModified: (options.updatedDate ?? options.publishDate).toISOString(),
     author: {
       "@type": "Organization",
       name: SITE.name,

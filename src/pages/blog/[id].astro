@@ -124,6 +124,50 @@ const ARTICLE_FAQ: Record<string, { question: string; answer: string }[]> = {
         "Les deux comptent, mais s'ils ne peuvent pas être faits en même temps, commencer par la fiche Google donne une visibilité plus rapide — le site peut suivre juste après pour capter les demandes qu'elle génère.",
     },
   ],
+  "automatiser-devis-relances-tpe": [
+    {
+      question: "Quelles relances automatiser en priorité dans une TPE ?",
+      answer:
+        "Les devis sans réponse et les factures en attente de paiement : la règle est simple, le message se prépare à l'avance et le gain est immédiat. Les demandes d'avis Google après une prestation viennent juste après.",
+    },
+    {
+      question: "Une relance automatique risque-t-elle d'agacer mes clients ?",
+      answer:
+        "Pas si elle est bien réglée : un message courtois, à votre ton, envoyé à un rythme raisonnable, et qui s'arrête automatiquement dès que le client répond ou paie.",
+    },
+    {
+      question: "Faut-il changer de logiciel de facturation pour automatiser ses devis ?",
+      answer:
+        "Non. L'automatisation se connecte en général à vos outils existants (facturation, messagerie, agenda) plutôt que de les remplacer — voir la <a href=\"/services/automatisation-ia/\" class=\"text-accent underline underline-offset-2\">mise en place d'une automatisation</a>.",
+    },
+    {
+      question: "Est-ce que je garde le contrôle sur les messages envoyés ?",
+      answer:
+        "Oui. Les messages sont relus avant la mise en service, les cas sensibles vous sont transmis, et chaque séquence peut être suspendue ou modifiée à tout moment.",
+    },
+  ],
+  "site-vitrine-pages-indispensables": [
+    {
+      question: "Combien de pages faut-il pour un site vitrine ?",
+      answer:
+        "Il n'y a pas de nombre idéal : l'essentiel est d'avoir une page d'accueil, une page par service principal, une page de preuves (réalisations, avis), une page à propos, une page contact et les pages légales.",
+    },
+    {
+      question: "Pourquoi faire une page par service plutôt qu'une seule page ?",
+      answer:
+        "Chaque page de service peut se positionner sur Google pour les recherches précises de vos clients. Une page unique qui liste tout se positionne beaucoup moins bien.",
+    },
+    {
+      question: "Les mentions légales sont-elles obligatoires sur un site vitrine ?",
+      answer:
+        "Oui, en France les mentions légales et la politique de confidentialité sont obligatoires pour tout site professionnel, ainsi que les CGV si vous vendez en ligne.",
+    },
+    {
+      question: "Un blog est-il nécessaire sur un site vitrine ?",
+      answer:
+        "Pas au lancement, mais c'est un excellent levier de visibilité dans la durée : chaque article qui répond à une vraie question de vos clients est une porte d'entrée supplémentaire depuis Google.",
+    },
+  ],
 };
 
 const { post, allPosts } = Astro.props;
@@ -141,6 +185,7 @@ const schema = articleSchema({
   description: post.data.description,
   slug: post.id,
   publishDate: post.data.publishDate,
+  updatedDate: post.data.updatedDate,
   image: post.data.image,
 });
 const jsonLd = faqItems.length > 0 ? [schema, faqSchema(faqItems)] : [schema];
@@ -157,6 +202,9 @@ const jsonLd = faqItems.length > 0 ? [schema, faqSchema(faqItems)] : [schema];
   <article class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
     <span class="font-mono text-xs uppercase tracking-wide text-mist">
       {post.data.publishDate.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+      {post.data.updatedDate && (
+        <> · Mis à jour le <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</time></>
+      )}
     </span>
     <h1 class="mt-3 font-display text-3xl font-bold text-paper sm:text-4xl">{post.data.title}</h1>
     <img
