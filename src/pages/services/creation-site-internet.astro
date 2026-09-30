@@ -9,9 +9,9 @@ import { faqSchema } from "../../lib/schema";
 
 const faqItems = [
   {
-    question: "Combien coûte la création d'un site internet à Lyon ?",
+    question: "Combien coûte la création d'un site internet ?",
     answer:
-      "À partir de 1 200 € pour un site vitrine. Le prix final dépend du nombre de pages, des contenus à produire et des fonctionnalités souhaitées (prise de rendez-vous, blog, catalogue…). Vous recevez un devis détaillé, gratuit et sans engagement avant de démarrer — sans coût caché ensuite.",
+      "Le prix dépend du nombre de pages, des contenus à produire et des fonctionnalités souhaitées (prise de rendez-vous, blog, catalogue…). Vous recevez un devis détaillé, gratuit et sans engagement avant de démarrer — sans coût caché ensuite.",
   },
   {
     question: "Qu'est-ce qui est inclus dans la création d'un site ?",
@@ -43,8 +43,8 @@ const schema = faqSchema(faqItems);
 ---
 
 <BaseLayout
-  title="Création de site internet à Lyon — Lyon AI Studio"
-  description="Création de site internet sur-mesure à Lyon pour artisans, commerces et professions libérales : design soigné, référencement local, impeccable sur mobile."
+  title="Création de site internet sur-mesure — Lyon AI Studio"
+  description="Création de site internet sur-mesure pour entreprises, commerces et indépendants, partout en France : design soigné, référencement local, impeccable sur mobile."
   path="/services/creation-site-internet/"
   jsonLd={[schema]}
 >
@@ -56,17 +56,17 @@ const schema = faqSchema(faqItems);
   />
   <PageHero
     eyebrow="SERVICE — SITE INTERNET"
-    title="Création de site internet à Lyon"
+    title="Création de site internet"
     description="Un site qui donne une image sérieuse de votre activité et qui transforme un visiteur en demande de contact."
   />
 
   <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
     <Eyebrow label="POUR QUI" />
     <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
-      Artisans, commerces et professions libérales
+      Entreprises, commerces et indépendants
     </h2>
     <p class="mt-4 leading-relaxed text-paper-dim">
-      Ce service s'adresse aux petites structures lyonnaises qui n'ont pas encore de site internet, ou
+      Ce service s'adresse aux entreprises et indépendants, où qu'ils soient en France, qui n'ont pas encore de site internet, ou
       dont le site actuel ne représente plus correctement leur activité : artisans du bâtiment,
       commerces de proximité, professions libérales, prestataires de services. Pas besoin d'avoir des
       connaissances techniques — l'objectif est de vous livrer un outil que vous pouvez utiliser

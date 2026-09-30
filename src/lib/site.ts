@@ -21,9 +21,9 @@ export const SITE = {
     },
   ],
   sameAs: [] as string[],
-  tagline: "Sites internet et automatisation IA pour les entreprises locales",
+  tagline: "Sites internet et automatisation IA pour les entreprises, partout en France",
   description:
-    "Lyon AI Studio crée des sites internet et automatise les tâches répétitives (devis, relances, rendez-vous) des artisans, commerces et PME, à Lyon et partout en France.",
+    "Lyon AI Studio crée des sites internet et automatise les tâches répétitives (devis, relances, rendez-vous) des entreprises, commerces et indépendants, partout en France.",
 } as const;
 
 export const NAV_LINKS = [
