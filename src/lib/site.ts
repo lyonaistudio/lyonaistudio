@@ -48,9 +48,9 @@ export const LEGAL = {
   forme: "société par actions simplifiée (SAS)",
   capital: "2 000 €",
   siege: "47 rue Vivienne, 75002 Paris",
-  siret: "",
-  rcs: "", // ex. "RCS Paris 123 456 789"
-  tva: "", // n° de TVA intracommunautaire
+  siret: "130 556 871 00015",
+  rcs: "RCS Paris 130 556 871",
+  tva: "", // n° de TVA intracommunautaire : à ajouter dès qu'il est actif (VIES)
   president: "Vivion",
   directeurPublication: "Batisse",
 } as const;
