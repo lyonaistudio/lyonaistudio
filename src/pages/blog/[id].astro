@@ -5,10 +5,11 @@ import CTASection from "../../components/CTASection.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
 import { getCollection, render } from "astro:content";
+import { isPublished } from "../../lib/blog";
 import { articleSchema, faqSchema } from "../../lib/schema";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection("blog", isPublished);
   return posts.map((post) => ({
     params: { id: post.id },
     props: { post, allPosts: posts },
@@ -188,6 +189,40 @@ const ARTICLE_FAQ: Record<string, { question: string; answer: string }[]> = {
       question: "Le site est-il bien référencé dès sa mise en ligne ?",
       answer:
         "Les bases techniques sont en place dès le lancement, mais le positionnement sur Google se construit dans la durée — voir l'accompagnement en <a href=\"/services/referencement-local-seo/\" class=\"text-accent underline underline-offset-2\">référencement local</a>.",
+    },
+  ],
+  "site-vitrine-ou-e-commerce": [
+    {
+      question: "Quelle est la différence entre un site vitrine et un site e-commerce ?",
+      answer:
+        "Un site vitrine présente votre activité et transforme les visiteurs en demandes de contact (appel, devis, rendez-vous). Un site e-commerce permet d'acheter et de payer directement en ligne, avec catalogue, panier, paiement et gestion des commandes.",
+    },
+    {
+      question: "Un artisan ou un prestataire de services a-t-il besoin d'un site e-commerce ?",
+      answer:
+        "Rarement. Quand la vente passe par un devis ou un rendez-vous, un site vitrine est plus adapté. Il peut intégrer une prise de rendez-vous ou quelques paiements en ligne sans la complexité d'une boutique.",
+    },
+    {
+      question: "Peut-on vendre quelques produits sur un site vitrine ?",
+      answer:
+        "Oui : quelques produits, des bons cadeaux ou un acompte peuvent se payer depuis un site vitrine avec un paiement en ligne simple, et le site peut évoluer vers une vraie boutique si la vente en ligne se développe.",
+    },
+  ],
+  "site-internet-sans-clients-erreurs": [
+    {
+      question: "Pourquoi mon site internet ne génère-t-il aucun contact ?",
+      answer:
+        "Les causes les plus fréquentes : le site n'est pas trouvé sur Google, on ne comprend pas l'offre en quelques secondes, le bouton de contact est peu visible, le site est lent sur mobile, ou il manque des preuves (réalisations, avis).",
+    },
+    {
+      question: "Par quoi commencer pour améliorer un site qui ne convertit pas ?",
+      answer:
+        "Par un bouton de contact visible sur chaque page et un titre d'accueil qui dit clairement ce que vous faites et pour qui : ce sont les corrections les plus rapides et les plus efficaces.",
+    },
+    {
+      question: "Faut-il refaire entièrement son site ?",
+      answer:
+        "Pas forcément. Si la base technique est saine, des corrections ciblées suffisent. Si le site est lent, non adapté au mobile et difficile à modifier, une <a href=\"/blog/refonte-site-internet-signes/\" class=\"text-accent underline underline-offset-2\">refonte</a> est souvent plus rentable.",
     },
   ],
   "refonte-site-internet-signes": [

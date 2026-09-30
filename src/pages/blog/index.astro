@@ -5,9 +5,10 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
 import { getCollection } from "astro:content";
+import { isPublished } from "../../lib/blog";
 import { blogSchema, faqSchema } from "../../lib/schema";
 
-const posts = (await getCollection("blog")).sort(
+const posts = (await getCollection("blog", isPublished)).sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
 

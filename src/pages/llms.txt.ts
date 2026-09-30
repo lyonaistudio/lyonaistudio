@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import { isPublished } from "../lib/blog";
 import { SITE } from "../lib/site";
 import { SERVICES } from "../lib/schema";
 
@@ -7,7 +8,7 @@ import { SERVICES } from "../lib/schema";
 // recherche IA (ChatGPT, Perplexity, Google AI Overviews…), pour qu'ils
 // comprennent l'activité et citent les bonnes pages.
 export const GET: APIRoute = async () => {
-  const posts = (await getCollection("blog")).sort(
+  const posts = (await getCollection("blog", isPublished)).sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
   );
 

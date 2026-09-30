@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import { isPublished } from "../lib/blog";
 import { SITE } from "../lib/site";
 
 const escape = (value: string) =>
@@ -8,7 +9,7 @@ const escape = (value: string) =>
 // Flux RSS des actualités : facilite la découverte des nouveaux articles par
 // les agrégateurs et les moteurs de recherche.
 export const GET: APIRoute = async () => {
-  const posts = (await getCollection("blog")).sort(
+  const posts = (await getCollection("blog", isPublished)).sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
   );
 

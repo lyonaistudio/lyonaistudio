@@ -1,6 +1,7 @@
 ---
 import Eyebrow from "./Eyebrow.astro";
 import { getCollection } from "astro:content";
+import { isPublished } from "../lib/blog";
 
 interface Props {
   slugs: string[];
@@ -11,7 +12,7 @@ const { slugs, title = "Pour aller plus loin" } = Astro.props;
 
 // Maillage interne service → articles : aide Google à relier chaque page de
 // service aux contenus qui la complètent.
-const posts = (await getCollection("blog"))
+const posts = (await getCollection("blog", isPublished))
   .filter((post) => slugs.includes(post.id))
   .sort((a, b) => slugs.indexOf(a.id) - slugs.indexOf(b.id));
 ---

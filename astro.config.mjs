@@ -25,7 +25,9 @@ const BLOG_LASTMOD = Object.fromEntries(
       return [`/blog/${file.replace(/\.md$/, '')}/`, date('updatedDate') ?? date('publishDate')];
     })
 );
-const LATEST_POST = Object.values(BLOG_LASTMOD).filter(Boolean).sort().at(-1);
+// Articles programmés (date future) exclus : ils ne sont pas encore publiés.
+const TODAY = new Date().toISOString().slice(0, 10);
+const LATEST_POST = Object.values(BLOG_LASTMOD).filter((d) => d && d <= TODAY).sort().at(-1);
 
 // https://astro.build/config
 export default defineConfig({

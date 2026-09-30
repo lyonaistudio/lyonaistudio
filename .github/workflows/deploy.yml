@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Reconstruction quotidienne (6 h UTC) : publie les articles programmés
+  # dont la date est arrivée.
+  schedule:
+    - cron: "0 6 * * *"
 
 permissions:
   contents: read

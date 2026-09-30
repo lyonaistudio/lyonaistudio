@@ -6,6 +6,7 @@ import Eyebrow from "../components/Eyebrow.astro";
 import Realisations from "../components/Realisations.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import { getCollection } from "astro:content";
+import { isPublished } from "../lib/blog";
 import { SITE, FORMSPREE_ENDPOINT } from "../lib/site";
 import laptopMockup from "../assets/mockups/laptop-lyonaistudio.webp";
 import heroBackground from "../assets/hero/fond-site-ai.jpeg";
@@ -15,7 +16,7 @@ const heroSphere = await getImage({ src: heroBackground, width: 1672, format: "w
 import pc2Photo from "../assets/about/pc2.jpg";
 import lyon1Photo from "../assets/about/lyon1.jpg";
 
-const posts = (await getCollection("blog"))
+const posts = (await getCollection("blog", isPublished))
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
   .slice(0, 3);
 
