@@ -22,6 +22,8 @@ export const SITE = {
   ],
   // Fiche Google Business Profile (lien permanent par CID).
   googleBusinessUrl: "https://maps.google.com/?cid=14960039913131409264",
+  // Lien direct vers le formulaire d'avis de la fiche Google.
+  googleReviewUrl: "https://g.page/r/CXD_3A8KvZzPECE/review",
   // Profils officiels déclarés à Google (schema.org sameAs).
   sameAs: ["https://maps.google.com/?cid=14960039913131409264"] as string[],
   tagline: "Sites internet et automatisation IA pour les entreprises, partout en France",
