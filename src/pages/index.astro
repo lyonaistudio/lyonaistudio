@@ -162,10 +162,10 @@ function Icon(name: string) {
           <Picture
             src={heroBackground}
             alt="Ordinateur portable affichant un site internet, entouré d'écrans d'automatisation"
-            widths={[640, 960, 1280, 1672]}
+            widths={[480, 640, 960, 1280, 1672]}
             sizes="(min-width: 1024px) 58vw, 100vw"
             formats={["avif", "webp"]}
-            quality={90}
+            quality={78}
             loading="eager"
             fetchpriority="high"
             class="block h-auto w-full"
@@ -315,6 +315,8 @@ function Icon(name: string) {
             alt="Un site internet sur-mesure, conçu et développé avec soin"
             widths={[300, 450, 600, 800]}
             sizes="(min-width: 1152px) 544px, 45vw"
+            quality={70}
+            format="avif"
             loading="lazy"
             decoding="async"
             class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -332,6 +334,8 @@ function Icon(name: string) {
             alt="Vue de Lyon, où Lyon AI Studio est basé"
             widths={[300, 450, 600, 800]}
             sizes="(min-width: 1152px) 544px, 45vw"
+            quality={70}
+            format="avif"
             loading="lazy"
             decoding="async"
             class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
