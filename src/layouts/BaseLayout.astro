@@ -6,7 +6,7 @@ import Footer from "../components/Footer.astro";
 import Cursor from "../components/Cursor.astro";
 import CookieConsent from "../components/CookieConsent.astro";
 import { SITE } from "../lib/site";
-import { localBusinessSchema } from "../lib/schema";
+import { localBusinessSchema, organizationSchema, websiteSchema } from "../lib/schema";
 
 interface Props {
   title: string;
@@ -14,14 +14,25 @@ interface Props {
   path: string;
   jsonLd?: Record<string, unknown>[];
   ogImage?: string;
+  ogImageAlt?: string;
   noindex?: boolean;
+  article?: { publishedTime: Date; modifiedTime?: Date };
 }
 
-const { title, description, path, jsonLd = [], ogImage = "/og-image.png", noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  path,
+  jsonLd = [],
+  ogImage = "/og-image.png",
+  ogImageAlt = `${SITE.name} — ${SITE.tagline}`,
+  noindex = false,
+  article,
+} = Astro.props;
 
 const canonicalUrl = new URL(path, SITE.url).toString();
 const ogImageUrl = new URL(ogImage, SITE.url).toString();
-const schemas = [localBusinessSchema(), ...jsonLd];
+const schemas = [organizationSchema(), websiteSchema(), localBusinessSchema(), ...jsonLd];
 ---
 
 <!doctype html>
@@ -31,7 +42,16 @@ const schemas = [localBusinessSchema(), ...jsonLd];
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
+    {noindex ? (
+      <meta name="robots" content="noindex, follow" />
+    ) : (
+      <>
+        <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      </>
+    )}
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} — Actualités`} href="/rss.xml" />
+    <meta name="author" content={SITE.name} />
     <meta name="google-site-verification" content="RJh2J0-G9U2o5x3-7oWpmXflYzQ5nET27iS-vyNowJU" />
 
     <!--
@@ -54,18 +74,27 @@ const schemas = [localBusinessSchema(), ...jsonLd];
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? "article" : "website"} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:locale" content="fr_FR" />
+    {article && <meta property="article:published_time" content={article.publishedTime.toISOString()} />}
+    {article && (
+      <meta property="article:modified_time" content={(article.modifiedTime ?? article.publishedTime).toISOString()} />
+    )}
+    {article && <meta property="article:author" content={SITE.name} />}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     {schemas.map((schema) => (
       <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />

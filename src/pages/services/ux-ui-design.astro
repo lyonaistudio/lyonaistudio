@@ -4,8 +4,9 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import CTASection from "../../components/CTASection.astro";
+import RelatedArticles from "../../components/RelatedArticles.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
-import { faqSchema } from "../../lib/schema";
+import { faqSchema, serviceSchema } from "../../lib/schema";
 
 const faqItems = [
   {
@@ -35,13 +36,19 @@ const faqItems = [
   },
 ];
 const schema = faqSchema(faqItems);
+const service = serviceSchema({
+  name: "UX / UI Design de site internet",
+  serviceType: "Conception UX / UI",
+  description: "Conception UX/UI de site internet : parcours clair, hiérarchie visuelle lisible et design qui inspire confiance pour transformer vos visiteurs en demandes de contact.",
+  path: "/services/ux-ui-design/",
+});
 ---
 
 <BaseLayout
-  title="UX / UI Design — Lyon AI Studio"
-  description="Conception UX/UI pour votre site internet : parcours clair, hiérarchie visuelle lisible, design qui inspire confiance et pousse à l'action."
+  title="UX / UI Design de site internet qui convertit"
+  description="Conception UX/UI de site internet : parcours clair, hiérarchie visuelle lisible et design qui inspire confiance pour transformer vos visiteurs en demandes de contact."
   path="/services/ux-ui-design/"
-  jsonLd={[schema]}
+  jsonLd={[service, schema]}
 >
   <Breadcrumb
     items={[
@@ -108,6 +115,8 @@ const schema = faqSchema(faqItems);
       <FAQAccordion items={faqItems} />
     </div>
   </section>
+
+  <RelatedArticles slugs={["site-vitrine-pages-indispensables", "pourquoi-artisan-site-web-2026"]} />
 
   <CTASection
     title="Un site qui existe déjà mais qui ne convertit pas ?"

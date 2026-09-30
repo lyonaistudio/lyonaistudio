@@ -1,7 +1,7 @@
 {
   "name": "Lyon AI Studio",
   "short_name": "Lyon AI Studio",
-  "description": "Sites internet et automatisation IA pour les entreprises locales",
+  "description": "Sites internet et automatisation IA pour les entreprises, partout en France",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",

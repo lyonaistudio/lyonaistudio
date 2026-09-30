@@ -1,5 +1,6 @@
 ---
 import { Image, Picture, getImage } from "astro:assets";
+import { faqSchema } from "../lib/schema";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import Realisations from "../components/Realisations.astro";
@@ -122,9 +123,10 @@ function Icon(name: string) {
 ---
 
 <BaseLayout
-  title="Lyon AI Studio — Sites internet et automatisation IA partout en France"
-  description="Création de sites internet et automatisation des tâches répétitives pour les entreprises, commerces et indépendants, partout en France. Devis gratuit, réponse sous 48 h."
+  title="Création de site internet & automatisation IA | Lyon AI Studio"
+  description="Création de sites internet sur-mesure, référencement et automatisation IA pour TPE, PME, commerces et artisans, partout en France. Devis gratuit, réponse sous 48 h."
   path="/"
+  jsonLd={[faqSchema(faqItems)]}
 >
   <!-- HERO -->
   <section class="relative overflow-hidden border-b border-ink-line">

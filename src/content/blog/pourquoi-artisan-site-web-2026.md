@@ -1,6 +1,6 @@
 ---
 title: "Pourquoi un artisan a besoin d'un site web en 2026"
-description: "Sans site internet, un artisan reste invisible pour une grande partie de ses clients potentiels. Crédibilité, visibilité sur Google, gain de temps : ce qu'un site change concrètement au quotidien."
+description: "Sans site internet, un artisan reste invisible pour une partie de ses clients. Crédibilité, visibilité Google, gain de temps : ce qu'un site change au quotidien."
 publishDate: 2026-06-02
 updatedDate: 2026-09-30
 image: "/images/blog/cover-artisan.webp"

@@ -1,6 +1,7 @@
 ---
 title: "Site vitrine : les pages indispensables pour transformer vos visiteurs en clients"
-description: "Accueil, services, réalisations, à propos, contact, mentions légales : les pages indispensables d'un site vitrine efficace, ce qu'il faut mettre sur chacune, et les erreurs qui font fuir les visiteurs."
+seoTitle: "Site vitrine : les 7 pages indispensables pour convertir"
+description: "Accueil, services, réalisations, à propos, contact, pages légales : les pages indispensables d'un site vitrine qui convertit, et les erreurs à éviter."
 publishDate: 2026-09-30
 image: "/images/blog/cover-site-web.webp"
 imageAlt: "Maquette d'un site vitrine professionnel sur ordinateur"

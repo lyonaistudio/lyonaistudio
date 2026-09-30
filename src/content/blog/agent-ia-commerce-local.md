@@ -1,6 +1,7 @@
 ---
 title: "Ce qu'un agent IA peut faire pour un commerce local"
-description: "Répondre aux clients, prendre des rendez-vous, relancer un devis ou un panier abandonné : exemples concrets de ce qu'un agent IA peut prendre en charge dans un commerce ou une TPE."
+seoTitle: "Agent IA pour commerce et TPE : exemples concrets"
+description: "Répondre aux clients, prendre des rendez-vous, relancer un devis : exemples concrets de ce qu'un agent IA peut prendre en charge dans un commerce ou une TPE."
 publishDate: 2026-06-18
 updatedDate: 2026-09-30
 image: "/images/blog/cover-agent-ia.webp"

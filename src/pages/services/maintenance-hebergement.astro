@@ -4,8 +4,9 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import CTASection from "../../components/CTASection.astro";
+import RelatedArticles from "../../components/RelatedArticles.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
-import { faqSchema } from "../../lib/schema";
+import { faqSchema, serviceSchema } from "../../lib/schema";
 
 const faqItems = [
   {
@@ -35,13 +36,19 @@ const faqItems = [
   },
 ];
 const schema = faqSchema(faqItems);
+const service = serviceSchema({
+  name: "Maintenance et hébergement de site internet",
+  serviceType: "Maintenance de site web",
+  description: "Hébergement, mises à jour, sauvegardes et suivi technique de votre site internet, partout en France, pour qu'il reste rapide, sécurisé et bien référencé dans la durée.",
+  path: "/services/maintenance-hebergement/",
+});
 ---
 
 <BaseLayout
-  title="Maintenance & hébergement site web — Lyon AI Studio"
-  description="Hébergement, mises à jour et suivi technique de votre site internet, où que vous soyez en France, pour qu'il reste fiable, rapide et sécurisé dans la durée."
+  title="Maintenance et hébergement de site internet"
+  description="Hébergement, mises à jour, sauvegardes et suivi technique de votre site internet, partout en France, pour qu'il reste rapide, sécurisé et bien référencé dans la durée."
   path="/services/maintenance-hebergement/"
-  jsonLd={[schema]}
+  jsonLd={[service, schema]}
 >
   <Breadcrumb
     items={[
@@ -106,6 +113,8 @@ const schema = faqSchema(faqItems);
       <FAQAccordion items={faqItems} />
     </div>
   </section>
+
+  <RelatedArticles slugs={["referencement-local-lyon", "site-vitrine-pages-indispensables"]} />
 
   <CTASection
     title="Votre site actuel n'est plus suivi ?"

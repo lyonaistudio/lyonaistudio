@@ -4,6 +4,7 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServiceCard from "../../components/ServiceCard.astro";
 import CTASection from "../../components/CTASection.astro";
+import RelatedArticles from "../../components/RelatedArticles.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import { faqSchema } from "../../lib/schema";
@@ -91,6 +92,8 @@ const schema = faqSchema(faqItems);
       <FAQAccordion items={faqItems} />
     </div>
   </section>
+
+  <RelatedArticles slugs={["site-vitrine-pages-indispensables", "automatiser-devis-relances-tpe", "referencement-local-lyon"]} />
 
   <CTASection
     title="Vous ne savez pas par où commencer ?"

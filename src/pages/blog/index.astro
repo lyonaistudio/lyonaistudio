@@ -5,7 +5,7 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
 import { getCollection } from "astro:content";
-import { faqSchema } from "../../lib/schema";
+import { blogSchema, faqSchema } from "../../lib/schema";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
@@ -39,19 +39,28 @@ const faqItems = [
   },
 ];
 const schema = faqSchema(faqItems);
+const blog = blogSchema(
+  posts.map((post) => ({
+    title: post.data.title,
+    description: post.data.description,
+    slug: post.id,
+    publishDate: post.data.publishDate,
+    updatedDate: post.data.updatedDate,
+  }))
+);
 ---
 
 <BaseLayout
-  title="Actualités & conseils — Lyon AI Studio"
-  description="Conseils pratiques sur les sites internet et l'automatisation par IA pour les artisans, commerces et PME, partout en France."
+  title="Blog : conseils site internet, SEO et IA — Lyon AI Studio"
+  description="Conseils concrets sur la création de site internet, le référencement local et l'automatisation par IA pour les TPE, PME, commerces et artisans, partout en France."
   path="/blog/"
-  jsonLd={[schema]}
+  jsonLd={[blog, schema]}
 >
   <Breadcrumb items={[{ name: "Actualités", url: "/blog/" }]} />
   <PageHero
     eyebrow="ACTUALITÉS"
     eyebrowVariant="accent"
-    title="Conseils pour les entreprises locales"
+    title="Conseils site internet, SEO et automatisation"
     description="Des articles pratiques sur le site internet et l'automatisation, sans jargon inutile."
   />
 

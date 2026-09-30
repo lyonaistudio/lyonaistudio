@@ -4,8 +4,9 @@ import PageHero from "../../components/PageHero.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import CTASection from "../../components/CTASection.astro";
+import RelatedArticles from "../../components/RelatedArticles.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
-import { faqSchema } from "../../lib/schema";
+import { faqSchema, serviceSchema } from "../../lib/schema";
 
 const faqItems = [
   {
@@ -40,13 +41,19 @@ const faqItems = [
   },
 ];
 const schema = faqSchema(faqItems);
+const service = serviceSchema({
+  name: "Création de site internet sur-mesure",
+  serviceType: "Création de site internet",
+  description: "Création de site vitrine sur-mesure pour TPE, PME, commerces et artisans, partout en France : design soigné, optimisé SEO, rapide et parfait sur mobile. Devis gratuit.",
+  path: "/services/creation-site-internet/",
+});
 ---
 
 <BaseLayout
-  title="Création de site internet sur-mesure — Lyon AI Studio"
-  description="Création de site internet sur-mesure pour entreprises, commerces et indépendants, partout en France : design soigné, référencement local, impeccable sur mobile."
+  title="Création de site internet sur-mesure pour TPE et PME"
+  description="Création de site vitrine sur-mesure pour TPE, PME, commerces et artisans, partout en France : design soigné, optimisé SEO, rapide et parfait sur mobile. Devis gratuit."
   path="/services/creation-site-internet/"
-  jsonLd={[schema]}
+  jsonLd={[service, schema]}
 >
   <Breadcrumb
     items={[
@@ -114,6 +121,8 @@ const schema = faqSchema(faqItems);
       <FAQAccordion items={faqItems} />
     </div>
   </section>
+
+  <RelatedArticles slugs={["site-vitrine-pages-indispensables", "pourquoi-artisan-site-web-2026", "fiche-google-business-profile-site-internet"]} />
 
   <CTASection
     title="Prêt à discuter de votre projet de site ?"

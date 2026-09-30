@@ -189,13 +189,20 @@ const schema = articleSchema({
   image: post.data.image,
 });
 const jsonLd = faqItems.length > 0 ? [schema, faqSchema(faqItems)] : [schema];
+
+const pageTitle = post.data.seoTitle ?? post.data.title;
+// Version JPG 1200×630 de la couverture pour les aperçus réseaux sociaux.
+const ogImage = post.data.image.replace("/images/blog/", "/images/blog/og/").replace(/\.webp$/, ".jpg");
 ---
 
 <BaseLayout
-  title={post.data.title.length <= 42 ? `${post.data.title} — Lyon AI Studio` : post.data.title}
+  title={pageTitle.length <= 42 ? `${pageTitle} — Lyon AI Studio` : pageTitle}
   description={post.data.description}
   path={`/blog/${post.id}/`}
   jsonLd={jsonLd}
+  ogImage={ogImage}
+  ogImageAlt={post.data.imageAlt}
+  article={{ publishedTime: post.data.publishDate, modifiedTime: post.data.updatedDate }}
 >
   <Breadcrumb items={[{ name: "Actualités", url: "/blog/" }, { name: post.data.title, url: `/blog/${post.id}/` }]} />
 
@@ -210,7 +217,8 @@ const jsonLd = faqItems.length > 0 ? [schema, faqSchema(faqItems)] : [schema];
     <img
       src={post.data.image}
       alt={post.data.imageAlt}
-      loading="lazy"
+      loading="eager"
+      fetchpriority="high"
       decoding="async"
       width="1200"
       height="675"

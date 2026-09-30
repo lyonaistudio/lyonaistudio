@@ -1,12 +1,13 @@
 ---
 import { SITE, NAV_LINKS } from "../lib/site";
+import { SERVICES } from "../lib/schema";
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="border-t border-ink-line bg-ink">
-  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-4">
-    <div class="md:col-span-2">
+  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-2 lg:grid-cols-5">
+    <div class="lg:col-span-2">
       <div class="flex items-center gap-2">
         <p class="font-display text-lg font-bold text-paper">
           Lyon <span class="text-accent">AI</span> Studio
@@ -24,6 +25,19 @@ const year = new Date().getFullYear();
           <li>
             <a href={link.href} class="inline-flex min-h-[44px] items-center text-sm text-paper-dim transition-colors hover:text-accent">
               {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wide text-mist">Services</p>
+      <ul class="mt-2">
+        {SERVICES.map((service) => (
+          <li>
+            <a href={service.path} class="inline-flex min-h-[44px] items-center text-sm text-paper-dim transition-colors hover:text-accent">
+              {service.name}
             </a>
           </li>
         ))}

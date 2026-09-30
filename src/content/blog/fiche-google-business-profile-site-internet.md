@@ -1,6 +1,7 @@
 ---
 title: "Fiche Google Business Profile et site internet : le duo gagnant"
-description: "Une fiche Google Business Profile bien remplie et un site internet ne jouent pas le même rôle — voici comment les faire travailler ensemble pour capter plus de demandes locales."
+seoTitle: "Fiche Google Business Profile + site : le duo gagnant"
+description: "Fiche Google Business Profile et site internet ne jouent pas le même rôle : comment les faire travailler ensemble pour capter plus de clients locaux."
 publishDate: 2026-08-10
 updatedDate: 2026-09-30
 image: "/images/blog/cover-gbp.webp"

@@ -1,6 +1,7 @@
 ---
 title: "Automatiser ses devis et relances clients : le guide pratique pour TPE et PME"
-description: "Devis envoyés sans réponse, factures en retard, clients à relancer : comment automatiser les relances et la préparation des devis pour gagner plusieurs heures par semaine, sans perdre le lien avec vos clients."
+seoTitle: "Automatiser devis et relances clients : guide TPE/PME"
+description: "Devis sans réponse, factures en retard, avis clients : comment automatiser relances et devis pour gagner des heures chaque semaine, sans perdre le lien client."
 publishDate: 2026-09-30
 image: "/images/blog/cover-agent-ia.webp"
 imageAlt: "Automatisation des devis et des relances clients pour une TPE"

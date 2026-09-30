@@ -1,0 +1,35 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+import { getCollection } from "astro:content";
+
+interface Props {
+  slugs: string[];
+  title?: string;
+}
+
+const { slugs, title = "Pour aller plus loin" } = Astro.props;
+
+// Maillage interne service → articles : aide Google à relier chaque page de
+// service aux contenus qui la complètent.
+const posts = (await getCollection("blog"))
+  .filter((post) => slugs.includes(post.id))
+  .sort((a, b) => slugs.indexOf(a.id) - slugs.indexOf(b.id));
+---
+
+{posts.length > 0 && (
+  <section class="mx-auto max-w-6xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="À LIRE AUSSI" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">{title}</h2>
+    <div class="mt-8 grid gap-6 md:grid-cols-3">
+      {posts.map((post) => (
+        <a
+          href={`/blog/${post.id}/`}
+          class="reveal group flex flex-col rounded-3xl border border-ink-line bg-ink-soft p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50"
+        >
+          <h3 class="font-display text-lg font-bold text-paper group-hover:text-accent">{post.data.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-paper-dim">{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

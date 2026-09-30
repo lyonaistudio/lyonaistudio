@@ -1,6 +1,7 @@
 ---
 title: "Référencement local : les bases gratuites avant de payer pour de la publicité"
-description: "Fiche Google, cohérence NAP, avis clients, vitesse du site : les leviers gratuits de référencement local pour être mieux visible sur Google dans votre ville, avant d'investir dans la publicité."
+seoTitle: "Référencement local : 7 leviers gratuits pour Google"
+description: "Fiche Google, cohérence NAP, avis, pages locales, vitesse : les leviers gratuits du référencement local pour être visible dans votre ville avant de payer de la pub."
 publishDate: 2026-07-05
 updatedDate: 2026-09-30
 image: "/images/blog/cover-site-web.webp"
