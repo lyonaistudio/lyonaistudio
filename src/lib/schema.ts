@@ -99,6 +99,7 @@ export function localBusinessSchema() {
     },
     logo: LOGO,
     image: `${SITE.url}/og-image.png`,
+    hasMap: SITE.googleBusinessUrl,
     openingHoursSpecification: SITE.hoursSchema,
     sameAs: SITE.sameAs,
   };

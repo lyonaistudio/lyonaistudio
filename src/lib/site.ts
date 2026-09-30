@@ -20,7 +20,10 @@ export const SITE = {
       closes: "18:00",
     },
   ],
-  sameAs: [] as string[],
+  // Fiche Google Business Profile (lien permanent par CID).
+  googleBusinessUrl: "https://maps.google.com/?cid=14960039913131409264",
+  // Profils officiels déclarés à Google (schema.org sameAs).
+  sameAs: ["https://maps.google.com/?cid=14960039913131409264"] as string[],
   tagline: "Sites internet et automatisation IA pour les entreprises, partout en France",
   description:
     "Lyon AI Studio crée des sites internet et automatise les tâches répétitives (devis, relances, rendez-vous) des entreprises, commerces et indépendants, partout en France.",
