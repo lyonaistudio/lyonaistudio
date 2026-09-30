@@ -16,7 +16,7 @@ import { SITE, LEGAL } from "../lib/site";
   <section class="prose-article prose prose-invert mx-auto max-w-3xl px-6 py-16 sm:py-20">
     <p class="text-sm text-mist">
       Les présentes conditions générales de vente (CGV) s'appliquent à toute prestation réalisée
-      par {SITE.name} ({LEGAL.denomination}, {LEGAL.forme}{LEGAL.siret ? `, SIRET ${LEGAL.siret}` : ""}{LEGAL.siege ? `, dont le siège est situé ${LEGAL.siege}` : ""}),
+      par {SITE.name} ({LEGAL.denomination}, {LEGAL.forme}{LEGAL.capital ? ` au capital de ${LEGAL.capital}` : ""}{LEGAL.siret ? `, SIRET ${LEGAL.siret}` : ""}{LEGAL.siege ? `, dont le siège est situé au ${LEGAL.siege}` : ""}),
       ci-après « le Prestataire », au bénéfice de tout client agissant à des fins professionnelles
       (entreprise, commerçant, artisan, profession libérale, association), ci-après « le Client ».
       Les prestations ne sont pas proposées aux consommateurs particuliers.

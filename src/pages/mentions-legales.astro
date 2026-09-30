@@ -16,7 +16,7 @@ import { SITE, LEGAL } from "../lib/site";
   <section class="prose-article prose prose-invert mx-auto max-w-3xl px-6 py-16 sm:py-20">
     <h2>Éditeur du site</h2>
     <p>
-      Le site {SITE.name} est édité par {LEGAL.denomination}, {LEGAL.forme}, basée à {SITE.city}, France.
+      Le site {SITE.name} est édité par {LEGAL.denomination}, {LEGAL.forme}{LEGAL.capital ? ` au capital de ${LEGAL.capital}` : ""}{LEGAL.siege ? `, dont le siège social est situé au ${LEGAL.siege}` : ""}. L'activité est exercée depuis {SITE.city}.
     </p>
     <ul>
       <li>Dénomination sociale : {LEGAL.denomination}</li>
@@ -26,12 +26,13 @@ import { SITE, LEGAL } from "../lib/site";
       {LEGAL.siret && <li>SIRET : {LEGAL.siret}</li>}
       {LEGAL.rcs && <li>Immatriculation : {LEGAL.rcs}</li>}
       {LEGAL.tva && <li>N° de TVA intracommunautaire : {LEGAL.tva}</li>}
+      {LEGAL.president && <li>Président : {LEGAL.president}</li>}
       <li>Nom commercial : {SITE.name}</li>
       <li>Email : <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
       <li>Activité exercée à distance, sans établissement recevant du public.</li>
     </ul>
     <p>
-      Directeur de la publication : {LEGAL.directeurPublication ? `${LEGAL.directeurPublication}, président de ${LEGAL.denomination}` : `le président de ${LEGAL.denomination}`}.
+      Directeur de la publication : {LEGAL.directeurPublication || `le président de ${LEGAL.denomination}`}.
     </p>
 
     <h2>Hébergement</h2>

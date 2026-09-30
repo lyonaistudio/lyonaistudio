@@ -43,12 +43,13 @@ export const NAV_LINKS = [
 export const LEGAL = {
   denomination: "HVTB Company",
   forme: "société par actions simplifiée (SAS)",
-  capital: "", // ex. "1 000 €"
-  siege: "", // adresse complète du siège social
+  capital: "2 000 €",
+  siege: "47 rue Vivienne, 75002 Paris",
   siret: "",
-  rcs: "", // ex. "RCS Lyon 123 456 789"
+  rcs: "", // ex. "RCS Paris 123 456 789"
   tva: "", // n° de TVA intracommunautaire
-  directeurPublication: "", // nom du président (le nom de famille suffit)
+  president: "Vivion",
+  directeurPublication: "Batisse",
 } as const;
 
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/mjgzeldk";
