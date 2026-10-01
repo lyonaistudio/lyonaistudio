@@ -10,23 +10,43 @@ const RELAY_KEY_ALIASES: Record<string, string> = {
   "Secteur d'activité": "SecteurActivite",
 };
 
-function notifyRelay(form: HTMLFormElement) {
+// Envoyé en parallèle de Formspree, et non après : si Formspree refuse
+// (quota du plan gratuit atteint, panne), le lead arrive quand même dans le
+// Sheet + Telegram. Résout à true si le Worker a bien enregistré le lead.
+async function notifyRelay(form: HTMLFormElement): Promise<boolean> {
   const data = new FormData(form);
   const payload: Record<string, string> = {};
   for (const [key, value] of data.entries()) {
     if (key === "_gotcha" || typeof value !== "string") continue;
     payload[RELAY_KEY_ALIASES[key] ?? key] = value;
   }
-  fetch(CONTACT_RELAY_URL, {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: { "Content-Type": "application/json" },
-    keepalive: true,
-  }).catch((err) => {
-    // Best-effort : Formspree a déjà la demande (email envoyé), donc une
-    // panne ici ne perd pas le lead — juste pas de trace dans le Sheet.
+  try {
+    const res = await fetch(CONTACT_RELAY_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+    });
+    return res.ok;
+  } catch (err) {
     console.error("notifyRelay failed", err);
-  });
+    return false;
+  }
+}
+
+async function sendToFormspree(form: HTMLFormElement): Promise<boolean> {
+  try {
+    const res = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json" },
+    });
+    if (!res.ok) console.error(`Formspree a répondu avec le statut ${res.status}`);
+    return res.ok;
+  } catch (err) {
+    console.error("Formspree injoignable", err);
+    return false;
+  }
 }
 
 // Bots that fill and submit a form in well under a second are extremely
@@ -36,8 +56,8 @@ const MIN_FILL_TIME_MS = 2500;
 
 // `prefix` permet d'avoir plusieurs formulaires sur le site (page Contact :
 // "", accueil : "home-") avec exactement le même comportement : envoi AJAX à
-// Formspree, bannière sur place, puis Worker (Sheet + Telegram + accusé de
-// réception). Ids attendus : {prefix}contact-form, {prefix}success-banner,
+// Formspree et au Worker (Sheet + Telegram + accusé de réception) en
+// parallèle, puis bannière sur place. Ids attendus : {prefix}contact-form, {prefix}success-banner,
 // {prefix}error-banner, {prefix}contact-submit.
 export function initContactForm(prefix = "") {
   const form = document.getElementById(`${prefix}contact-form`) as HTMLFormElement | null;
@@ -68,21 +88,14 @@ export function initContactForm(prefix = "") {
       submitBtn.textContent = "Envoi en cours…";
     }
 
-    try {
-      const res = await fetch(form.action, {
-        method: "POST",
-        body: new FormData(form),
-        headers: { Accept: "application/json" },
-      });
+    // Le lead est reçu dès qu'un des deux canaux l'a enregistré : on
+    // n'affiche l'erreur (et ne propose de renvoyer) que si les deux ont échoué.
+    const [formspreeOk, relayOk] = await Promise.all([sendToFormspree(form), notifyRelay(form)]);
 
-      if (res.ok) {
-        notifyRelay(form);
-        form.classList.add("hidden");
-        successBanner?.classList.remove("hidden");
-      } else {
-        throw new Error(`Formspree a répondu avec le statut ${res.status}`);
-      }
-    } catch {
+    if (formspreeOk || relayOk) {
+      form.classList.add("hidden");
+      successBanner?.classList.remove("hidden");
+    } else {
       errorBanner?.classList.remove("hidden");
       if (submitBtn) {
         submitBtn.disabled = false;
