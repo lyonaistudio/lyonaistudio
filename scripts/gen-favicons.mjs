@@ -1,15 +1,36 @@
 import sharp from "sharp";
-import { readFileSync, writeFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 
-const svg = readFileSync("public/favicon.svg");
+// Icônes générées à partir de l'emblème du logo (scripts/print/logo-emblem.png,
+// découpé dans la photo du logo) : agrandi de 25 % et recadré au centre pour
+// que le réseau et le « L » remplissent le carré, sur le fond noir du site.
+const EMBLEM = "scripts/print/logo-emblem.png";
+async function icon(n, zoom = 1.25) {
+  const e = await sharp(EMBLEM).resize({ height: Math.round(n * zoom) }).png().toBuffer();
+  const m = await sharp(e).metadata();
+  const crop = await sharp(e)
+    .extract({ left: Math.max(0, Math.round((m.width - n) / 2)), top: Math.max(0, Math.round((m.height - n) / 2)), width: Math.min(n, m.width), height: Math.min(n, m.height) })
+    .png()
+    .toBuffer();
+  const c = await sharp(crop).metadata();
+  return sharp({ create: { width: n, height: n, channels: 4, background: "#0a0a0a" } })
+    .composite([{ input: crop, left: Math.round((n - c.width) / 2), top: Math.round((n - c.height) / 2) }])
+    .png()
+    .toBuffer();
+}
 
-const png16 = await sharp(svg).resize(16, 16).png().toBuffer();
-const png32 = await sharp(svg).resize(32, 32).png().toBuffer();
+const png16 = await icon(16);
+const png32 = await icon(32);
 
 await sharp(png32).toFile("public/favicon-32.png");
-await sharp(svg).resize(180, 180).png().toFile("public/apple-touch-icon.png");
-await sharp(svg).resize(192, 192).png().toFile("public/icon-192.png");
-await sharp(svg).resize(512, 512).png().toFile("public/icon-512.png");
+const compresse = { palette: true, quality: 92, effort: 10, compressionLevel: 9 };
+await sharp(await icon(180)).png(compresse).toFile("public/apple-touch-icon.png");
+await sharp(await icon(192)).png(compresse).toFile("public/icon-192.png");
+await sharp(await icon(512)).png(compresse).toFile("public/icon-512.png");
+// favicon.svg : l'icône 64 px intégrée, pour les navigateurs qui préfèrent le SVG.
+const png64 = (await icon(64)).toString("base64");
+writeFileSync("public/favicon.svg", `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><image href="data:image/png;base64,${png64}" width="64" height="64"/></svg>
+`);
 
 // Hand-assemble a multi-resolution .ico (ICONDIR + PNG-compressed entries),
 // since sharp/libvips has no native ICO writer.

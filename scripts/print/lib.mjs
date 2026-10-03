@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import QRCode from "qrcode";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 
 export const DPI = 300;
 export const mm = (v) => Math.round((v * DPI) / 25.4);
@@ -69,15 +69,18 @@ export function nodeMotif(seed, x0, y0, w, h, count = 6) {
   return links + dots;
 }
 
+// Emblème du logo (découpé dans la photo du logo, bords déjà fondus : voir
+// logo-emblem.png, 400 x 372 px). Il remplace l'ancien carré « L ». Il est
+// dessiné plus grand que l'ancien carré (x 1,55), centré sur la même position,
+// pour que son cœur visible ait la même présence à côté du nom.
+const EMBLEM_URI = "data:image/png;base64," + readFileSync(new URL("./logo-emblem.png", import.meta.url)).toString("base64");
+export const EMBLEM_RATIO = 400 / 372;
+export function emblem(cx, cy, height) {
+  const w = height * EMBLEM_RATIO;
+  return `<image href="${EMBLEM_URI}" x="${cx - w / 2}" y="${cy - height / 2}" width="${w}" height="${height}"/>`;
+}
 export function logoMark(x, y, size) {
-  // Matches public/favicon.svg proportions (128 viewbox, rect+bracket)
-  const s = size / 128;
-  return `
-    <g transform="translate(${x}, ${y}) scale(${s})">
-      <rect width="128" height="128" rx="20" fill="${COLOR.ink}" stroke="${COLOR.inkLine}" stroke-width="2"/>
-      <path d="M44 30h14v54h30v14H44V30Z" fill="${COLOR.accent}" />
-    </g>
-  `;
+  return emblem(x + size * 0.36, y + size / 2, size * 1.55);
 }
 
 export async function qrDataUri(text, options = {}) {

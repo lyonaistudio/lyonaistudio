@@ -71,6 +71,13 @@ select option {
   }
 }
 
+/* Emblème du logo (découpé dans la photo du logo) : bords fondus dans le noir
+   pour qu'il ne ressemble pas à un carré collé sur le fond. */
+.logo-fade {
+  -webkit-mask-image: radial-gradient(closest-side, #000 48%, rgba(0, 0, 0, 0.55) 72%, transparent 96%);
+  mask-image: radial-gradient(closest-side, #000 48%, rgba(0, 0, 0, 0.55) 72%, transparent 96%);
+}
+
 /* Contenu toujours visible sans JS/avant hydratation (SEO, accessibilité) ;
    seule une légère translation est animée au scroll quand le JS est actif. */
 .reveal {

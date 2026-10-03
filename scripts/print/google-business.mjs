@@ -4,7 +4,7 @@
 import sharp from "sharp";
 import { mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { COLOR, FONT, esc, logoMark, radialGlow } from "./lib.mjs";
+import { COLOR, FONT, esc, logoMark, emblem, radialGlow } from "./lib.mjs";
 import { SITE } from "./site-data.mjs";
 
 const OUT_DIR = "google business";
@@ -23,7 +23,7 @@ function logoSvg() {
   return `
   <svg width="${LOGO_SIZE}" height="${LOGO_SIZE}" viewBox="0 0 ${LOGO_SIZE} ${LOGO_SIZE}" xmlns="http://www.w3.org/2000/svg">
     <rect width="${LOGO_SIZE}" height="${LOGO_SIZE}" fill="${COLOR.ink}"/>
-    ${logoMark(offset, offset, mark)}
+    ${emblem(LOGO_SIZE / 2, LOGO_SIZE / 2, LOGO_SIZE * 0.98)}
   </svg>`;
 }
 

@@ -2,14 +2,17 @@
 // pas à pas pour un débutant. Rendu HTML -> PDF via le Chromium déjà présent
 // dans le cache Playwright (pas de dépendance supplémentaire à installer).
 // Même palette de marque que le site actuel (voir scripts/print/lib.mjs).
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "../../seo-google.pdf");
-const CHROME = "/home/thomasbatpro/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome";
+const CHROME = process.env.CHROME || "/home/thomasbatpro/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome";
+// Tuile du logo (emblème sur fond noir arrondi), générée depuis logo-emblem.png.
+const TUILE = "data:image/png;base64," + readFileSync(join(__dirname, "logo-tuile.png")).toString("base64");
 
 const INK = "#0a0a0a", INK_SOFT = "#161616", INK_LINE = "#e7e5e3", PAPER = "#ffffff",
   PAPER_DIM = "#f4f2f0", MIST = "#6b6b6b", ACCENT = "#e6003a", ACCENT_SOFT = "#ff3860",
@@ -368,7 +371,7 @@ const html = `
   <footer class="pf"><span>Lyon AI Studio — lyonaistudio@gmail.com</span><span>lyonaistudio.fr</span></footer>
 
   <div class="cover">
-    <div class="brand"><div class="mark">L</div><div class="brand-name">Lyon AI Studio</div></div>
+    <div class="brand"><img class="mark" src="${TUILE}" alt=""><div class="brand-name">Lyon AI Studio</div></div>
     <div class="eyebrow">Guide débutant — SEO &amp; Google Ads</div>
     <h1 class="cover-title">Être visible sur Google, étape par étape</h1>
     <p class="cover-sub">Le guide pour faire connaître votre site sans jargon : le référencement naturel gratuit (SEO), la fiche Google Business Profile, et Google Ads pour aller plus vite — chaque clic expliqué.</p>
@@ -445,7 +448,7 @@ const html = `
 
 </body></html>`;
 
-const tmpHtml = "/tmp/guide-seo-google-render.html";
+const tmpHtml = join(tmpdir(), "guide-seo-google-render.html");
 writeFileSync(tmpHtml, html, "utf-8");
 
 execFileSync(CHROME, [
@@ -455,7 +458,7 @@ execFileSync(CHROME, [
   `--print-to-pdf=${OUT}`,
   "--no-pdf-header-footer",
   "--virtual-time-budget=3000",
-  `file://${tmpHtml}`,
+  "file:///" + tmpHtml.split("\\").join("/"),
 ]);
 
 console.log("PDF écrit dans", OUT);
