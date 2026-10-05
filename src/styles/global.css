@@ -141,7 +141,7 @@ select option {
   -webkit-mask-image: radial-gradient(circle closest-side, #000 0%, #000 58%, transparent 82%);
   mask-image: radial-gradient(circle closest-side, #000 0%, #000 58%, transparent 82%);
   transform-origin: 50% 50%;
-  animation: hero-sphere-drift 18s ease-in-out infinite;
+  animation: hero-sphere-drift 14s ease-in-out infinite;
   will-change: transform;
   pointer-events: none;
 }
@@ -154,16 +154,19 @@ select option {
   border-radius: 50%;
   background: radial-gradient(circle closest-side, rgba(255, 90, 120, 0.9) 0%, rgba(255, 0, 61, 0.35) 35%, transparent 100%);
   mix-blend-mode: screen;
-  animation: hero-sphere-pulse 5s ease-in-out infinite;
+  animation: hero-sphere-pulse 4s ease-in-out infinite;
+  will-change: transform, opacity;
   pointer-events: none;
 }
 @keyframes hero-sphere-drift {
-  0%, 100% { transform: rotate(-4deg) scale(1); }
-  50% { transform: rotate(4deg) scale(1.025); }
+  0%, 100% { transform: rotate(-11deg) scale(1); }
+  25% { transform: rotate(-3deg) scale(1.05); }
+  50% { transform: rotate(11deg) scale(1.02); }
+  75% { transform: rotate(4deg) scale(1.06); }
 }
 @keyframes hero-sphere-pulse {
-  0%, 100% { opacity: 0.25; transform: scale(0.9); }
-  50% { opacity: 0.75; transform: scale(1.15); }
+  0%, 100% { opacity: 0.2; transform: scale(0.85); }
+  50% { opacity: 0.95; transform: scale(1.3); }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-sphere, .hero-sphere-glow { animation: none; }
