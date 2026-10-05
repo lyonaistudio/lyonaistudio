@@ -24,6 +24,7 @@ ${SERVICES.map((service) => `- [${service.name}](${SITE.url}${service.path})`).j
 
 ## Informations
 
+- [Tarifs](${SITE.url}/tarifs/): création du site 290 € HT, puis abonnement Essentiel 49 €, Croissance 89 € ou Performance 149 € HT par mois
 - [À propos](${SITE.url}/a-propos/): qui est derrière ${SITE.name}
 - [Déroulement d'un projet](${SITE.url}/comment-ca-se-passe/): les étapes, du premier échange à la mise en ligne
 - [FAQ](${SITE.url}/faq/): prix, délais, référencement, maintenance, automatisation

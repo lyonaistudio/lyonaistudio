@@ -1,0 +1,285 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import CTASection from "../components/CTASection.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Realisations from "../components/Realisations.astro";
+import { faqSchema } from "../lib/schema";
+import { SITE } from "../lib/site";
+import { FORMULES, CREATION_SITE, PRIX_PAGE_SUP, ENGAGEMENT_MOIS, RASSURANCE, enGras, euros } from "../lib/formules";
+
+const croissance = FORMULES.find((f) => f.id === "croissance")!;
+const premiereAnnee = CREATION_SITE + 12 * croissance.prix;
+
+const faqItems = [
+  {
+    question: "Pourquoi un abonnement plutôt qu'un site payé en une fois ?",
+    answer: `Parce que vous n'avez pas à avancer 1 500 ou 3 000 € d'un coup : la création coûte ${euros(CREATION_SITE)} HT, puis l'abonnement couvre l'hébergement, les modifications et la visibilité sur Google. Votre site ne vieillit pas dans son coin : il est entretenu et amélioré chaque mois.`,
+  },
+  {
+    question: `Que comprend la création à ${euros(CREATION_SITE)} ?`,
+    answer: "La conception, le design sur mesure, le développement et la mise en ligne de votre site, adapté au téléphone et réglé pour Google. On s'occupe aussi de votre fiche Google, au niveau prévu par votre formule.",
+  },
+  {
+    question: "Combien de temps suis-je engagé ?",
+    answer: `${ENGAGEMENT_MOIS} mois à partir de la mise en ligne du site. Ensuite, l'abonnement continue au mois et vous pouvez l'arrêter avec un mois de préavis. Après la signature, vous avez 14 jours pour changer d'avis, et aucun paiement n'est demandé pendant ce délai.`,
+  },
+  {
+    question: "Le site et le nom de domaine m'appartiennent-ils ?",
+    answer: "Le nom de domaine (votre adresse internet) est toujours enregistré à votre nom. Après les 24 premiers mois, vous pouvez aussi récupérer le site lui-même, avec ses fichiers et le transfert, pour 390 € HT.",
+  },
+  {
+    question: "Puis-je changer de formule ?",
+    answer: "Oui. Vous pouvez passer à une formule supérieure à tout moment, et revenir à une formule inférieure à la date anniversaire de votre abonnement.",
+  },
+  {
+    question: "Et si j'ai besoin de plus de pages ou d'une fonctionnalité en plus ?",
+    answer: `Chaque page au-delà de votre formule coûte ${euros(PRIX_PAGE_SUP)} HT par mois. Les options (prise de rendez-vous, adresses e-mail pro, boutique en ligne, site traduit, assistant IA…) s'ajoutent à votre mensualité : leur prix figure sur votre devis.`,
+  },
+  {
+    question: "Comment se passe le paiement ?",
+    answer: "Par prélèvement automatique, chaque mois, sur facture. Vous pouvez aussi payer à l'année : 2 mois de formule vous sont alors offerts. Tous les prix sont indiqués hors taxes.",
+  },
+];
+const schema = faqSchema(faqItems);
+
+const offres = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Site internet en abonnement",
+  provider: { "@type": "Organization", name: SITE.name, url: SITE.url },
+  areaServed: "FR",
+  offers: [
+    { "@type": "Offer", name: "Création du site", price: CREATION_SITE, priceCurrency: "EUR", valueAddedTaxIncluded: false },
+    ...FORMULES.map((f) => ({
+      "@type": "Offer",
+      name: `Formule ${f.nom}`,
+      description: f.objectif,
+      priceCurrency: "EUR",
+      priceSpecification: { "@type": "UnitPriceSpecification", price: f.prix, priceCurrency: "EUR", unitText: "mois", valueAddedTaxIncluded: false },
+    })),
+  ],
+};
+
+const comparaison = [
+  ["Au départ", "800 à 6 000 € à payer d'un coup", `${euros(CREATION_SITE)} HT, une seule fois`],
+  ["Hébergement et entretien", "30 à 300 € par mois en plus", "Compris dans l'abonnement"],
+  ["Modifications", "Facturées à chaque demande", "Comprises chaque mois"],
+  ["Contenu pour Google", "Rarement prévu", "Articles et posts Google chaque mois"],
+  ["Dans 3 ans", "Un site à refaire, et à repayer", "Refonte totale comprise"],
+];
+
+const inclusPartout = [
+  ["Votre nom de domaine, à votre nom", "Votre adresse internet vous appartient, quoi qu'il arrive."],
+  ["Un hébergement rapide et sécurisé", "Sauvegardes, mises à jour de sécurité et certificat HTTPS compris."],
+  ["Pas de grosse avance", `${euros(CREATION_SITE)} HT pour créer le site, puis une mensualité fixe.`],
+  ["14 jours pour changer d'avis", "Aucun paiement n'est demandé pendant ce délai."],
+];
+
+const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite boutique en ligne", "Site traduit", "Relance automatique des devis", "Assistant IA", "Gestion de la publicité Google", "Réseaux sociaux"];
+---
+
+<BaseLayout
+  title="Tarifs : site internet dès 49 € HT par mois | Lyon AI Studio"
+  description={`Création de site sur mesure à ${CREATION_SITE} € HT, puis un abonnement dès 49 € HT par mois : hébergement, modifications et visibilité sur Google compris. Trois formules claires, sans grosse avance.`}
+  path="/tarifs/"
+  jsonLd={[schema, offres]}
+>
+  <Breadcrumb items={[{ name: "Tarifs", url: "/tarifs/" }]} />
+  <PageHero
+    eyebrow="TARIFS"
+    title="Un site qui vous amène des clients, pour le prix d'un abonnement"
+    description={`Pas 3 000 € à sortir d'un coup : ${euros(CREATION_SITE)} pour démarrer, puis une mensualité qui comprend l'hébergement, les modifications et votre visibilité sur Google.`}
+  />
+
+  <!-- Le principe -->
+  <section class="mx-auto max-w-6xl px-6 pt-16 sm:pt-20">
+    <div class="reveal grid items-stretch gap-4 md:grid-cols-[1fr_auto_1.4fr]">
+      <div class="rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
+        <p class="text-sm font-semibold text-paper-dim">Création du site</p>
+        <p class="mt-2 font-display text-5xl font-bold tracking-tight text-paper">{CREATION_SITE}&nbsp;€ <span class="text-base font-medium text-paper-dim">HT</span></p>
+        <p class="mt-3 text-sm leading-relaxed text-paper-dim">Une seule fois. Votre site sur mesure, conçu, développé et mis en ligne pour vous.</p>
+      </div>
+      <div class="flex items-center justify-center font-display text-4xl font-bold text-accent" aria-hidden="true">+</div>
+      <div class="rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
+        <p class="text-sm font-semibold text-paper-dim">Un abonnement mensuel, au choix</p>
+        <p class="mt-2 font-display text-5xl font-bold tracking-tight text-paper">dès 49&nbsp;€ <span class="text-base font-medium text-paper-dim">HT / mois</span></p>
+        <p class="mt-3 text-sm leading-relaxed text-paper-dim">Hébergement, modifications et visibilité sur Google compris. Engagement de {ENGAGEMENT_MOIS} mois, puis sans engagement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Les 3 formules -->
+  <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20" aria-labelledby="formules-titre">
+    <div class="text-center">
+      <Eyebrow label="NOS FORMULES" />
+      <h2 id="formules-titre" class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">Où en êtes-vous ? Choisissez votre formule</h2>
+      <p class="mx-auto mt-3 max-w-2xl leading-relaxed text-paper-dim">Chaque formule comprend tout ce qu'il y a dans la précédente, et plus encore.</p>
+    </div>
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-3 lg:items-stretch">
+      {FORMULES.map((f, i) => (
+        <article
+          class:list={[
+            "reveal relative flex flex-col rounded-3xl p-7 sm:p-8",
+            f.conseillee
+              ? "bg-[linear-gradient(170deg,#ff0a45_0%,#c4002f_100%)] text-white shadow-[0_30px_60px_-25px_rgba(255,0,61,0.6)] lg:-my-4 lg:py-12"
+              : "border border-white/10 bg-ink-soft",
+          ]}
+          aria-labelledby={`f-${f.id}`}
+        >
+          <div class="flex items-center justify-between">
+            <h3 id={`f-${f.id}`} class:list={["text-sm font-bold tracking-[0.2em] uppercase", f.conseillee ? "text-white" : "text-paper-dim"]}>{f.nom}</h3>
+            {f.conseillee ? (
+              <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-accent-button">Conseillée</span>
+            ) : (
+              <span class="text-sm text-mist" aria-hidden="true">0{i + 1}</span>
+            )}
+          </div>
+          <p class="mt-5 flex items-start font-display font-bold leading-none tracking-tight">
+            <span class="text-6xl">{f.prix}</span>
+            <span class="ml-1 flex flex-col text-xl leading-none">€<span class:list={["mt-1.5 text-xs font-medium", f.conseillee ? "text-white/80" : "text-paper-dim"]}>HT / mois</span></span>
+          </p>
+          <p class:list={["mt-5 min-h-[3.2em] font-display text-lg font-semibold leading-snug", f.conseillee ? "text-white" : "text-paper"]}>{f.objectif}</p>
+          <p class:list={["mt-2 min-h-[2.8em] text-sm leading-snug", f.conseillee ? "text-white/85" : "text-paper-dim"]}><span class="font-semibold">Idéal pour :</span> {f.ideal}</p>
+          <ul class:list={["mt-5 flex-1 space-y-3 border-t pt-6 text-[0.95rem]", f.conseillee ? "border-white/30" : "border-white/10"]}>
+            {f.lignes.map((l) => (
+              <li class:list={["relative pl-7", !l.inclus && (f.conseillee ? "text-white/55 line-through" : "text-mist line-through")]}>
+                <span
+                  class:list={["absolute left-0 top-0 font-bold", l.inclus ? (f.conseillee ? "text-white" : "text-accent") : (f.conseillee ? "text-white/55" : "text-mist")]}
+                  aria-hidden="true"
+                >{l.inclus ? "✓" : "–"}</span>
+                <span set:html={enGras(l.texte)} />
+                {l.detail && <span class:list={["block text-xs", f.conseillee ? "text-white/75" : "text-paper-dim"]}>{l.detail}</span>}
+                <span class="sr-only">{l.inclus ? " (compris)" : " (non compris)"}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href={`/contact/?formule=${f.id}`}
+            class:list={[
+              "mt-8 inline-flex min-h-[48px] items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-all hover:-translate-y-0.5",
+              f.conseillee ? "bg-white text-accent-button hover:bg-white/90" : "border border-white/20 text-paper hover:border-accent hover:text-accent",
+            ]}
+          >
+            Demander mon devis {f.nom}
+          </a>
+          <p class:list={["mt-2 text-center text-xs", f.conseillee ? "text-white/80" : "text-mist"]}>Gratuit et sans engagement</p>
+        </article>
+      ))}
+    </div>
+    <p class="mt-10 text-center font-display text-lg font-semibold text-paper"><span class="text-accent" aria-hidden="true">✓</span> {RASSURANCE}</p>
+    <p class="mt-2 text-center text-sm leading-relaxed text-paper-dim">
+      Prix hors taxes. Engagement de {ENGAGEMENT_MOIS} mois, puis sans engagement (préavis d'un mois).
+      Besoin de plus de pages ? {euros(PRIX_PAGE_SUP)} HT par page et par mois.
+    </p>
+  </section>
+
+  <!-- Pourquoi ça vaut le coup -->
+  <section class="border-y border-ink-line bg-ink-soft/60">
+    <div class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+      <div class="max-w-2xl">
+        <Eyebrow label="POURQUOI ÇA VAUT LE COUP" />
+        <h2 class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">Un site qui travaille pour vous, pas un site qu'on oublie</h2>
+        <p class="mt-3 leading-relaxed text-paper-dim">Un site acheté une fois vieillit vite : il n'est plus mis à jour, il descend dans Google, et dans trois ans il faut tout refaire. Avec l'abonnement, il reste à jour et visible, pour une mensualité connue d'avance.</p>
+      </div>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+        <!-- Téléphone : une carte par critère -->
+        <ul class="space-y-3 sm:hidden">
+          {comparaison.map(([critere, classique, nous]) => (
+            <li class="rounded-2xl border border-white/10 p-5">
+              <p class="font-display font-semibold text-paper">{critere}</p>
+              <p class="mt-2 text-sm text-paper-dim"><span class="text-mist">Site classique :</span> {classique}</p>
+              <p class="mt-1 text-sm font-medium text-paper"><span class="text-accent">Lyon AI Studio :</span> {nous}</p>
+            </li>
+          ))}
+        </ul>
+        <div class="reveal hidden overflow-hidden rounded-3xl border border-white/10 sm:block">
+          <table class="w-full text-left text-sm sm:text-base">
+            <caption class="sr-only">Comparaison entre un site classique et l'abonnement Lyon AI Studio</caption>
+            <thead>
+              <tr class="border-b border-white/10">
+                <th scope="col" class="px-5 py-4 font-semibold text-paper-dim"></th>
+                <th scope="col" class="px-5 py-4 font-semibold text-paper-dim">Site classique (agence ou freelance)</th>
+                <th scope="col" class="bg-accent-button/15 px-5 py-4 font-display font-bold text-paper">Lyon AI Studio</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparaison.map(([critere, classique, nous]) => (
+                <tr class="border-b border-white/5 last:border-0">
+                  <th scope="row" class="px-5 py-4 font-semibold text-paper">{critere}</th>
+                  <td class="px-5 py-4 text-paper-dim">{classique}</td>
+                  <td class="bg-accent-button/10 px-5 py-4 font-medium text-paper">{nous}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="reveal flex flex-col justify-between rounded-3xl border border-accent/40 bg-[linear-gradient(160deg,#2a030c_0%,#161616_70%)] p-7 sm:p-8">
+          <div>
+            <p class="text-sm font-semibold text-accent">Exemple : la formule Croissance</p>
+            <p class="mt-3 font-display text-lg font-semibold text-paper">Votre première année, tout compris</p>
+            <p class="mt-2 font-display text-5xl font-bold tracking-tight text-paper">{euros(premiereAnnee)} <span class="text-base font-medium text-paper-dim">HT</span></p>
+            <p class="mt-2 text-sm text-paper-dim">{euros(CREATION_SITE)} de création + 12 × {euros(croissance.prix)}</p>
+          </div>
+          <ul class="mt-6 space-y-2 text-sm text-paper">
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>Le site sur mesure, en ligne</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>12 articles et 24 posts Google</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>36 modifications possibles</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>Hébergement, nom de domaine et suivi</li>
+          </ul>
+          <p class="mt-6 text-xs leading-relaxed text-mist">Pour comparaison, la seule création d'un site coûte en général entre 800 et 6 000 € chez un freelance ou une agence, sans le suivi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inclus partout -->
+  <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+    <div class="text-center">
+      <Eyebrow label="DANS TOUTES LES FORMULES" />
+      <h2 class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">Aucune mauvaise surprise, quelle que soit la formule</h2>
+    </div>
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {inclusPartout.map(([titre, texte]) => (
+        <div class="reveal rounded-2xl border border-white/10 bg-ink-soft p-6">
+          <p class="font-display font-semibold text-paper">{titre}</p>
+          <p class="mt-2 text-sm leading-relaxed text-paper-dim">{texte}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-14 rounded-3xl border border-white/10 p-7 sm:p-8">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+        <h3 class="font-display text-xl font-semibold text-paper">Des options selon votre métier</h3>
+        <p class="text-sm text-paper-dim">Ajoutées à votre mensualité, chiffrées sur votre devis.</p>
+      </div>
+      <ul class="mt-5 flex flex-wrap gap-2">
+        {options.map((o) => (
+          <li class="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-paper">{o}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Realisations />
+
+  <!-- Questions -->
+  <div class="h-16 sm:h-20" aria-hidden="true"></div>
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">Ce qu'on nous demande sur les tarifs</h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <CTASection
+    title="Vous hésitez entre deux formules ?"
+    description="Décrivez votre activité : on vous conseille la formule adaptée, avec un devis gratuit et une réponse sous 48 h."
+  />
+</BaseLayout>

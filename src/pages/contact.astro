@@ -16,7 +16,7 @@ const faqItems = [
   {
     question: "Dois-je préciser un budget avant de vous contacter ?",
     answer:
-      "Non, ce n'est pas nécessaire. Décrivez simplement votre besoin et votre activité — nous vous proposons ensuite une estimation adaptée après avoir compris le projet, pas un tarif générique déconnecté de votre situation réelle.",
+      "Non, ce n'est pas nécessaire. Nos formules et leurs prix sont sur la <a href=\"/tarifs/\" class=\"text-accent underline underline-offset-2\">page Tarifs</a> ; décrivez simplement votre besoin et votre activité, et nous vous conseillons la formule adaptée, avec un devis gratuit.",
   },
   {
     question: "Puis-je vous parler de vive voix plutôt que par écrit ?",
@@ -47,7 +47,7 @@ const schema = faqSchema(faqItems);
   <PageHero
     eyebrow="CONTACT"
     title="Parlons de votre projet"
-    description="Décrivez votre besoin, nous vous répondons personnellement — sans prix imposé avant d'avoir échangé."
+    description="Décrivez votre besoin, nous vous répondons personnellement sous 48 h ouvrées, avec un devis gratuit et sans engagement."
   />
 
   <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
@@ -244,5 +244,12 @@ const schema = faqSchema(faqItems);
 
 <script>
   import { initContactForm } from "../scripts/contact-form";
-  document.addEventListener("astro:page-load", () => initContactForm());
+  document.addEventListener("astro:page-load", () => {
+    initContactForm();
+    // Arrivée depuis la page Tarifs : on pré-remplit le message avec la formule choisie.
+    const formules: Record<string, string> = { essentiel: "Essentiel (49 € HT/mois)", croissance: "Croissance (89 € HT/mois)", performance: "Performance (149 € HT/mois)" };
+    const choix = formules[new URLSearchParams(location.search).get("formule") ?? ""];
+    const message = document.getElementById("message") as HTMLTextAreaElement | null;
+    if (choix && message && !message.value) message.value = `Bonjour, la formule ${choix} m'intéresse. Mon activité : `;
+  });
 </script>
