@@ -127,16 +127,16 @@ select option {
 }
 
 /* Sphère animée : superposée pixel pour pixel à celle de l'image.
-   Cœur de la sphère à 81,88 % × 28,06 % de l'image (1672 × 941) ; la
+   Cœur de la sphère à 79,43 % × 27,21 % de l'image (1672 × 941) ; la
    couche fait 26 % de la largeur (carré), d'où les valeurs ci-dessous. */
 .hero-sphere {
   position: absolute;
-  left: 68.88%;
-  top: 4.96%;
+  left: 66.43%;
+  top: 4.11%;
   width: 26%;
   height: 46.2%;
   background-size: 384.62% 216.45%;
-  background-position: 93.08% 9.22%;
+  background-position: 89.77% 7.64%;
   background-repeat: no-repeat;
   -webkit-mask-image: radial-gradient(circle closest-side, #000 0%, #000 58%, transparent 82%);
   mask-image: radial-gradient(circle closest-side, #000 0%, #000 58%, transparent 82%);
@@ -147,8 +147,8 @@ select option {
 }
 .hero-sphere-glow {
   position: absolute;
-  left: 77.88%;
-  top: 20.96%;
+  left: 75.43%;
+  top: 20.11%;
   width: 8%;
   height: 14.21%;
   border-radius: 50%;
