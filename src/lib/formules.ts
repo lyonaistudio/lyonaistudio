@@ -1,10 +1,13 @@
-// Formules d'abonnement affichées sur la page /tarifs/ (flyer « Nos formules »).
-// Prix hors taxes. Modifier ici change la page Tarifs et les réponses de FAQ qui l'utilisent.
+// Formules d'abonnement affichées sur la page /tarifs/ et dans les FAQ.
+// Les prix et le contenu viennent de src/data/formules.json, généré à partir de la
+// liste de prix unique de Lyon AI Studio (outils internes, synchroniser.mjs) :
+// ne pas modifier les prix ici. Montants hors taxes.
+import data from "../data/formules.json";
 
-export const CREATION_SITE = 290;
-export const PRIX_PAGE_SUP = 5;
-export const ENGAGEMENT_MOIS = 24;
-export const RASSURANCE = "14 jours pour changer d'avis, et aucun paiement avant.";
+export const CREATION_SITE: number = data.creation;
+export const PRIX_PAGE_SUP: number = data.prixPageSup;
+export const ENGAGEMENT_MOIS: number = data.engagementMois;
+export const RASSURANCE: string = data.rassurance;
 
 export type FormuleId = "essentiel" | "croissance" | "performance";
 
@@ -29,69 +32,38 @@ export interface Formule {
   lignes: Ligne[];
 }
 
-export const FORMULES: Formule[] = [
-  {
-    id: "essentiel",
-    nom: "Essentiel",
-    prix: 49,
-    objectif: "Avoir enfin un site pro, sans se ruiner",
-    ideal: "Artisan ou indépendant qui démarre",
-    lignes: [
-      { texte: "**1 à 3 pages** sur mesure", inclus: true },
-      { texte: "Hébergement + nom de domaine", inclus: true },
-      { texte: "Fiche Google **basique**", inclus: true },
-      { texte: "**1** modification par mois", inclus: true },
-      { texte: "Rapport de visites **annuel**", inclus: true },
-      { texte: "Articles de blog", inclus: false },
-      { texte: "Posts sur Google", inclus: false },
-      { texte: "Avis Google affichés sur le site", inclus: false },
-      { texte: "Refonte totale du site", inclus: false },
-      { texte: "Suivi de mots-clés", inclus: false },
-      { texte: "Pages dédiées par ville", inclus: false },
-    ],
-  },
-  {
-    id: "croissance",
-    nom: "Croissance",
-    prix: 89,
-    objectif: "Être trouvé sur Google par vos futurs clients",
-    ideal: "Commerce ou entreprise qui veut des clients près de chez elle",
-    conseillee: true,
-    lignes: [
-      { texte: "**3 à 8 pages** sur mesure", inclus: true, nouveau: true },
-      { texte: "Hébergement + nom de domaine", inclus: true },
-      { texte: "Fiche Google **optimisée**", inclus: true, nouveau: true },
-      { texte: "**3** modifications par mois", inclus: true, nouveau: true },
-      { texte: "Rapport de visites **trimestriel**", inclus: true, nouveau: true },
-      { texte: "**1** article de blog par mois", inclus: true, nouveau: true },
-      { texte: "**2** posts Google par mois", inclus: true, nouveau: true },
-      { texte: "**Avis Google** affichés", detail: "sur votre site", inclus: true, nouveau: true },
-      { texte: "Refonte totale **tous les 3 ans**", inclus: true, nouveau: true },
-      { texte: "Suivi de **5 mots-clés**", inclus: true, nouveau: true },
-      { texte: "Pages dédiées par ville", inclus: false },
-    ],
-  },
-  {
-    id: "performance",
-    nom: "Performance",
-    prix: 149,
-    objectif: "Remplir votre agenda grâce à Google",
-    ideal: "Entreprise qui vise plusieurs villes",
-    lignes: [
-      { texte: "**15 pages** sur mesure", inclus: true, nouveau: true },
-      { texte: "Hébergement + nom de domaine", inclus: true },
-      { texte: "Fiche Google **experte**", inclus: true, nouveau: true },
-      { texte: "**5** modifications par mois", inclus: true, nouveau: true },
-      { texte: "Rapport de visites **mensuel**", inclus: true, nouveau: true },
-      { texte: "**2** articles de blog par mois", inclus: true, nouveau: true },
-      { texte: "**2** posts Google par mois", inclus: true },
-      { texte: "**Avis Google** affichés", detail: "sur votre site", inclus: true },
-      { texte: "Refonte totale **tous les 2 ans**", inclus: true, nouveau: true },
-      { texte: "Suivi de **10 mots-clés**", inclus: true, nouveau: true },
-      { texte: "Pages dédiées par ville", inclus: true, nouveau: true },
-    ],
-  },
-];
+type Valeur = string | number;
+
+/** Phrase d'un atout, identique dans le simulateur, l'Espace commercial et le flyer. */
+function ligne(t: string, val: Valeur): Pick<Ligne, "texte" | "detail"> {
+  const n = typeof val === "string" ? parseInt(val, 10) : 0;
+  switch (t) {
+    case "Pages sur mesure": return { texte: `**${val} pages** sur mesure` };
+    case "Fiche Google": return { texte: `Fiche Google **${val}**` };
+    case "Modifications par mois": return { texte: `**${val}** modification${n > 1 ? "s" : ""} par mois` };
+    case "Rapport de visites": return { texte: `Rapport de visites **${val}**` };
+    case "Articles de blog": return { texte: val ? `**${n}** article${n > 1 ? "s" : ""} de blog par mois` : "Articles de blog" };
+    case "Posts sur Google": return { texte: val ? `**${n}** posts Google par mois` : "Posts sur Google" };
+    case "Avis Google sur le site": return val ? { texte: "**Avis Google** affichés", detail: "sur votre site" } : { texte: "Avis Google affichés sur le site" };
+    case "Refonte totale": return { texte: val ? `Refonte totale **${val}**` : "Refonte totale du site" };
+    case "Suivi Google": return { texte: val ? `Suivi de **${val}**` : "Suivi de mots-clés" };
+    case "Pages Google par ville": return { texte: "Pages dédiées par ville" };
+    default: return { texte: t };
+  }
+}
+
+export const FORMULES: Formule[] = data.formules.map((f, i) => ({
+  id: f.slug as FormuleId,
+  nom: f.nom,
+  prix: f.prix,
+  objectif: f.objectif,
+  ideal: f.ideal,
+  conseillee: "conseillee" in f ? Boolean(f.conseillee) : undefined,
+  lignes: data.contenu.map((r) => {
+    const val = r.v[i] as Valeur, avant = (i > 0 ? r.v[i - 1] : val) as Valeur;
+    return { ...ligne(r.t, val), inclus: Boolean(val), nouveau: Boolean(val) && val !== avant };
+  }),
+}));
 
 /** « **gras** » -> <strong>gras</strong> (texte sûr : ne contient que nos propres données). */
 export const enGras = (texte: string) => texte.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");

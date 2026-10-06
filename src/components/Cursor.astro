@@ -70,7 +70,9 @@
     left: 0;
     opacity: 0;
     pointer-events: none;
-    z-index: 100;
+    /* Au-dessus de tout (bannière cookies, menu) : la vraie souris est masquée,
+       si ce curseur passe dessous, on ne voit plus rien. */
+    z-index: 2147483647;
     border-radius: 50%;
     transition: opacity 0.2s ease;
   }

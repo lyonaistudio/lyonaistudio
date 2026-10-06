@@ -4,7 +4,7 @@ import { NAV_LINKS } from "../lib/site";
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="fixed inset-x-0 top-0 z-40">
+<header id="site-header" class="site-header fixed inset-x-0 top-0 z-40">
   <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-6 py-3">
     <a href="/" class="flex min-h-[44px] shrink-0 items-center gap-1 font-display text-lg font-bold text-white">
       <img src="/images/logo-emblem.webp" alt="" width="206" height="192" class="logo-fade -my-1 -ml-2 h-12 w-auto" decoding="async" />
@@ -72,3 +72,13 @@ const currentPath = Astro.url.pathname;
     </a>
   </nav>
 </header>
+
+<script>
+  // Fond sombre sous l'en-tête dès qu'on a défilé (voir .site-header dans global.css).
+  // L'en-tête est remplacé à chaque changement de page : on le recherche à chaque fois.
+  const majEntete = () => {
+    document.getElementById("site-header")?.classList.toggle("is-scrolled", window.scrollY > 10);
+  };
+  window.addEventListener("scroll", majEntete, { passive: true });
+  document.addEventListener("astro:page-load", majEntete);
+</script>
