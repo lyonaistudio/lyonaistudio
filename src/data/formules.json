@@ -125,5 +125,56 @@
         1
       ]
     }
-  ]
+  ],
+  "automatisation": {
+    "engagementMois": 12,
+    "remise": {
+      "des": 3,
+      "taux": 0.1
+    },
+    "modules": [
+      {
+        "id": "contacts",
+        "nom": "Demandes de contact centralisées",
+        "prix": 19,
+        "desc": "Chaque demande (site, e-mail, réseaux) arrive dans un seul tableau, avec une alerte sur le téléphone et une réponse automatique au client."
+      },
+      {
+        "id": "avis",
+        "nom": "Demande d'avis Google automatique",
+        "prix": 19,
+        "desc": "Après chaque prestation, le client reçoit un message pour laisser un avis Google."
+      },
+      {
+        "id": "rdv",
+        "nom": "Prise de rendez-vous en ligne",
+        "prix": 29,
+        "desc": "Une page de réservation reliée à l'agenda, avec un rappel automatique la veille pour éviter les oublis."
+      },
+      {
+        "id": "relanceDevis",
+        "nom": "Relance automatique des devis",
+        "prix": 39,
+        "desc": "Les devis sans réponse sont relancés tout seuls par e-mail, au bon moment."
+      },
+      {
+        "id": "relanceFactures",
+        "nom": "Relance des factures impayées",
+        "prix": 39,
+        "desc": "Des rappels courtois puis plus fermes partent tout seuls jusqu'au paiement."
+      },
+      {
+        "id": "devisAuto",
+        "nom": "Devis et factures préparés tout seuls",
+        "prix": 49,
+        "desc": "À partir d'une demande ou d'un formulaire, le devis ou la facture est prêt : il reste à vérifier et envoyer."
+      },
+      {
+        "id": "assistant",
+        "nom": "Assistant IA qui répond aux clients",
+        "prix": 79,
+        "desc": "Répond aux questions des clients 24 h/24, par e-mail ou sur une page dédiée, avec les informations de l'entreprise."
+      }
+    ]
+  }
 }

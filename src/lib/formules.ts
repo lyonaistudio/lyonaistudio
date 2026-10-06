@@ -69,3 +69,21 @@ export const FORMULES: Formule[] = data.formules.map((f, i) => ({
 export const enGras = (texte: string) => texte.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 
 export const euros = (n: number) => n.toLocaleString("fr-FR").replace(/ /g, " ") + " €";
+
+// Automatisation seule (sans site) : payée uniquement chaque mois, sans frais de mise en service.
+export interface Automatisation {
+  id: string;
+  nom: string;
+  prix: number;
+  desc: string;
+}
+export const AUTOMATISATIONS: Automatisation[] = data.automatisation.modules;
+export const AUTO_ENGAGEMENT_MOIS: number = data.automatisation.engagementMois;
+export const AUTO_REMISE = data.automatisation.remise as { des: number; taux: number };
+export const AUTO_PRIX_MIN = Math.min(...AUTOMATISATIONS.map((a) => a.prix));
+
+/** Mensualité d'un ensemble d'automatisations : remise dès AUTO_REMISE.des, arrondie à l'euro inférieur (comme sur le devis). */
+export function mensualiteAuto(ids: string[]): number {
+  const brut = AUTOMATISATIONS.filter((a) => ids.includes(a.id)).reduce((s, a) => s + a.prix, 0);
+  return ids.length >= AUTO_REMISE.des ? Math.floor(brut * (1 - AUTO_REMISE.taux)) : brut;
+}

@@ -8,10 +8,16 @@ import Eyebrow from "../components/Eyebrow.astro";
 import Realisations from "../components/Realisations.astro";
 import { faqSchema } from "../lib/schema";
 import { SITE } from "../lib/site";
-import { FORMULES, CREATION_SITE, PRIX_PAGE_SUP, ENGAGEMENT_MOIS, RASSURANCE, enGras, euros } from "../lib/formules";
+import { FORMULES, CREATION_SITE, PRIX_PAGE_SUP, ENGAGEMENT_MOIS, RASSURANCE, enGras, euros, AUTOMATISATIONS, AUTO_ENGAGEMENT_MOIS, AUTO_REMISE, AUTO_PRIX_MIN, mensualiteAuto } from "../lib/formules";
 
 const croissance = FORMULES.find((f) => f.id === "croissance")!;
 const premiereAnnee = CREATION_SITE + 12 * croissance.prix;
+// Exemple d'automatisation pour un artisan (mêmes calculs que le devis)
+const exempleAuto = ["relanceDevis", "relanceFactures", "avis"];
+const exempleAutoNoms = AUTOMATISATIONS.filter((a) => exempleAuto.includes(a.id)).map((a) => a.nom);
+const exempleAutoBrut = AUTOMATISATIONS.filter((a) => exempleAuto.includes(a.id)).reduce((s, a) => s + a.prix, 0);
+const exempleAutoPrix = mensualiteAuto(exempleAuto);
+const remisePct = Math.round(AUTO_REMISE.taux * 100);
 
 const faqItems = [
   {
@@ -39,11 +45,31 @@ const faqItems = [
     answer: `Chaque page au-delà de votre formule coûte ${euros(PRIX_PAGE_SUP)} HT par mois. Les options (prise de rendez-vous, adresses e-mail pro, boutique en ligne, site traduit, assistant IA…) s'ajoutent à votre mensualité : leur prix figure sur votre devis.`,
   },
   {
+    question: "Puis-je automatiser des tâches sans prendre de site ?",
+    answer: `Oui. Chaque automatisation (relance des devis, prise de rendez-vous, demande d'avis Google, assistant IA…) se paie uniquement chaque mois, dès ${euros(AUTO_PRIX_MIN)} HT, sans frais de mise en service. ${remisePct} % de remise dès ${AUTO_REMISE.des} automatisations. Engagement de ${AUTO_ENGAGEMENT_MOIS} mois, puis sans engagement. Elles fonctionnent avec vos outils actuels : messagerie, agenda, logiciel de devis.`,
+  },
+  {
     question: "Comment se passe le paiement ?",
     answer: "Par prélèvement automatique, chaque mois, sur facture. Vous pouvez aussi payer à l'année : 2 mois de formule vous sont alors offerts. Tous les prix sont indiqués hors taxes.",
   },
 ];
 const schema = faqSchema(faqItems);
+
+const offresAuto = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Automatisation de tâches par l'IA",
+  description: "Automatisations branchées sur vos outils, payées chaque mois, sans frais de mise en service.",
+  provider: { "@type": "Organization", name: SITE.name, url: SITE.url },
+  areaServed: "FR",
+  offers: AUTOMATISATIONS.map((a) => ({
+    "@type": "Offer",
+    name: a.nom,
+    description: a.desc,
+    priceCurrency: "EUR",
+    priceSpecification: { "@type": "UnitPriceSpecification", price: a.prix, priceCurrency: "EUR", unitText: "mois", valueAddedTaxIncluded: false },
+  })),
+};
 
 const offres = {
   "@context": "https://schema.org",
@@ -83,9 +109,9 @@ const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite
 
 <BaseLayout
   title="Tarifs : site internet dès 49 € HT par mois | Lyon AI Studio"
-  description={`Création de site sur mesure à ${CREATION_SITE} € HT, puis un abonnement dès 49 € HT par mois : hébergement, modifications et visibilité sur Google compris. Trois formules claires, sans grosse avance.`}
+  description={`Création de site sur mesure à ${CREATION_SITE} € HT, puis un abonnement dès 49 € HT par mois. Automatisation IA sans site dès ${AUTO_PRIX_MIN} € HT par mois, sans frais de mise en service.`}
   path="/tarifs/"
-  jsonLd={[schema, offres]}
+  jsonLd={[schema, offres, offresAuto]}
 >
   <Breadcrumb items={[{ name: "Tarifs", url: "/tarifs/" }]} />
   <PageHero
@@ -109,6 +135,10 @@ const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite
         <p class="mt-3 text-sm leading-relaxed text-paper-dim">Hébergement, modifications et visibilité sur Google compris. Engagement de {ENGAGEMENT_MOIS} mois, puis sans engagement.</p>
       </div>
     </div>
+    <p class="mt-5 text-center text-sm text-paper-dim">
+      Vous voulez seulement automatiser des tâches, sans site ?
+      <a href="#automatisation" class="font-semibold text-accent underline underline-offset-2 hover:text-accent-soft">Automatisation IA dès {euros(AUTO_PRIX_MIN)} HT par mois</a>
+    </p>
   </section>
 
   <!-- Les 3 formules -->
@@ -175,6 +205,57 @@ const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite
       Prix hors taxes. Engagement de {ENGAGEMENT_MOIS} mois, puis sans engagement (préavis d'un mois).
       Besoin de plus de pages ? {euros(PRIX_PAGE_SUP)} HT par page et par mois.
     </p>
+  </section>
+
+  <!-- Automatisation IA, sans site -->
+  <section id="automatisation" class="scroll-mt-24 border-t border-ink-line" aria-labelledby="auto-titre">
+    <div class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+      <div class="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:items-start">
+        <div class="lg:sticky lg:top-28">
+          <Eyebrow label="AUTOMATISATION IA" />
+          <h2 id="auto-titre" class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">Pas besoin de site ? Automatisez vos tâches</h2>
+          <p class="mt-3 leading-relaxed text-paper-dim">Relances, rendez-vous, avis Google, réponses aux clients : on branche des automatisations sur vos outils actuels (messagerie, agenda, logiciel de devis). Vous gagnez des heures chaque semaine, et vous payez uniquement chaque mois.</p>
+          <ul class="mt-6 space-y-2 text-paper">
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span><strong>Aucuns frais de mise en service</strong> : seulement la mensualité</span></li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span><strong>{remisePct} % de remise</strong> dès {AUTO_REMISE.des} automatisations</span></li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span>Engagement de {AUTO_ENGAGEMENT_MOIS} mois, puis sans engagement</span></li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span>14 jours pour changer d'avis, aucun paiement avant</span></li>
+          </ul>
+          <div class="mt-8 rounded-3xl border border-accent/40 bg-[linear-gradient(160deg,#2a030c_0%,#161616_70%)] p-6">
+            <p class="text-sm font-semibold text-accent">Exemple : un artisan</p>
+            <p class="mt-2 text-sm leading-relaxed text-paper-dim">{exempleAutoNoms.join(" + ")}</p>
+            <p class="mt-3 font-display text-4xl font-bold tracking-tight text-paper">{euros(exempleAutoPrix)} <span class="text-base font-medium text-paper-dim">HT / mois</span></p>
+            <p class="mt-1 text-sm text-paper-dim">au lieu de {euros(exempleAutoBrut)}, et rien à payer au départ</p>
+          </div>
+          <a
+            href="/contact/?formule=automatisation"
+            class="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-full bg-accent-button px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
+          >
+            Demander mon devis automatisation
+          </a>
+        </div>
+
+        <ul class="grid gap-4 sm:grid-cols-2">
+          {AUTOMATISATIONS.map((a) => (
+            <li class="reveal flex flex-col rounded-2xl border border-white/10 bg-ink-soft p-6">
+              <div class="flex items-start justify-between gap-4">
+                <h3 class="font-display font-semibold leading-snug text-paper">{a.nom}</h3>
+                <p class="shrink-0 text-right font-display font-bold text-paper"><span class="text-2xl">{a.prix}&nbsp;€</span><span class="block text-xs font-medium text-paper-dim">HT / mois</span></p>
+              </div>
+              <p class="mt-3 text-sm leading-relaxed text-paper-dim">{a.desc}</p>
+            </li>
+          ))}
+          <li class="reveal flex flex-col rounded-2xl border border-dashed border-white/20 p-6">
+            <h3 class="font-display font-semibold text-paper">Une autre tâche répétitive ?</h3>
+            <p class="mt-3 text-sm leading-relaxed text-paper-dim">Décrivez-la-nous : on vous propose une automatisation sur mesure, avec un prix mensuel fixé avant de commencer.</p>
+          </li>
+        </ul>
+      </div>
+      <p class="mt-10 text-center text-sm leading-relaxed text-paper-dim">
+        Prix hors taxes, payés par prélèvement chaque mois. Vos abonnements à vos propres outils (logiciel de facturation, agenda payant…) restent à votre charge.
+        Vous avez déjà un site avec nous ? Ces fonctions existent aussi en option de votre formule.
+      </p>
+    </div>
   </section>
 
   <!-- Pourquoi ça vaut le coup -->

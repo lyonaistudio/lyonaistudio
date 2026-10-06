@@ -248,8 +248,12 @@ const schema = faqSchema(faqItems);
     initContactForm();
     // Arrivée depuis la page Tarifs : on pré-remplit le message avec la formule choisie.
     const formules: Record<string, string> = { essentiel: "Essentiel (49 € HT/mois)", croissance: "Croissance (89 € HT/mois)", performance: "Performance (149 € HT/mois)" };
-    const choix = formules[new URLSearchParams(location.search).get("formule") ?? ""];
+    const demande = new URLSearchParams(location.search).get("formule") ?? "";
+    const choix = formules[demande];
     const message = document.getElementById("message") as HTMLTextAreaElement | null;
-    if (choix && message && !message.value) message.value = `Bonjour, la formule ${choix} m'intéresse. Mon activité : `;
+    if (message && !message.value) {
+      if (choix) message.value = `Bonjour, la formule ${choix} m'intéresse. Mon activité : `;
+      else if (demande === "automatisation") message.value = "Bonjour, je voudrais automatiser des tâches, sans site. Les tâches qui me prennent du temps : ";
+    }
   });
 </script>
