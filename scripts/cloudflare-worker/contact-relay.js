@@ -33,6 +33,10 @@ const SHEET_TAB = "Feuille 1";
 
 export default {
   async fetch(request, env) {
+    // Envois internes des outils Lyon AI Studio (factures, relances, notifications) :
+    // réservés aux appels serveur qui présentent le secret partagé LAIS_SECRET.
+    if (new URL(request.url).pathname === "/interne/envoyer") return envoyerInterne(request, env);
+
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: corsHeaders() });
     }
@@ -286,6 +290,46 @@ async function sendAutoReply(env, email) {
     });
   } finally {
     await mailer.close();
+  }
+}
+
+// ---- Envois internes (outils lais-outils.pages.dev) ----
+// Corps JSON : { canal: "email", a, sujet, texte, html, repondreA } ou { canal: "telegram", texte }
+async function envoyerInterne(request, env) {
+  if (request.method !== "POST") return new Response("Method not allowed", { status: 405 });
+  const secret = request.headers.get("X-Lais-Secret") || "";
+  if (!env.LAIS_SECRET || secret.length !== env.LAIS_SECRET.length || secret !== env.LAIS_SECRET) {
+    return new Response("Forbidden", { status: 403 });
+  }
+  let m;
+  try { m = await request.json(); } catch { return new Response("Invalid JSON", { status: 400 }); }
+  try {
+    if (m.canal === "telegram") {
+      await notifyTelegram(env, String(m.texte || "").slice(0, 3500));
+      return Response.json({ ok: true });
+    }
+    if (m.canal === "email") {
+      if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return Response.json({ ok: false, erreur: "messagerie non configurée" }, { status: 503 });
+      if (!m.a || !EMAIL_RE.test(m.a) || !m.sujet) return Response.json({ ok: false, erreur: "destinataire ou sujet invalide" }, { status: 400 });
+      const mailer = await WorkerMailer.connect({
+        host: "smtp.gmail.com", port: 465, secure: true,
+        credentials: { username: env.GMAIL_USER, password: env.GMAIL_APP_PASSWORD }, authType: "plain",
+      });
+      try {
+        await mailer.send({
+          from: { name: "Lyon AI Studio", email: env.GMAIL_USER },
+          to: { email: m.a },
+          reply: { email: m.repondreA && EMAIL_RE.test(m.repondreA) ? m.repondreA : env.GMAIL_USER },
+          subject: String(m.sujet).slice(0, 200),
+          text: String(m.texte || ""),
+          html: m.html ? String(m.html) : undefined,
+        });
+      } finally { await mailer.close(); }
+      return Response.json({ ok: true });
+    }
+    return Response.json({ ok: false, erreur: "canal inconnu" }, { status: 400 });
+  } catch (err) {
+    return Response.json({ ok: false, erreur: String((err && err.message) || err) }, { status: 502 });
   }
 }
 
