@@ -363,6 +363,14 @@ function Icon(name: string) {
             Les mêmes interlocuteurs, du premier contact à la mise en ligne. Pas de sous-traitance, pas de
             validation en interne à attendre — c'est nous qui nous occupons de tout, de bout en bout.
           </p>
+          <!-- Signature de l'entreprise : comble l'espace sous le texte quand les étapes sont à côté -->
+          <div class="mt-10 hidden items-center gap-3 rounded-3xl bg-[#0a0a0a] py-4 pl-3 pr-6 shadow-[0_25px_50px_-25px_rgba(0,0,0,0.5)] lg:inline-flex">
+            <img src="/images/logo-emblem.webp" alt="" width="206" height="192" class="logo-fade h-16 w-auto" loading="lazy" decoding="async" />
+            <div>
+              <p class="font-display text-lg font-bold text-white">Lyon <span class="text-accent">AI</span> Studio</p>
+              <p class="text-sm text-[#bdbdbd]">Création web &amp; automatisation IA · Lyon</p>
+            </div>
+          </div>
         </div>
         <ol class="reveal grid grid-cols-1 gap-6 min-[480px]:grid-cols-2 sm:gap-10">
           {[
