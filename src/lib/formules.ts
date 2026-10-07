@@ -87,3 +87,6 @@ export function mensualiteAuto(ids: string[]): number {
   const brut = AUTOMATISATIONS.filter((a) => ids.includes(a.id)).reduce((s, a) => s + a.prix, 0);
   return ids.length >= AUTO_REMISE.des ? Math.floor(brut * (1 - AUTO_REMISE.taux)) : brut;
 }
+
+/** Contenu des formules, ligne par ligne : une valeur par formule (0 = non compris, 1 = compris, texte = quantité). */
+export const CONTENU = data.contenu as { t: string; v: (string | number)[] }[];

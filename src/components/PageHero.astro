@@ -6,9 +6,11 @@ interface Props {
   eyebrowVariant?: "default" | "accent";
   title: string;
   description?: string;
+  /** En-tête réduit (page Tarifs : les prix doivent apparaître vite). */
+  compact?: boolean;
 }
 
-const { eyebrow, eyebrowVariant = "default", title, description } = Astro.props;
+const { eyebrow, eyebrowVariant = "default", title, description, compact = false } = Astro.props;
 ---
 
 <section class="relative overflow-hidden bg-[linear-gradient(180deg,#0a0a0a_0%,#2a030c_100%)]">
@@ -16,9 +18,9 @@ const { eyebrow, eyebrowVariant = "default", title, description } = Astro.props;
     class="pointer-events-none absolute -left-24 -top-32 h-96 w-96 rounded-full bg-accent/15 blur-[120px]"
     aria-hidden="true"
   ></div>
-  <div class="relative mx-auto max-w-6xl px-6 py-20 sm:py-28">
+  <div class:list={["relative mx-auto max-w-6xl px-6", compact ? "py-8 sm:py-10" : "py-20 sm:py-28"]}>
     <Eyebrow label={eyebrow} variant={eyebrowVariant} />
-    <h1 class="mt-6 max-w-3xl font-display text-[2.5rem] font-bold leading-[1.08] text-paper sm:text-[3.25rem]">{title}</h1>
-    {description && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-paper-dim">{description}</p>}
+    <h1 class:list={["max-w-3xl font-display font-bold leading-[1.08] text-paper", compact ? "mt-4 text-[2rem] sm:text-[2.5rem]" : "mt-6 text-[2.5rem] sm:text-[3.25rem]"]}>{title}</h1>
+    {description && <p class:list={["max-w-2xl leading-relaxed text-paper-dim", compact ? "mt-3 text-base" : "mt-5 text-lg"]}>{description}</p>}
   </div>
 </section>

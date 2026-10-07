@@ -8,7 +8,7 @@ import Eyebrow from "../components/Eyebrow.astro";
 import Realisations from "../components/Realisations.astro";
 import { faqSchema } from "../lib/schema";
 import { SITE } from "../lib/site";
-import { FORMULES, CREATION_SITE, PRIX_PAGE_SUP, ENGAGEMENT_MOIS, RASSURANCE, enGras, euros, AUTOMATISATIONS, AUTO_ENGAGEMENT_MOIS, AUTO_REMISE, AUTO_PRIX_MIN, mensualiteAuto } from "../lib/formules";
+import { FORMULES, CREATION_SITE, PRIX_PAGE_SUP, ENGAGEMENT_MOIS, RASSURANCE, enGras, euros, AUTOMATISATIONS, AUTO_ENGAGEMENT_MOIS, AUTO_REMISE, AUTO_PRIX_MIN, mensualiteAuto, CONTENU } from "../lib/formules";
 
 const croissance = FORMULES.find((f) => f.id === "croissance")!;
 const premiereAnnee = CREATION_SITE + 12 * croissance.prix;
@@ -104,6 +104,21 @@ const inclusPartout = [
   ["14 jours pour changer d'avis", "Aucun paiement n'est demandé pendant ce délai."],
 ];
 
+// Libellés des lignes du tableau des formules (la valeur de chaque formule est dans la colonne)
+const LIBELLES: Record<string, string> = {
+  "Pages sur mesure": "Pages sur mesure",
+  "Hébergement + nom de domaine": "Hébergement + nom de domaine",
+  "Fiche Google": "Fiche Google",
+  "Modifications par mois": "Modifications par mois",
+  "Rapport de visites": "Rapport de visites",
+  "Articles de blog": "Articles de blog",
+  "Posts sur Google": "Posts sur Google",
+  "Avis Google sur le site": "Avis Google affichés sur votre site",
+  "Refonte totale": "Refonte totale du site",
+  "Suivi Google": "Suivi de mots-clés sur Google",
+  "Pages Google par ville": "Pages dédiées par ville",
+};
+
 const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite boutique en ligne", "Site traduit", "Relance automatique des devis", "Assistant IA", "Gestion de la publicité Google", "Réseaux sociaux"];
 ---
 
@@ -115,252 +130,296 @@ const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite
 >
   <Breadcrumb items={[{ name: "Tarifs", url: "/tarifs/" }]} />
   <PageHero
+    compact
     eyebrow="TARIFS"
-    title="Un site qui vous amène des clients, pour le prix d'un abonnement"
-    description={`Pas 3 000 € à sortir d'un coup : ${euros(CREATION_SITE)} pour démarrer, puis une mensualité qui comprend l'hébergement, les modifications et votre visibilité sur Google.`}
+    title="Des tarifs clairs, payés chaque mois"
+    description="Un site internet qui vous amène des clients, ou des tâches automatisées pour gagner du temps. Prix hors taxes, sans surprise."
   />
 
-  <!-- Le principe -->
-  <section class="mx-auto max-w-6xl px-6 pt-16 sm:pt-20">
-    <div class="reveal grid items-stretch gap-4 md:grid-cols-[1fr_auto_1.4fr]">
-      <div class="rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
-        <p class="text-sm font-semibold text-paper-dim">Création du site</p>
-        <p class="mt-2 font-display text-5xl font-bold tracking-tight text-paper">{CREATION_SITE}&nbsp;€ <span class="text-base font-medium text-paper-dim">HT</span></p>
-        <p class="mt-3 text-sm leading-relaxed text-paper-dim">Une seule fois. Votre site sur mesure, conçu, développé et mis en ligne pour vous.</p>
-      </div>
-      <div class="flex items-center justify-center font-display text-4xl font-bold text-accent" aria-hidden="true">+</div>
-      <div class="rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
-        <p class="text-sm font-semibold text-paper-dim">Un abonnement mensuel, au choix</p>
-        <p class="mt-2 font-display text-5xl font-bold tracking-tight text-paper">dès 49&nbsp;€ <span class="text-base font-medium text-paper-dim">HT / mois</span></p>
-        <p class="mt-3 text-sm leading-relaxed text-paper-dim">Hébergement, modifications et visibilité sur Google compris. Engagement de {ENGAGEMENT_MOIS} mois, puis sans engagement.</p>
+  <!-- Choix de l'offre : deux onglets, toujours visibles en haut de l'écran -->
+  <div class="sticky top-[4.5rem] z-30 border-b border-ink-line bg-ink/95 backdrop-blur-md">
+    <div class="mx-auto max-w-6xl px-6 py-2">
+      <div class="grid grid-cols-2 gap-1.5 rounded-2xl border border-white/10 bg-ink-soft p-1" role="tablist" aria-label="Choisir une offre">
+        <button type="button" role="tab" id="tab-site" aria-controls="offre-site" aria-selected="true" data-offre-tab="site" class="offre-tab rounded-xl px-3 py-1.5 text-left transition-colors sm:px-4">
+          <span class="block font-display text-sm font-bold">Site internet</span>
+          <span class="block text-xs opacity-80">{euros(CREATION_SITE)} puis dès 49 € HT/mois</span>
+        </button>
+        <button type="button" role="tab" id="tab-auto" aria-controls="automatisation" aria-selected="false" tabindex="-1" data-offre-tab="auto" class="offre-tab rounded-xl px-3 py-1.5 text-left transition-colors sm:px-4">
+          <span class="block font-display text-sm font-bold">Automatisation IA</span>
+          <span class="block text-xs opacity-80">dès {euros(AUTO_PRIX_MIN)} HT/mois, rien au départ</span>
+        </button>
       </div>
     </div>
-    <p class="mt-5 text-center text-sm text-paper-dim">
-      Vous voulez seulement automatiser des tâches, sans site ?
-      <a href="#automatisation" class="font-semibold text-accent underline underline-offset-2 hover:text-accent-soft">Automatisation IA dès {euros(AUTO_PRIX_MIN)} HT par mois</a>
-    </p>
-  </section>
+  </div>
 
-  <!-- Les 3 formules -->
-  <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20" aria-labelledby="formules-titre">
-    <div class="text-center">
-      <Eyebrow label="NOS FORMULES" />
-      <h2 id="formules-titre" class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">Où en êtes-vous ? Choisissez votre formule</h2>
-      <p class="mx-auto mt-3 max-w-2xl leading-relaxed text-paper-dim">Chaque formule comprend tout ce qu'il y a dans la précédente, et plus encore.</p>
-    </div>
+  <!-- ================= SITE INTERNET ================= -->
+  <div id="offre-site" role="tabpanel" aria-labelledby="tab-site" data-offre-panel="site">
+    <section class="mx-auto max-w-6xl px-6 pt-3 pb-12" aria-labelledby="formules-titre">
+      <h2 id="formules-titre" class="sr-only">Les formules de site internet</h2>
 
-    <div class="mt-12 grid gap-6 lg:grid-cols-3 lg:items-stretch">
-      {FORMULES.map((f, i) => (
-        <article
-          class:list={[
-            "reveal relative flex flex-col rounded-3xl p-7 sm:p-8",
-            f.conseillee
-              ? "bg-[linear-gradient(170deg,#ff0a45_0%,#c4002f_100%)] text-white shadow-[0_30px_60px_-25px_rgba(255,0,61,0.6)] lg:-my-4 lg:py-12"
-              : "border border-white/10 bg-ink-soft",
-          ]}
-          aria-labelledby={`f-${f.id}`}
-        >
-          <div class="flex items-center justify-between">
-            <h3 id={`f-${f.id}`} class:list={["text-sm font-bold tracking-[0.2em] uppercase", f.conseillee ? "text-white" : "text-paper-dim"]}>{f.nom}</h3>
-            {f.conseillee ? (
-              <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-accent-button">Conseillée</span>
-            ) : (
-              <span class="text-sm text-mist" aria-hidden="true">0{i + 1}</span>
-            )}
-          </div>
-          <p class="mt-5 flex items-start font-display font-bold leading-none tracking-tight">
-            <span class="text-6xl">{f.prix}</span>
-            <span class="ml-1 flex flex-col text-xl leading-none">€<span class:list={["mt-1.5 text-xs font-medium", f.conseillee ? "text-white/80" : "text-paper-dim"]}>HT / mois</span></span>
-          </p>
-          <p class:list={["mt-5 min-h-[3.2em] font-display text-lg font-semibold leading-snug", f.conseillee ? "text-white" : "text-paper"]}>{f.objectif}</p>
-          <p class:list={["mt-2 min-h-[2.8em] text-sm leading-snug", f.conseillee ? "text-white/85" : "text-paper-dim"]}><span class="font-semibold">Idéal pour :</span> {f.ideal}</p>
-          <ul class:list={["mt-5 flex-1 space-y-3 border-t pt-6 text-[0.95rem]", f.conseillee ? "border-white/30" : "border-white/10"]}>
-            {f.lignes.map((l) => (
-              <li class:list={["relative pl-7", !l.inclus && (f.conseillee ? "text-white/55 line-through" : "text-mist line-through")]}>
-                <span
-                  class:list={["absolute left-0 top-0 font-bold", l.inclus ? (f.conseillee ? "text-white" : "text-accent") : (f.conseillee ? "text-white/55" : "text-mist")]}
-                  aria-hidden="true"
-                >{l.inclus ? "✓" : "–"}</span>
-                <span set:html={enGras(l.texte)} />
-                {l.detail && <span class:list={["block text-xs", f.conseillee ? "text-white/75" : "text-paper-dim"]}>{l.detail}</span>}
-                <span class="sr-only">{l.inclus ? " (compris)" : " (non compris)"}</span>
+      <!-- Ordinateur : un tableau, chaque ligne écrite une seule fois -->
+      <div class="hidden overflow-hidden rounded-2xl border border-white/10 md:block">
+        <table class="w-full table-fixed text-left text-sm">
+          <caption class="sr-only">Comparaison des formules Essentiel, Croissance et Performance (prix HT par mois)</caption>
+          <colgroup><col class="w-[31%]" />{FORMULES.map(() => <col />)}</colgroup>
+          <thead>
+            <tr class="align-top">
+              <td class="bg-ink-soft px-4 py-3 align-bottom text-xs leading-relaxed text-paper-dim">
+                Création du site : <strong class="text-paper">{euros(CREATION_SITE)} HT</strong>, une seule fois.<br />Chaque formule comprend la précédente.
+              </td>
+              {FORMULES.map((f) => (
+                <th scope="col" class:list={["px-4 py-3 font-normal", f.conseillee ? "bg-accent-button text-white" : "bg-ink-soft"]}>
+                  <span class="flex items-center justify-between gap-2">
+                    <span class:list={["text-xs font-bold tracking-[0.18em] uppercase", f.conseillee ? "text-white" : "text-paper-dim"]}>{f.nom}</span>
+                    {f.conseillee && <span class="rounded-full bg-white px-2 py-0.5 text-[0.7rem] font-bold text-accent-button">Conseillée</span>}
+                  </span>
+                  <span class="mt-1 block font-display text-3xl font-bold leading-none">{f.prix}&nbsp;€<span class:list={["ml-1 text-xs font-medium", f.conseillee ? "text-white/80" : "text-paper-dim"]}>HT / mois</span></span>
+                  <span class:list={["mt-1.5 block min-h-[2.6em] text-xs leading-snug", f.conseillee ? "text-white/90" : "text-paper-dim"]}>{f.objectif}</span>
+                  <a
+                    href={`/contact/?formule=${f.id}`}
+                    class:list={[
+                      "mt-2 inline-flex min-h-[32px] w-full items-center justify-center rounded-full px-4 text-xs font-bold transition-colors",
+                      f.conseillee ? "bg-white text-accent-button hover:bg-white/90" : "border border-white/20 text-paper hover:border-accent hover:text-accent",
+                    ]}
+                  >Demander mon devis</a>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {CONTENU.map((r) => (
+              <tr class="border-t border-white/5">
+                <th scope="row" class="px-4 py-1 font-medium text-paper">{LIBELLES[r.t] ?? r.t}</th>
+                {r.v.map((val, i) => (
+                  <td class:list={["px-4 py-1", FORMULES[i].conseillee ? "bg-accent-button/10 font-semibold text-paper" : "text-paper-dim"]}>
+                    {val === 0 ? <span class="text-mist" aria-label="non compris">–</span> : val === 1 ? <span class="font-bold text-accent" aria-label="compris">✓</span> : String(val)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Téléphone : une carte compacte par formule -->
+      <div class="space-y-3 md:hidden">
+        {FORMULES.map((f) => (
+          <article class:list={["rounded-2xl p-4", f.conseillee ? "bg-[linear-gradient(170deg,#ff0a45_0%,#c4002f_100%)] text-white" : "border border-white/10 bg-ink-soft"]} aria-labelledby={`m-${f.id}`}>
+            <div class="flex items-baseline justify-between gap-3">
+              <h3 id={`m-${f.id}`} class:list={["text-xs font-bold tracking-[0.18em] uppercase", f.conseillee ? "text-white" : "text-paper-dim"]}>{f.nom}{f.conseillee && " · conseillée"}</h3>
+              <p class="font-display text-2xl font-bold leading-none">{f.prix}&nbsp;€<span class:list={["ml-1 text-xs font-medium", f.conseillee ? "text-white/80" : "text-paper-dim"]}>HT/mois</span></p>
+            </div>
+            <p class:list={["mt-1 text-sm", f.conseillee ? "text-white/90" : "text-paper-dim"]}>{f.objectif}</p>
+            <ul class="mt-3 grid grid-cols-1 gap-1 text-sm">
+              {f.lignes.filter((l) => l.inclus).map((l) => (
+                <li class="flex gap-2"><span class:list={["font-bold", f.conseillee ? "text-white" : "text-accent"]} aria-hidden="true">✓</span><span set:html={enGras(l.texte)} /></li>
+              ))}
+            </ul>
+            <a href={`/contact/?formule=${f.id}`} class:list={["mt-3 inline-flex min-h-[44px] w-full items-center justify-center rounded-full px-4 text-sm font-bold", f.conseillee ? "bg-white text-accent-button" : "border border-white/20 text-paper"]}>Demander mon devis {f.nom}</a>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-3 text-center text-xs leading-relaxed text-paper-dim sm:text-sm">
+        <span class="text-accent" aria-hidden="true">✓</span> {RASSURANCE} · Engagement {ENGAGEMENT_MOIS} mois, puis sans engagement · Page en plus : {euros(PRIX_PAGE_SUP)} HT/mois · Devis gratuit
+      </p>
+    </section>
+
+    <!-- Compris partout + options -->
+    <section class="mx-auto max-w-6xl px-6 pb-12">
+      <div class="grid gap-6 rounded-3xl border border-white/10 p-6 lg:grid-cols-[1.4fr_1fr]">
+        <div>
+          <h2 class="font-display text-lg font-semibold text-paper">Compris dans toutes les formules</h2>
+          <ul class="mt-3 grid gap-3 sm:grid-cols-2">
+            {inclusPartout.map(([titre, texte]) => (
+              <li class="flex gap-3">
+                <span class="mt-0.5 font-bold text-accent" aria-hidden="true">✓</span>
+                <span><span class="block text-sm font-semibold text-paper">{titre}</span><span class="block text-xs leading-relaxed text-paper-dim">{texte}</span></span>
               </li>
             ))}
           </ul>
-          <a
-            href={`/contact/?formule=${f.id}`}
-            class:list={[
-              "mt-8 inline-flex min-h-[48px] items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-all hover:-translate-y-0.5",
-              f.conseillee ? "bg-white text-accent-button hover:bg-white/90" : "border border-white/20 text-paper hover:border-accent hover:text-accent",
-            ]}
-          >
-            Demander mon devis {f.nom}
-          </a>
-          <p class:list={["mt-2 text-center text-xs", f.conseillee ? "text-white/80" : "text-mist"]}>Gratuit et sans engagement</p>
-        </article>
-      ))}
-    </div>
-    <p class="mt-10 text-center font-display text-lg font-semibold text-paper"><span class="text-accent" aria-hidden="true">✓</span> {RASSURANCE}</p>
-    <p class="mt-2 text-center text-sm leading-relaxed text-paper-dim">
-      Prix hors taxes. Engagement de {ENGAGEMENT_MOIS} mois, puis sans engagement (préavis d'un mois).
-      Besoin de plus de pages ? {euros(PRIX_PAGE_SUP)} HT par page et par mois.
-    </p>
-  </section>
-
-  <!-- Automatisation IA, sans site -->
-  <section id="automatisation" class="scroll-mt-24 border-t border-ink-line" aria-labelledby="auto-titre">
-    <div class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
-      <div class="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:items-start">
-        <div class="lg:sticky lg:top-28">
-          <Eyebrow label="AUTOMATISATION IA" />
-          <h2 id="auto-titre" class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">Pas besoin de site ? Automatisez vos tâches</h2>
-          <p class="mt-3 leading-relaxed text-paper-dim">Relances, rendez-vous, avis Google, réponses aux clients : on branche des automatisations sur vos outils actuels (messagerie, agenda, logiciel de devis). Vous gagnez des heures chaque semaine, et vous payez uniquement chaque mois.</p>
-          <ul class="mt-6 space-y-2 text-paper">
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span><strong>Aucuns frais de mise en service</strong> : seulement la mensualité</span></li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span><strong>{remisePct} % de remise</strong> dès {AUTO_REMISE.des} automatisations</span></li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span>Engagement de {AUTO_ENGAGEMENT_MOIS} mois, puis sans engagement</span></li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span>14 jours pour changer d'avis, aucun paiement avant</span></li>
+        </div>
+        <div class="lg:border-l lg:border-white/10 lg:pl-6">
+          <h2 class="font-display text-lg font-semibold text-paper">Des options selon votre métier</h2>
+          <p class="mt-1 text-xs text-paper-dim">Ajoutées à votre mensualité, chiffrées sur votre devis.</p>
+          <ul class="mt-3 flex flex-wrap gap-1.5">
+            {options.map((o) => (
+              <li class="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-paper">{o}</li>
+            ))}
           </ul>
-          <div class="mt-8 rounded-3xl border border-accent/40 bg-[linear-gradient(160deg,#2a030c_0%,#161616_70%)] p-6">
-            <p class="text-sm font-semibold text-accent">Exemple : un artisan</p>
-            <p class="mt-2 text-sm leading-relaxed text-paper-dim">{exempleAutoNoms.join(" + ")}</p>
-            <p class="mt-3 font-display text-4xl font-bold tracking-tight text-paper">{euros(exempleAutoPrix)} <span class="text-base font-medium text-paper-dim">HT / mois</span></p>
-            <p class="mt-1 text-sm text-paper-dim">au lieu de {euros(exempleAutoBrut)}, et rien à payer au départ</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pourquoi un abonnement -->
+    <section class="border-y border-ink-line bg-ink-soft/60">
+      <div class="mx-auto max-w-6xl px-6 py-12">
+        <h2 class="font-display text-2xl font-bold text-paper">Pourquoi un abonnement plutôt qu'un site classique ?</h2>
+        <p class="mt-2 max-w-3xl text-sm leading-relaxed text-paper-dim">Un site acheté une fois vieillit vite : il n'est plus mis à jour, il descend dans Google, et dans trois ans il faut tout refaire. Avec l'abonnement, il reste à jour et visible, pour une mensualité connue d'avance.</p>
+
+        <div class="mt-6 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+          <ul class="space-y-3 sm:hidden">
+            {comparaison.map(([critere, classique, nous]) => (
+              <li class="rounded-2xl border border-white/10 p-4">
+                <p class="font-display font-semibold text-paper">{critere}</p>
+                <p class="mt-1 text-sm text-paper-dim"><span class="text-mist">Site classique :</span> {classique}</p>
+                <p class="mt-1 text-sm font-medium text-paper"><span class="text-accent">Lyon AI Studio :</span> {nous}</p>
+              </li>
+            ))}
+          </ul>
+          <div class="hidden overflow-hidden rounded-2xl border border-white/10 sm:block">
+            <table class="w-full text-left text-sm">
+              <caption class="sr-only">Comparaison entre un site classique et l'abonnement Lyon AI Studio</caption>
+              <thead>
+                <tr class="border-b border-white/10">
+                  <th scope="col" class="px-4 py-2.5 font-semibold text-paper-dim"></th>
+                  <th scope="col" class="px-4 py-2.5 font-semibold text-paper-dim">Site classique (agence ou freelance)</th>
+                  <th scope="col" class="bg-accent-button/15 px-4 py-2.5 font-display font-bold text-paper">Lyon AI Studio</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparaison.map(([critere, classique, nous]) => (
+                  <tr class="border-b border-white/5 last:border-0">
+                    <th scope="row" class="px-4 py-2.5 font-semibold text-paper">{critere}</th>
+                    <td class="px-4 py-2.5 text-paper-dim">{classique}</td>
+                    <td class="bg-accent-button/10 px-4 py-2.5 font-medium text-paper">{nous}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex flex-col justify-between rounded-2xl border border-accent/40 bg-[linear-gradient(160deg,#2a030c_0%,#161616_70%)] p-6">
+            <div>
+              <p class="text-sm font-semibold text-accent">Exemple : la formule Croissance</p>
+              <p class="mt-2 font-display font-semibold text-paper">Votre première année, tout compris</p>
+              <p class="mt-1 font-display text-4xl font-bold tracking-tight text-paper">{euros(premiereAnnee)} <span class="text-base font-medium text-paper-dim">HT</span></p>
+              <p class="mt-1 text-sm text-paper-dim">{euros(CREATION_SITE)} de création + 12 × {euros(croissance.prix)}</p>
+            </div>
+            <ul class="mt-4 space-y-1.5 text-sm text-paper">
+              <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>Le site sur mesure, en ligne</li>
+              <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>12 articles et 24 posts Google</li>
+              <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>36 modifications possibles</li>
+              <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>Hébergement, nom de domaine et suivi</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= AUTOMATISATION IA ================= -->
+  <div id="automatisation" role="tabpanel" aria-labelledby="tab-auto" data-offre-panel="auto" hidden>
+    <section class="mx-auto max-w-6xl px-6 pt-3 pb-12" aria-labelledby="auto-titre">
+      <h2 id="auto-titre" class="sr-only">Automatisation IA, sans site</h2>
+      <div class="grid gap-4 lg:grid-cols-[2fr_1fr] lg:items-start">
+        <ul class="grid gap-2.5 sm:grid-cols-2">
+          {AUTOMATISATIONS.map((a) => (
+            <li class="rounded-2xl border border-white/10 bg-ink-soft px-4 py-3">
+              <div class="flex items-baseline justify-between gap-3">
+                <h3 class="font-display text-sm font-semibold leading-snug text-paper">{a.nom}</h3>
+                <p class="shrink-0 font-display text-lg font-bold leading-none text-paper">{a.prix}&nbsp;€<span class="ml-0.5 text-[0.7rem] font-medium text-paper-dim">/mois</span></p>
+              </div>
+              <p class="mt-1 text-xs leading-snug text-paper-dim">{a.desc}</p>
+            </li>
+          ))}
+          <li class="rounded-2xl border border-dashed border-white/20 px-4 py-3">
+            <div class="flex items-baseline justify-between gap-3">
+              <h3 class="font-display text-sm font-semibold text-paper">Une autre tâche répétitive ?</h3>
+              <p class="shrink-0 text-xs font-semibold text-paper-dim">sur devis</p>
+            </div>
+            <p class="mt-1 text-xs leading-snug text-paper-dim">Une automatisation sur mesure, avec un prix mensuel fixé avant de commencer.</p>
+          </li>
+        </ul>
+
+        <div class="rounded-2xl border border-accent/40 bg-[linear-gradient(160deg,#2a030c_0%,#161616_70%)] p-5 lg:sticky lg:top-36">
+          <ul class="space-y-1 text-sm text-paper">
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span><strong>Aucuns frais au départ</strong>, seulement la mensualité</span></li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span><strong>{remisePct} % de remise</strong> dès {AUTO_REMISE.des} automatisations</span></li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span>Engagement {AUTO_ENGAGEMENT_MOIS} mois, puis sans engagement</span></li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span>14 jours pour changer d'avis</span></li>
+          </ul>
+          <div class="mt-4 border-t border-white/10 pt-4">
+            <p class="text-xs font-semibold text-accent">Exemple : un artisan</p>
+            <p class="mt-1 text-xs leading-snug text-paper-dim">{exempleAutoNoms.join(" + ")}</p>
+            <p class="mt-2 font-display text-3xl font-bold tracking-tight text-paper">{euros(exempleAutoPrix)} <span class="text-sm font-medium text-paper-dim">HT / mois</span></p>
+            <p class="text-xs text-paper-dim">au lieu de {euros(exempleAutoBrut)}, rien à payer au départ</p>
           </div>
           <a
             href="/contact/?formule=automatisation"
-            class="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-full bg-accent-button px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-accent-soft"
+            class="mt-4 inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-accent-button px-5 text-sm font-bold text-white transition-colors hover:bg-accent-soft"
           >
             Demander mon devis automatisation
           </a>
         </div>
-
-        <ul class="grid gap-4 sm:grid-cols-2">
-          {AUTOMATISATIONS.map((a) => (
-            <li class="reveal flex flex-col rounded-2xl border border-white/10 bg-ink-soft p-6">
-              <div class="flex items-start justify-between gap-4">
-                <h3 class="font-display font-semibold leading-snug text-paper">{a.nom}</h3>
-                <p class="shrink-0 text-right font-display font-bold text-paper"><span class="text-2xl">{a.prix}&nbsp;€</span><span class="block text-xs font-medium text-paper-dim">HT / mois</span></p>
-              </div>
-              <p class="mt-3 text-sm leading-relaxed text-paper-dim">{a.desc}</p>
-            </li>
-          ))}
-          <li class="reveal flex flex-col rounded-2xl border border-dashed border-white/20 p-6">
-            <h3 class="font-display font-semibold text-paper">Une autre tâche répétitive ?</h3>
-            <p class="mt-3 text-sm leading-relaxed text-paper-dim">Décrivez-la-nous : on vous propose une automatisation sur mesure, avec un prix mensuel fixé avant de commencer.</p>
-          </li>
-        </ul>
       </div>
-      <p class="mt-10 text-center text-sm leading-relaxed text-paper-dim">
-        Prix hors taxes, payés par prélèvement chaque mois. Vos abonnements à vos propres outils (logiciel de facturation, agenda payant…) restent à votre charge.
-        Vous avez déjà un site avec nous ? Ces fonctions existent aussi en option de votre formule.
+      <p class="mt-3 text-center text-xs leading-relaxed text-paper-dim sm:text-sm">
+        Prix HT, payés par prélèvement chaque mois. On branche les automatisations sur vos outils (messagerie, agenda, logiciel de devis) ; vos abonnements à ces outils restent à votre charge.
+        Déjà un site avec nous ? Ces fonctions existent aussi en option de votre formule.
       </p>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <!-- Pourquoi ça vaut le coup -->
-  <section class="border-y border-ink-line bg-ink-soft/60">
-    <div class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
-      <div class="max-w-2xl">
-        <Eyebrow label="POURQUOI ÇA VAUT LE COUP" />
-        <h2 class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">Un site qui travaille pour vous, pas un site qu'on oublie</h2>
-        <p class="mt-3 leading-relaxed text-paper-dim">Un site acheté une fois vieillit vite : il n'est plus mis à jour, il descend dans Google, et dans trois ans il faut tout refaire. Avec l'abonnement, il reste à jour et visible, pour une mensualité connue d'avance.</p>
-      </div>
-
-      <div class="mt-10 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <!-- Téléphone : une carte par critère -->
-        <ul class="space-y-3 sm:hidden">
-          {comparaison.map(([critere, classique, nous]) => (
-            <li class="rounded-2xl border border-white/10 p-5">
-              <p class="font-display font-semibold text-paper">{critere}</p>
-              <p class="mt-2 text-sm text-paper-dim"><span class="text-mist">Site classique :</span> {classique}</p>
-              <p class="mt-1 text-sm font-medium text-paper"><span class="text-accent">Lyon AI Studio :</span> {nous}</p>
-            </li>
-          ))}
-        </ul>
-        <div class="reveal hidden overflow-hidden rounded-3xl border border-white/10 sm:block">
-          <table class="w-full text-left text-sm sm:text-base">
-            <caption class="sr-only">Comparaison entre un site classique et l'abonnement Lyon AI Studio</caption>
-            <thead>
-              <tr class="border-b border-white/10">
-                <th scope="col" class="px-5 py-4 font-semibold text-paper-dim"></th>
-                <th scope="col" class="px-5 py-4 font-semibold text-paper-dim">Site classique (agence ou freelance)</th>
-                <th scope="col" class="bg-accent-button/15 px-5 py-4 font-display font-bold text-paper">Lyon AI Studio</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparaison.map(([critere, classique, nous]) => (
-                <tr class="border-b border-white/5 last:border-0">
-                  <th scope="row" class="px-5 py-4 font-semibold text-paper">{critere}</th>
-                  <td class="px-5 py-4 text-paper-dim">{classique}</td>
-                  <td class="bg-accent-button/10 px-5 py-4 font-medium text-paper">{nous}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div class="reveal flex flex-col justify-between rounded-3xl border border-accent/40 bg-[linear-gradient(160deg,#2a030c_0%,#161616_70%)] p-7 sm:p-8">
-          <div>
-            <p class="text-sm font-semibold text-accent">Exemple : la formule Croissance</p>
-            <p class="mt-3 font-display text-lg font-semibold text-paper">Votre première année, tout compris</p>
-            <p class="mt-2 font-display text-5xl font-bold tracking-tight text-paper">{euros(premiereAnnee)} <span class="text-base font-medium text-paper-dim">HT</span></p>
-            <p class="mt-2 text-sm text-paper-dim">{euros(CREATION_SITE)} de création + 12 × {euros(croissance.prix)}</p>
-          </div>
-          <ul class="mt-6 space-y-2 text-sm text-paper">
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>Le site sur mesure, en ligne</li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>12 articles et 24 posts Google</li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>36 modifications possibles</li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span>Hébergement, nom de domaine et suivi</li>
-          </ul>
-          <p class="mt-6 text-xs leading-relaxed text-mist">Pour comparaison, la seule création d'un site coûte en général entre 800 et 6 000 € chez un freelance ou une agence, sans le suivi.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Inclus partout -->
-  <section class="mx-auto max-w-6xl px-6 py-16 sm:py-20">
-    <div class="text-center">
-      <Eyebrow label="DANS TOUTES LES FORMULES" />
-      <h2 class="mt-4 font-display text-3xl font-bold text-paper sm:text-4xl">Aucune mauvaise surprise, quelle que soit la formule</h2>
-    </div>
-    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {inclusPartout.map(([titre, texte]) => (
-        <div class="reveal rounded-2xl border border-white/10 bg-ink-soft p-6">
-          <p class="font-display font-semibold text-paper">{titre}</p>
-          <p class="mt-2 text-sm leading-relaxed text-paper-dim">{texte}</p>
-        </div>
-      ))}
-    </div>
-
-    <div class="mt-14 rounded-3xl border border-white/10 p-7 sm:p-8">
-      <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-        <h3 class="font-display text-xl font-semibold text-paper">Des options selon votre métier</h3>
-        <p class="text-sm text-paper-dim">Ajoutées à votre mensualité, chiffrées sur votre devis.</p>
-      </div>
-      <ul class="mt-5 flex flex-wrap gap-2">
-        {options.map((o) => (
-          <li class="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-paper">{o}</li>
-        ))}
-      </ul>
+  <!-- Questions -->
+  <section class="mx-auto max-w-3xl px-6 py-14">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">Ce qu'on nous demande sur les tarifs</h2>
+    <div class="mt-6">
+      <FAQAccordion items={faqItems} />
     </div>
   </section>
 
   <Realisations />
 
-  <!-- Questions -->
-  <div class="h-16 sm:h-20" aria-hidden="true"></div>
-  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
-    <Eyebrow label="QUESTIONS FRÉQUENTES" />
-    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">Ce qu'on nous demande sur les tarifs</h2>
-    <div class="mt-8">
-      <FAQAccordion items={faqItems} />
-    </div>
-  </section>
-
   <CTASection
-    title="Vous hésitez entre deux formules ?"
-    description="Décrivez votre activité : on vous conseille la formule adaptée, avec un devis gratuit et une réponse sous 48 h."
+    title="Vous hésitez ? On vous conseille"
+    description="Décrivez votre activité et ce qui vous prend du temps : on vous propose la formule ou les automatisations adaptées, avec un devis gratuit et une réponse sous 48 h."
   />
 </BaseLayout>
+
+<style>
+  .offre-tab { color: var(--color-paper-dim); }
+  .offre-tab:hover { color: var(--color-paper); background: rgb(255 255 255 / 0.04); }
+  .offre-tab[aria-selected="true"] { color: #fff; background: var(--color-accent-button); box-shadow: 0 8px 25px -10px rgb(255 0 61 / 0.6); }
+  .offre-tab:focus-visible { outline: 2px solid var(--color-accent-soft); outline-offset: 2px; }
+</style>
+
+<script>
+  // Onglets « Site internet » / « Automatisation IA ». Lien direct : /tarifs/#automatisation
+  function initOffres() {
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>("[data-offre-tab]")];
+    const panels = [...document.querySelectorAll<HTMLElement>("[data-offre-panel]")];
+    if (!tabs.length) return;
+    const montrer = (id: string, focus = false) => {
+      for (const t of tabs) {
+        const actif = t.dataset.offreTab === id;
+        t.setAttribute("aria-selected", String(actif));
+        t.tabIndex = actif ? 0 : -1;
+        if (actif && focus) t.focus();
+      }
+      for (const p of panels) p.hidden = p.dataset.offrePanel !== id;
+    };
+    const depuisAdresse = () => montrer(location.hash === "#automatisation" ? "auto" : "site");
+    for (const t of tabs) {
+      t.addEventListener("click", () => {
+        const id = t.dataset.offreTab!;
+        montrer(id);
+        history.replaceState(history.state, "", id === "auto" ? "#automatisation" : location.pathname + location.search);
+        const haut = document.querySelector<HTMLElement>("[role=tablist]")!.getBoundingClientRect().top;
+        if (haut < 0 || haut > 140) window.scrollTo({ top: window.scrollY + haut - 90, behavior: "smooth" });
+      });
+      t.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        e.preventDefault();
+        const i = (tabs.indexOf(t) + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+        montrer(tabs[i].dataset.offreTab!, true);
+      });
+    }
+    const w = window as unknown as { __offresHash?: () => void };
+    if (w.__offresHash) window.removeEventListener("hashchange", w.__offresHash);
+    w.__offresHash = depuisAdresse;
+    window.addEventListener("hashchange", depuisAdresse);
+    depuisAdresse();
+  }
+  document.addEventListener("astro:page-load", initOffres);
+</script>
