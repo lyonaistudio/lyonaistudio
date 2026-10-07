@@ -48,6 +48,7 @@ function ligne(t: string, val: Valeur): Pick<Ligne, "texte" | "detail"> {
     case "Refonte totale": return { texte: val ? `Refonte totale **${val}**` : "Refonte totale du site" };
     case "Suivi Google": return { texte: val ? `Suivi de **${val}**` : "Suivi de mots-clés" };
     case "Pages Google par ville": return { texte: "Pages dédiées par ville" };
+    case "Automatisation IA": return val ? { texte: "**1 automatisation IA** offerte", detail: "rendez-vous, relance des devis ou assistant IA" } : { texte: "Automatisation IA offerte" };
     default: return { texte: t };
   }
 }

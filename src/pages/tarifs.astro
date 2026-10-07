@@ -117,6 +117,7 @@ const LIBELLES: Record<string, string> = {
   "Refonte totale": "Refonte totale du site",
   "Suivi Google": "Suivi de mots-clés sur Google",
   "Pages Google par ville": "Pages dédiées par ville",
+  "Automatisation IA": "Automatisation IA offerte",
 };
 
 const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite boutique en ligne", "Site traduit", "Relance automatique des devis", "Assistant IA", "Gestion de la publicité Google", "Réseaux sociaux"];
@@ -164,11 +165,11 @@ const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite
           <colgroup><col class="w-[31%]" />{FORMULES.map(() => <col />)}</colgroup>
           <thead>
             <tr class="align-top">
-              <td class="bg-ink-soft px-4 py-3 align-bottom text-xs leading-relaxed text-paper-dim">
+              <td class="bg-ink-soft px-4 py-2 align-bottom text-xs leading-relaxed text-paper-dim">
                 Création du site : <strong class="text-paper">{euros(CREATION_SITE)} HT</strong>, une seule fois.<br />Chaque formule comprend la précédente.
               </td>
               {FORMULES.map((f) => (
-                <th scope="col" class:list={["px-4 py-3 font-normal", f.conseillee ? "bg-accent-button text-white" : "bg-ink-soft"]}>
+                <th scope="col" class:list={["px-4 py-2 font-normal", f.conseillee ? "bg-accent-button text-white" : "bg-ink-soft"]}>
                   <span class="flex items-center justify-between gap-2">
                     <span class:list={["text-xs font-bold tracking-[0.18em] uppercase", f.conseillee ? "text-white" : "text-paper-dim"]}>{f.nom}</span>
                     {f.conseillee && <span class="rounded-full bg-white px-2 py-0.5 text-[0.7rem] font-bold text-accent-button">Conseillée</span>}
@@ -178,7 +179,7 @@ const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite
                   <a
                     href={`/contact/?formule=${f.id}`}
                     class:list={[
-                      "mt-2 inline-flex min-h-[32px] w-full items-center justify-center rounded-full px-4 text-xs font-bold transition-colors",
+                      "mt-1.5 inline-flex min-h-[30px] w-full items-center justify-center rounded-full px-4 text-xs font-bold transition-colors",
                       f.conseillee ? "bg-white text-accent-button hover:bg-white/90" : "border border-white/20 text-paper hover:border-accent hover:text-accent",
                     ]}
                   >Demander mon devis</a>
@@ -189,9 +190,9 @@ const options = ["Prise de rendez-vous en ligne", "Adresses e-mail pro", "Petite
           <tbody>
             {CONTENU.map((r) => (
               <tr class="border-t border-white/5">
-                <th scope="row" class="px-4 py-1 font-medium text-paper">{LIBELLES[r.t] ?? r.t}</th>
+                <th scope="row" class="px-4 py-[0.2rem] font-medium text-paper">{LIBELLES[r.t] ?? r.t}</th>
                 {r.v.map((val, i) => (
-                  <td class:list={["px-4 py-1", FORMULES[i].conseillee ? "bg-accent-button/10 font-semibold text-paper" : "text-paper-dim"]}>
+                  <td class:list={["px-4 py-[0.2rem]", FORMULES[i].conseillee ? "bg-accent-button/10 font-semibold text-paper" : "text-paper-dim"]}>
                     {val === 0 ? <span class="text-mist" aria-label="non compris">–</span> : val === 1 ? <span class="font-bold text-accent" aria-label="compris">✓</span> : String(val)}
                   </td>
                 ))}
