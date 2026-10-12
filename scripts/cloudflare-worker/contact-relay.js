@@ -28,12 +28,26 @@
 //      (déjà fait au moment de l'écriture de ce script).
 
 import { WorkerMailer } from "worker-mailer";
+import { surveillerBoite } from "./surveillance-boite.js";
 
 const ALLOWED_ORIGIN = "https://lyonaistudio.fr";
 const SHEET_TAB = "Feuille 1";
 
 export default {
+  // Toutes les 2 minutes : alerte Telegram pour chaque nouvel e-mail reçu sur contact@
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(surveillerBoite(env, (texte) => notifyTelegram(env, texte)).catch((e) => console.log("surveillance boîte :", String(e))));
+  },
+
   async fetch(request, env) {
+    // Vérification manuelle de la surveillance de la boîte (même secret que les envois internes)
+    if (new URL(request.url).pathname === "/interne/boite") {
+      const secret = request.headers.get("X-Lais-Secret") || "";
+      if (!env.LAIS_SECRET || secret !== env.LAIS_SECRET) return new Response("Forbidden", { status: 403 });
+      try { return Response.json({ ok: true, ...(await surveillerBoite(env, (texte) => notifyTelegram(env, texte))) }); }
+      catch (e) { return Response.json({ ok: false, erreur: String((e && e.message) || e) }, { status: 502 }); }
+    }
+
     // Envois internes des outils Lyon AI Studio (factures, relances, notifications) :
     // réservés aux appels serveur qui présentent le secret partagé LAIS_SECRET.
     if (new URL(request.url).pathname === "/interne/envoyer") return envoyerInterne(request, env);
@@ -180,14 +194,28 @@ async function notifySignal(env, text) {
 // Adresse publique du studio : contact@lyonaistudio.fr (boîte Zimbra chez OVH).
 // Si OVH_SMTP_PASSWORD est défini (wrangler secret put OVH_SMTP_PASSWORD), les e-mails
 // partent directement de la boîte contact@ via le SMTP d'OVH. Sinon, ils partent du Gmail
-// du studio (GMAIL_USER), avec contact@ en adresse de réponse.
+// du studio (GMAIL_USER), avec contact@ en adresse de réponse. Si l'envoi par OVH échoue,
+// il est refait aussitôt par Gmail : un e-mail (facture, relance) ne reste jamais bloqué.
 const CONTACT = "contact@lyonaistudio.fr";
-function messagerie(env) {
-  if (env.OVH_SMTP_PASSWORD) return { host: "smtp.mail.ovh.net", user: CONTACT, pass: env.OVH_SMTP_PASSWORD, from: CONTACT };
-  if (env.GMAIL_USER && env.GMAIL_APP_PASSWORD) return { host: "smtp.gmail.com", user: env.GMAIL_USER, pass: env.GMAIL_APP_PASSWORD, from: env.GMAIL_USER };
-  return null;
+function messageries(env) {
+  const l = [];
+  if (env.OVH_SMTP_PASSWORD) l.push({ host: env.SMTP_HOST || "smtp.mail.ovh.net", user: CONTACT, pass: env.OVH_SMTP_PASSWORD, from: CONTACT });
+  if (env.GMAIL_USER && env.GMAIL_APP_PASSWORD) l.push({ host: "smtp.gmail.com", user: env.GMAIL_USER, pass: env.GMAIL_APP_PASSWORD, from: env.GMAIL_USER });
+  return l;
 }
-const connecter = (m) => WorkerMailer.connect({ host: m.host, port: 465, secure: true, credentials: { username: m.user, password: m.pass }, authType: "plain" });
+async function envoyerMail(env, message) {
+  const liste = messageries(env);
+  if (!liste.length) throw new Error("messagerie non configurée");
+  let derniere;
+  for (const m of liste) {
+    try {
+      const mailer = await WorkerMailer.connect({ host: m.host, port: 465, secure: true, credentials: { username: m.user, password: m.pass }, authType: "plain" });
+      try { await mailer.send({ ...message, from: { name: "Lyon AI Studio", email: m.from } }); } finally { await mailer.close(); }
+      return m.from;
+    } catch (e) { derniere = e; console.log(`envoi via ${m.host} impossible :`, String((e && e.message) || e)); }
+  }
+  throw derniere;
+}
 
 // ---- Accusé de réception envoyé au client, depuis la messagerie du studio ----
 // SMTP Gmail + mot de passe d'application (gratuit, 500 envois/jour, les
@@ -284,23 +312,15 @@ const AUTO_REPLY_HTML = `<!doctype html>
 </body></html>`;
 
 async function sendAutoReply(env, email) {
-  const m = messagerie(env);
-  if (!m) return;
+  if (!messageries(env).length) return;
   if (!email || !EMAIL_RE.test(email)) return;
-
-  const mailer = await connecter(m);
-  try {
-    await mailer.send({
-      from: { name: "Lyon AI Studio", email: m.from },
-      to: { email },
-      reply: { email: CONTACT },
-      subject: AUTO_REPLY_SUBJECT,
-      text: AUTO_REPLY_TEXT,
-      html: AUTO_REPLY_HTML,
-    });
-  } finally {
-    await mailer.close();
-  }
+  await envoyerMail(env, {
+    to: { email },
+    reply: { email: CONTACT },
+    subject: AUTO_REPLY_SUBJECT,
+    text: AUTO_REPLY_TEXT,
+    html: AUTO_REPLY_HTML,
+  });
 }
 
 // ---- Envois internes (outils lais-outils.pages.dev) ----
@@ -319,21 +339,16 @@ async function envoyerInterne(request, env) {
       return Response.json({ ok: true });
     }
     if (m.canal === "email") {
-      const mx = messagerie(env);
-      if (!mx) return Response.json({ ok: false, erreur: "messagerie non configurée" }, { status: 503 });
+      if (!messageries(env).length) return Response.json({ ok: false, erreur: "messagerie non configurée" }, { status: 503 });
       if (!m.a || !EMAIL_RE.test(m.a) || !m.sujet) return Response.json({ ok: false, erreur: "destinataire ou sujet invalide" }, { status: 400 });
-      const mailer = await connecter(mx);
-      try {
-        await mailer.send({
-          from: { name: "Lyon AI Studio", email: mx.from },
-          to: { email: m.a },
-          reply: { email: m.repondreA && EMAIL_RE.test(m.repondreA) ? m.repondreA : CONTACT },
-          subject: String(m.sujet).slice(0, 200),
-          text: String(m.texte || ""),
-          html: m.html ? String(m.html) : undefined,
-        });
-      } finally { await mailer.close(); }
-      return Response.json({ ok: true });
+      const expediteur = await envoyerMail(env, {
+        to: { email: m.a },
+        reply: { email: m.repondreA && EMAIL_RE.test(m.repondreA) ? m.repondreA : CONTACT },
+        subject: String(m.sujet).slice(0, 200),
+        text: String(m.texte || ""),
+        html: m.html ? String(m.html) : undefined,
+      });
+      return Response.json({ ok: true, expediteur });
     }
     return Response.json({ ok: false, erreur: "canal inconnu" }, { status: 400 });
   } catch (err) {

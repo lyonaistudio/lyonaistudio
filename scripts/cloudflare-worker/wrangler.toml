@@ -8,3 +8,12 @@ LEADS_SHEET_ID = "1EgGxixHbRDv7se5-L7jYR6lbSlsS3MvwylMG3HdhCtU"
 
 # GOOGLE_SERVICE_ACCOUNT_JSON is a secret — set via:
 #   wrangler secret put GOOGLE_SERVICE_ACCOUNT_JSON
+
+# Mémoire de la surveillance de la boîte contact@ (dernier message vu)
+[[kv_namespaces]]
+binding = "ETAT"
+id = "4148de43e8184cd8ab34fb08f3cc6944"
+
+# Toutes les 2 minutes : alerte Telegram à chaque nouvel e-mail sur contact@
+[triggers]
+crons = ["*/2 * * * *"]
