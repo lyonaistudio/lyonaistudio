@@ -368,7 +368,7 @@ const html = `
   footer.pf { position: fixed; bottom: 18px; left: 55px; right: 55px; padding-top: 12px; border-top: 1px solid ${INK_LINE}; color: ${MIST}; font-size: 9px; display: flex; justify-content: space-between; }
 </style></head><body>
 
-  <footer class="pf"><span>Lyon AI Studio — lyonaistudio@gmail.com</span><span>lyonaistudio.fr</span></footer>
+  <footer class="pf"><span>Lyon AI Studio — contact@lyonaistudio.fr</span><span>lyonaistudio.fr</span></footer>
 
   <div class="cover">
     <div class="brand"><img class="mark" src="${TUILE}" alt=""><div class="brand-name">Lyon AI Studio</div></div>
@@ -442,7 +442,7 @@ const html = `
     <div class="eyebrow">Une étape pas claire ?</div>
     <h2>On peut s'en occuper avec vous, ou à votre place.</h2>
     <p>La création de la fiche Google Business Profile, l'envoi du sitemap ou le lancement d'une première campagne Google Ads peuvent aussi être pris en charge directement par Lyon AI Studio.</p>
-    <div class="contact-row"><span class="contact-label">E.</span><span class="contact-value">lyonaistudio@gmail.com</span></div>
+    <div class="contact-row"><span class="contact-label">E.</span><span class="contact-value">contact@lyonaistudio.fr</span></div>
     <div class="contact-row"><span class="contact-label">W.</span><span class="contact-value">lyonaistudio.fr</span></div>
   </div>
 

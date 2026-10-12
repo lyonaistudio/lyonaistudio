@@ -147,7 +147,7 @@ const html = `
     ${sections}
   </div>
   <footer>
-    <span>Lyon AI Studio — lyonaistudio@gmail.com</span>
+    <span>Lyon AI Studio — contact@lyonaistudio.fr</span>
     <span>lyonaistudio.fr</span>
   </footer>
 </body>

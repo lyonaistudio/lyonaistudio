@@ -341,7 +341,7 @@ const html = `
     </div>
   </div>
   <div class="content">${sections}</div>
-  <footer><span>Lyon AI Studio — lyonaistudio@gmail.com</span><span>lyonaistudio.fr</span></footer>
+  <footer><span>Lyon AI Studio — contact@lyonaistudio.fr</span><span>lyonaistudio.fr</span></footer>
 </body></html>`;
 
 const tmpHtml = "/tmp/prospects-render.html";

@@ -17,7 +17,8 @@
 //       et wrangler secret put CALLMEBOT_APIKEY (clé reçue de CallMeBot)
 //   5c. (optionnel, Signal) wrangler secret put SIGNAL_PHONE et SIGNAL_APIKEY
 //   5d. (optionnel, accusé de réception au client) wrangler secret put
-//       GMAIL_USER et GMAIL_APP_PASSWORD (mot de passe d'application Google)
+//       GMAIL_USER et GMAIL_APP_PASSWORD (mot de passe d'application Google),
+//       ou OVH_SMTP_PASSWORD (mot de passe de contact@lyonaistudio.fr, envoi depuis contact@)
 //   6. wrangler deploy
 //   7. Noter l'URL affichée (ex. contact-relay.<compte>.workers.dev),
 //      la mettre dans src/scripts/contact-form.ts à la place de l'appel
@@ -175,7 +176,20 @@ async function notifySignal(env, text) {
   await fetch(`https://signal.callmebot.com/signal/send.php?${params}`);
 }
 
-// ---- Accusé de réception envoyé au client, depuis le Gmail du studio ----
+// ---- Messagerie d'envoi ----
+// Adresse publique du studio : contact@lyonaistudio.fr (boîte Zimbra chez OVH).
+// Si OVH_SMTP_PASSWORD est défini (wrangler secret put OVH_SMTP_PASSWORD), les e-mails
+// partent directement de la boîte contact@ via le SMTP d'OVH. Sinon, ils partent du Gmail
+// du studio (GMAIL_USER), avec contact@ en adresse de réponse.
+const CONTACT = "contact@lyonaistudio.fr";
+function messagerie(env) {
+  if (env.OVH_SMTP_PASSWORD) return { host: "smtp.mail.ovh.net", user: CONTACT, pass: env.OVH_SMTP_PASSWORD, from: CONTACT };
+  if (env.GMAIL_USER && env.GMAIL_APP_PASSWORD) return { host: "smtp.gmail.com", user: env.GMAIL_USER, pass: env.GMAIL_APP_PASSWORD, from: env.GMAIL_USER };
+  return null;
+}
+const connecter = (m) => WorkerMailer.connect({ host: m.host, port: 465, secure: true, credentials: { username: m.user, password: m.pass }, authType: "plain" });
+
+// ---- Accusé de réception envoyé au client, depuis la messagerie du studio ----
 // SMTP Gmail + mot de passe d'application (gratuit, 500 envois/jour, les
 // réponses du client arrivent directement dans la boîte Gmail). Inactif tant
 // que GMAIL_USER et GMAIL_APP_PASSWORD ne sont pas définis.
@@ -205,7 +219,7 @@ Bien cordialement,
 L'équipe Lyon AI Studio
 HVTB Company
 Lyon AI Studio — Création de sites web & agents IA
-lyonaistudio@gmail.com
+contact@lyonaistudio.fr
 https://lyonaistudio.fr
 Du lundi au vendredi, de 9h à 18h
 
@@ -256,7 +270,7 @@ const AUTO_REPLY_HTML = `<!doctype html>
       <td style="border-left:3px solid #e6003a;padding-left:14px;font-size:14px;line-height:1.6;">
         <strong style="font-size:15px;">L'équipe Lyon AI Studio</strong><br>
         <span style="color:#4b5563;">HVTB Company</span><br>
-        <a href="mailto:lyonaistudio@gmail.com" style="color:#e6003a;text-decoration:none;">lyonaistudio@gmail.com</a><br>
+        <a href="mailto:contact@lyonaistudio.fr" style="color:#e6003a;text-decoration:none;">contact@lyonaistudio.fr</a><br>
         <a href="https://lyonaistudio.fr" style="color:#e6003a;text-decoration:none;">lyonaistudio.fr</a><br>
         <span style="color:#6b7280;font-size:13px;">Du lundi au vendredi, de 9h à 18h</span>
       </td>
@@ -270,20 +284,16 @@ const AUTO_REPLY_HTML = `<!doctype html>
 </body></html>`;
 
 async function sendAutoReply(env, email) {
-  if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return;
+  const m = messagerie(env);
+  if (!m) return;
   if (!email || !EMAIL_RE.test(email)) return;
 
-  const mailer = await WorkerMailer.connect({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    credentials: { username: env.GMAIL_USER, password: env.GMAIL_APP_PASSWORD },
-    authType: "plain",
-  });
+  const mailer = await connecter(m);
   try {
     await mailer.send({
-      from: { name: "Lyon AI Studio", email: env.GMAIL_USER },
+      from: { name: "Lyon AI Studio", email: m.from },
       to: { email },
+      reply: { email: CONTACT },
       subject: AUTO_REPLY_SUBJECT,
       text: AUTO_REPLY_TEXT,
       html: AUTO_REPLY_HTML,
@@ -309,17 +319,15 @@ async function envoyerInterne(request, env) {
       return Response.json({ ok: true });
     }
     if (m.canal === "email") {
-      if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return Response.json({ ok: false, erreur: "messagerie non configurée" }, { status: 503 });
+      const mx = messagerie(env);
+      if (!mx) return Response.json({ ok: false, erreur: "messagerie non configurée" }, { status: 503 });
       if (!m.a || !EMAIL_RE.test(m.a) || !m.sujet) return Response.json({ ok: false, erreur: "destinataire ou sujet invalide" }, { status: 400 });
-      const mailer = await WorkerMailer.connect({
-        host: "smtp.gmail.com", port: 465, secure: true,
-        credentials: { username: env.GMAIL_USER, password: env.GMAIL_APP_PASSWORD }, authType: "plain",
-      });
+      const mailer = await connecter(mx);
       try {
         await mailer.send({
-          from: { name: "Lyon AI Studio", email: env.GMAIL_USER },
+          from: { name: "Lyon AI Studio", email: mx.from },
           to: { email: m.a },
-          reply: { email: m.repondreA && EMAIL_RE.test(m.repondreA) ? m.repondreA : env.GMAIL_USER },
+          reply: { email: m.repondreA && EMAIL_RE.test(m.repondreA) ? m.repondreA : CONTACT },
           subject: String(m.sujet).slice(0, 200),
           text: String(m.texte || ""),
           html: m.html ? String(m.html) : undefined,

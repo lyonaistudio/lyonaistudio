@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Lyon AI Studio",
   url: "https://lyonaistudio.fr",
-  email: "lyonaistudio@gmail.com",
+  email: "contact@lyonaistudio.fr",
   city: "Lyon",
   region: "Auvergne-Rhône-Alpes",
   country: "FR",

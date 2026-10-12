@@ -284,7 +284,7 @@ const html = `<!doctype html>
           <div class="word">Lyon AI Studio</div>
         </div>
         <div class="outro-tag">Sites internet &amp; automatisation IA</div>
-        <div class="outro-contact">          <div class="row"><span class="lab">E.</span><span>lyonaistudio@gmail.com</span></div>
+        <div class="outro-contact">          <div class="row"><span class="lab">E.</span><span>contact@lyonaistudio.fr</span></div>
         </div>
         <div class="outro-cta">
           <div class="accent-bar"></div>
