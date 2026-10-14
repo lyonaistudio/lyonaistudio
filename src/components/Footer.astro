@@ -75,7 +75,7 @@ const icone = (nom: keyof typeof ICONES) =>
       <p class={titre}>Contact</p>
       <ul class="mt-3">
         <li><a href={`mailto:${SITE.email}`} class={lien}><Fragment set:html={icone("mail")} />{SITE.email}</a></li>
-        <li class="flex min-h-[32px] items-center gap-2 text-sm text-paper-dim"><Fragment set:html={icone("lieu")} />{SITE.city}, France · à distance partout</li>
+        <li class="flex min-h-[32px] items-center gap-2 text-sm text-paper-dim"><Fragment set:html={icone("lieu")} /><a href="/creation-site-internet-lyon/" class="transition-colors hover:text-accent">{SITE.city}, France</a> · à distance partout</li>
         <li class="flex min-h-[32px] items-center gap-2 text-sm text-paper-dim"><Fragment set:html={icone("heure")} />{SITE.hours}</li>
         <li><a href={SITE.googleBusinessUrl} target="_blank" rel="noopener" class={lien}><Fragment set:html={icone("google")} />Notre fiche Google</a></li>
         <li><a href={SITE.googleReviewUrl} target="_blank" rel="noopener" class={lien}><Fragment set:html={icone("avis")} />Laisser un avis Google</a></li>

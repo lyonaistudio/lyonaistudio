@@ -105,7 +105,14 @@ export function localBusinessSchema() {
   };
 }
 
-export function serviceSchema(options: { name: string; description: string; path: string; serviceType: string }) {
+export function serviceSchema(options: {
+  name: string;
+  description: string;
+  path: string;
+  serviceType: string;
+  // Zone desservie ; par défaut toute la France (travail à distance).
+  areaServed?: Record<string, unknown> | Record<string, unknown>[];
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -115,7 +122,7 @@ export function serviceSchema(options: { name: string; description: string; path
     serviceType: options.serviceType,
     url: `${SITE.url}${options.path}`,
     provider: { "@id": BUSINESS_ID },
-    areaServed: { "@type": "Country", name: "France" },
+    areaServed: options.areaServed ?? { "@type": "Country", name: "France" },
     availableChannel: {
       "@type": "ServiceChannel",
       serviceUrl: `${SITE.url}/contact/`,

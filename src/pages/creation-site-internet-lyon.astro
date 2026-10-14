@@ -1,0 +1,176 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import CTASection from "../components/CTASection.astro";
+import RelatedArticles from "../components/RelatedArticles.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import { faqSchema, serviceSchema } from "../lib/schema";
+import formules from "../data/formules.json";
+
+// Page locale : cible les recherches « création site internet Lyon ».
+const prixMin = Math.min(...formules.formules.map((f) => f.prix));
+
+const lien = "text-accent underline underline-offset-2";
+
+const faqItems = [
+  {
+    question: "Combien coûte la création d'un site internet à Lyon ?",
+    answer: `${formules.creation} € HT pour créer le site, puis un abonnement à partir de ${prixMin} € HT par mois qui comprend l'hébergement, les modifications et le suivi sur Google. Le détail des formules est sur la <a href="/tarifs/" class="${lien}">page Tarifs</a>, et le devis est gratuit.`,
+  },
+  {
+    question: "Travaillez-vous avec toutes les communes de la métropole de Lyon ?",
+    answer:
+      "Oui : Lyon et ses arrondissements, Villeurbanne, Vénissieux, Caluire-et-Cuire, Bron, Vaulx-en-Velin, Écully, Tassin-la-Demi-Lune, Oullins-Pierre-Bénite et toute la métropole, ainsi que le reste du Rhône. Et, à distance, partout en France.",
+  },
+  {
+    question: "Comment se passent les échanges pendant le projet ?",
+    answer: `Principalement en visio et par e-mail, aux horaires qui vous arrangent : vous n'avez pas à vous déplacer. Les étapes sont détaillées sur la page <a href="/comment-ca-se-passe/" class="${lien}">déroulement d'un projet</a>.`,
+  },
+  {
+    question: "Mon site sera-t-il visible dans les recherches à Lyon ?",
+    answer: `Le site est construit pour le référencement local dès le départ : pages par service, mention de vos quartiers et communes d'intervention, données structurées, vitesse et lien avec votre fiche Google. Le positionnement se travaille ensuite dans la durée — voir notre service de <a href="/services/referencement-local-seo/" class="${lien}">référencement local</a>.`,
+  },
+  {
+    question: "En combien de temps mon site peut-il être en ligne ?",
+    answer: `La plupart des sites vitrines sont livrés en quelques semaines une fois vos informations réunies. Le délai précis figure dans la proposition, avant tout engagement — voir <a href="/blog/combien-de-temps-creer-site-internet/" class="${lien}">les délais réels, étape par étape</a>.`,
+  },
+];
+
+const description =
+  "Création de site internet à Lyon pour artisans, commerces et TPE : site sur-mesure, rapide, pensé pour Google et la recherche locale. Dès 290 € HT. Devis gratuit sous 48 h.";
+
+const service = serviceSchema({
+  name: "Création de site internet à Lyon",
+  serviceType: "Création de site internet",
+  description,
+  path: "/creation-site-internet-lyon/",
+  areaServed: [
+    { "@type": "City", name: "Lyon" },
+    { "@type": "AdministrativeArea", name: "Métropole de Lyon" },
+    { "@type": "AdministrativeArea", name: "Rhône" },
+  ],
+});
+
+const quartiers = [
+  "Presqu'île (Lyon 1er et 2e)",
+  "Croix-Rousse (Lyon 4e)",
+  "Vieux-Lyon (Lyon 5e)",
+  "Brotteaux et Foch (Lyon 6e)",
+  "Guillotière et Gerland (Lyon 7e)",
+  "Monplaisir (Lyon 8e)",
+  "Vaise (Lyon 9e)",
+  "Part-Dieu (Lyon 3e)",
+  "Villeurbanne",
+  "Caluire-et-Cuire",
+  "Vénissieux",
+  "Bron",
+  "Écully",
+  "Tassin-la-Demi-Lune",
+];
+---
+
+<BaseLayout
+  title="Création de site internet à Lyon pour TPE et artisans"
+  description={description}
+  path="/creation-site-internet-lyon/"
+  jsonLd={[service, faqSchema(faqItems)]}
+>
+  <Breadcrumb
+    items={[
+      { name: "Services", url: "/services/" },
+      { name: "Création de site internet à Lyon", url: "/creation-site-internet-lyon/" },
+    ]}
+  />
+  <PageHero
+    eyebrow="LYON ET MÉTROPOLE"
+    title="Création de site internet à Lyon"
+    description="Un site sur-mesure pour les artisans, commerces et indépendants lyonnais, construit pour être trouvé par les clients de votre quartier."
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <Eyebrow label="UN STUDIO LYONNAIS" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Des sites pensés pour la façon dont on cherche à Lyon
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      À Lyon, vos clients ne tapent pas seulement « plombier » ou « coiffeur » : ils cherchent « plombier Lyon 3 »,
+      « coiffeur Croix-Rousse » ou « traiteur Villeurbanne ». Un site qui veut capter ces demandes doit le savoir dès sa
+      conception. Lyon AI Studio est un petit studio basé à Lyon : nous construisons votre site autour de votre métier
+      et de votre zone d'intervention, pour qu'il apparaisse dans les recherches de vos futurs clients, pas seulement
+      sur votre carte de visite.
+    </p>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Vous avez les mêmes interlocuteurs du premier échange à la mise en ligne, sans commercial ni intermédiaire, et
+      une réponse sous 48 heures. Les échanges se font en visio et par e-mail : vous n'avez pas à vous déplacer.
+    </p>
+
+    <Eyebrow label="CE QUE VOUS OBTENEZ" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Un site complet, prêt à apporter des demandes
+    </h2>
+    <ul class="mt-6 space-y-4">
+      {[
+        ["Design sur-mesure", "Une identité pensée pour votre activité, lisible et rassurante, pas un modèle réutilisé partout."],
+        ["Référencement local intégré", "Pages par service, quartiers et communes d'intervention, données structurées et lien avec votre fiche Google, dès la mise en ligne."],
+        ["Rapide et parfait sur mobile", "La majorité de vos clients vous cherchent depuis leur téléphone, souvent dans la rue : le site se charge vite et se lit facilement."],
+        ["Demandes de contact directes", "Un formulaire simple, des boutons d'appel et d'itinéraire : chaque visite peut devenir une demande."],
+        ["Entretenu dans la durée", "Hébergement, mises à jour et modifications compris dans l'abonnement : votre site ne vieillit pas sans vous."],
+      ].map(([title, text]) => (
+        <li class="border-l-2 border-accent pl-4">
+          <p class="font-display font-semibold text-paper">{title}</p>
+          <p class="mt-1 text-sm leading-relaxed text-paper-dim">{text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <Eyebrow label="TARIFS" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Un prix clair, sans gros investissement au départ
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      La création du site est à <strong class="text-paper">{formules.creation} € HT</strong>, puis l'abonnement commence à
+      <strong class="text-paper"> {prixMin} € HT par mois</strong>, avec l'hébergement, la maintenance, les modifications et le
+      suivi de votre visibilité sur Google. {formules.rassurance}{" "}
+      Toutes les formules sont détaillées sur la <a href="/tarifs/" class={lien}>page Tarifs</a> ; pour comparer avec
+      d'autres offres, lisez notre guide sur{" "}<a href="/blog/prix-site-internet-lyon/" class={lien}>le prix d'un site internet à Lyon</a>.
+    </p>
+
+    <Eyebrow label="OÙ NOUS INTERVENONS" class="mt-16" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Lyon, la métropole et au-delà
+    </h2>
+    <p class="mt-4 leading-relaxed text-paper-dim">
+      Nous accompagnons des entreprises dans tous les arrondissements de Lyon et dans les communes de la métropole,
+      notamment :
+    </p>
+    <ul class="mt-6 flex flex-wrap gap-2">
+      {quartiers.map((q) => (
+        <li class="rounded-full border border-ink-line px-3 py-1.5 text-sm text-paper-dim">{q}</li>
+      ))}
+    </ul>
+    <p class="mt-6 leading-relaxed text-paper-dim">
+      Votre entreprise est ailleurs dans le Rhône ou en France ? Tout se fait à distance : découvrez notre service de{" "}
+      <a href="/services/creation-site-internet/" class={lien}>création de site internet</a>, et, pour gagner du temps au
+      quotidien, nos <a href="/services/automatisation-ia/" class={lien}>automatisations IA</a> (devis, relances, rendez-vous).
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16 sm:pb-20">
+    <Eyebrow label="QUESTIONS FRÉQUENTES" />
+    <h2 class="mt-4 font-display text-2xl font-semibold text-paper sm:text-3xl">
+      Création de site internet à Lyon : vos questions
+    </h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <RelatedArticles slugs={["prix-site-internet-lyon", "referencement-local-lyon", "choisir-agence-web-lyon"]} />
+
+  <CTASection
+    title="Votre site lyonnais, prêt en quelques semaines"
+    description="Décrivez votre activité et votre quartier : devis gratuit, réponse sous 48 h."
+  />
+</BaseLayout>
