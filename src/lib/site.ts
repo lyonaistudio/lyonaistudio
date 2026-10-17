@@ -56,8 +56,9 @@ export const LEGAL = {
   siret: "130 556 871 00015",
   rcs: "RCS Paris 130 556 871",
   tva: "", // n° de TVA intracommunautaire : à ajouter dès qu'il est actif (VIES)
-  president: "Vivion",
-  directeurPublication: "Batisse",
+  president: "Hugo Vivion",
+  directeurGeneral: "Thomas Batisse",
+  directeurPublication: "Thomas Batisse, directeur général",
 } as const;
 
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/mjgzeldk";

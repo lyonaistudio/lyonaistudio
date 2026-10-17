@@ -27,6 +27,7 @@ import { SITE, LEGAL } from "../lib/site";
       {LEGAL.rcs && <li>Immatriculation : {LEGAL.rcs}</li>}
       {LEGAL.tva && <li>N° de TVA intracommunautaire : {LEGAL.tva}</li>}
       {LEGAL.president && <li>Président : {LEGAL.president}</li>}
+      {LEGAL.directeurGeneral && <li>Directeur général : {LEGAL.directeurGeneral}</li>}
       <li>Nom commercial : {SITE.name}</li>
       <li>Email : <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
       <li>Activité exercée à distance, sans établissement recevant du public.</li>
