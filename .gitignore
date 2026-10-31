@@ -54,3 +54,6 @@ clegoogle.txt
 # Audit de lancement (local uniquement : dépôt public)
 AUDIT.md
 audit-screenshots/
+
+# Fichiers temporaires de wrangler (tests locaux du relais)
+.wrangler/

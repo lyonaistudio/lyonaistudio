@@ -52,3 +52,16 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Signale les articles publiés depuis moins de 2 jours aux moteurs IndexNow.
+  # Un échec ici ne remet jamais en cause le déploiement.
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Signaler les nouveaux articles à IndexNow
+        run: node scripts/indexnow.mjs
