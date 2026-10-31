@@ -29,17 +29,32 @@
 
 import { WorkerMailer } from "worker-mailer";
 import { surveillerBoite } from "./surveillance-boite.js";
+import { suivreBoite, controleDu, controleQuotidien, etatPublic } from "./sante.js";
 
 const ALLOWED_ORIGIN = "https://lyonaistudio.fr";
 const SHEET_TAB = "Feuille 1";
 
 export default {
-  // Toutes les 2 minutes : alerte Telegram pour chaque nouvel e-mail reçu sur contact@
+  // Toutes les 2 minutes : alerte Telegram pour chaque nouvel e-mail reçu sur contact@,
+  // alerte si cette surveillance tombe en panne, et contrôle des accès chaque jour à 7 h UTC (sante.js)
   async scheduled(event, env, ctx) {
-    ctx.waitUntil(surveillerBoite(env, (texte) => notifyTelegram(env, texte)).catch((e) => console.log("surveillance boîte :", String(e))));
+    const alerter = (texte) => notifyTelegram(env, texte);
+    ctx.waitUntil((async () => {
+      let erreur = null;
+      try { await surveillerBoite(env, alerter); } catch (e) { erreur = e; console.log("surveillance boîte :", String(e)); }
+      await suivreBoite(env, alerter, erreur).catch((e) => console.log("santé boîte :", String(e)));
+      if (await controleDu(env, event.scheduledTime)) {
+        await controleQuotidien(env, { getAccessToken, messageries, envoyerMail }, event.scheduledTime).catch((e) => console.log("contrôle quotidien :", String(e)));
+      }
+    })());
   },
 
   async fetch(request, env) {
+    if (new URL(request.url).pathname === "/sante") {
+      return Response.json(await etatPublic(env), { headers: { "Cache-Control": "no-store" } });
+    }
+
+
     // Vérification manuelle de la surveillance de la boîte (même secret que les envois internes)
     if (new URL(request.url).pathname === "/interne/boite") {
       const secret = request.headers.get("X-Lais-Secret") || "";
